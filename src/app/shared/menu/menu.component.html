@@ -1,0 +1,30 @@
+<mat-toolbar color="primary">
+  <span>{{ currentTitle | translate}}</span>
+  <span class="spacer"></span>
+  <div class="language-switcher">
+    <button mat-button (click)="changeLanguage('hu')"><h3><span class="fi fi-hu"></span></h3></button>
+    <button mat-button (click)="changeLanguage('en')"><h3><span class="fi fi-gb"></span></h3></button>
+  </div>
+  <button mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item [routerLink]="'/main'" routerLinkActive="active">
+      <mat-icon>home</mat-icon>
+      <span>{{ 'MAIN_PAGE' | translate }}</span>
+    </button>
+    <button mat-menu-item [routerLink]="'/faultetes'" routerLinkActive="active">
+      <mat-icon>park</mat-icon>
+      <span>{{ 'FA_ULTETES' | translate }}</span>
+    </button>
+    <button mat-menu-item [routerLink]="'/fogyasztas-rogzit'" routerLinkActive="active">
+      <mat-icon>computer</mat-icon>
+      <span>{{ 'FOGYASZTAS_ADD' | translate }}</span>
+    </button>
+    <button mat-menu-item [routerLink]="'/fogyasztas-display'" routerLinkActive="active">
+      <mat-icon>bar_chart</mat-icon>
+      <span>{{ 'FOGYASZTAS_DISPLAY' | translate }}</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>
