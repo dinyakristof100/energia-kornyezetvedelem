@@ -1,1 +1,11 @@
-<p>fogyasztas-display works!</p>
+<div class="chart-container">
+  <h2>{{ 'FOGYASZTAS_DISPLAY' | translate }}</h2>
+  <div style="display: block;">
+    <canvas
+      baseChart
+      [data]="fogyasztasChartData"
+      [options]="fogyasztasChartOptions"
+      [type]="fogyasztasChartType">
+    </canvas>
+  </div>
+</div>

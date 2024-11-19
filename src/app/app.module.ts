@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
+import { BaseChartDirective  } from 'ng2-charts';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MainComponent } from './pages/main/main.component';
@@ -19,10 +20,40 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ReactiveFormsModule } from '@angular/forms';
+import { Chart } from 'chart.js';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
+
+// Chart.js elemek importálása
+import {
+  CategoryScale,
+  LinearScale,
+  BarController,
+  BarElement,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  Title
+} from 'chart.js';
+
+// Elemek regisztrálása
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  BarController,
+  BarElement,
+  PointElement,
+  LineElement,
+  Legend,
+  Tooltip,
+  Title
+);
 
 @NgModule({
   declarations: [
@@ -44,6 +75,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatCardModule,
     MatMenuModule,
     MatGridListModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    BaseChartDirective,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

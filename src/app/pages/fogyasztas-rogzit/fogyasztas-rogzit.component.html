@@ -1,1 +1,157 @@
-<p>fogyasztas-rogzit works!</p>
+<div class="form-container">
+  <form [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()">
+    <h2>{{ 'FOGYASZTAS_ADD' | translate }}</h2>
+
+    <!-- Cím -->
+    <mat-card>
+      <h3>{{ 'CIM_ADATOK' | translate }}</h3>
+      <div formGroupName="cim">
+        <mat-form-field>
+          <mat-label>{{ 'ORSZAG' | translate }}</mat-label>
+          <input matInput formControlName="orszag" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'IRANYITOSZAM' | translate }}</mat-label>
+          <input matInput formControlName="iranyitoszam" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'TELEPULES' | translate }}</mat-label>
+          <input matInput formControlName="telepules" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'UTCA' | translate }}</mat-label>
+          <input matInput formControlName="utca" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'HAZSZAM' | translate }}</mat-label>
+          <input matInput formControlName="hazszam" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'EPULET' | translate }}</mat-label>
+          <input matInput formControlName="epulet" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'EMELET' | translate }}</mat-label>
+          <input matInput formControlName="emelet" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'AJTO' | translate }}</mat-label>
+          <input matInput formControlName="ajto" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Vízfogyasztás -->
+    <mat-card>
+      <h3>{{ 'VIZ_ADATOK' | translate }}</h3>
+      <div formGroupName="viz">
+        <mat-form-field>
+          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
+          <input matInput type="number" formControlName="osszfogyasztas" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'HIDEGVIZ' | translate }}</mat-label>
+          <input matInput type="number" formControlName="hidegViz" />
+        </mat-form-field>
+        <mat-checkbox formControlName="szivargas">
+          {{ 'SZIVARGAS' | translate }}
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>{{ 'MINOSEG' | translate }}</mat-label>
+          <input matInput formControlName="minoseg" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'MERES_MODJA' | translate }}</mat-label>
+          <input matInput formControlName="meresModja" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Gázfogyasztás -->
+    <mat-card>
+      <h3>{{ 'GAZ_ADATOK' | translate }}</h3>
+      <div formGroupName="gaz">
+        <mat-form-field>
+          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
+          <input matInput type="number" formControlName="osszfogyasztas" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'CSUCSIDO_FOGYASZTAS' | translate }}</mat-label>
+          <input matInput type="number" formControlName="csucsidoFogyasztas" />
+        </mat-form-field>
+        <mat-checkbox formControlName="alacsonyNyomas">
+          {{ 'ALACSONY_NYOMAS' | translate }}
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>{{ 'EVES_BECSULT' | translate }}</mat-label>
+          <input matInput type="number" formControlName="evesBecsult" />
+        </mat-form-field>
+        <mat-checkbox formControlName="biztonsagiEllenorzes">
+          {{ 'BIZTONSAGI_ELLENORZES' | translate }}
+        </mat-checkbox>
+      </div>
+    </mat-card>
+
+    <!-- Villamosenergia -->
+    <mat-card>
+      <h3>{{ 'VILLANY_ADATOK' | translate }}</h3>
+      <div formGroupName="villany">
+        <mat-form-field>
+          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
+          <input matInput type="number" formControlName="osszfogyasztas" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'CSUCSIDO_FOGYASZTAS' | translate }}</mat-label>
+          <input matInput type="number" formControlName="csucsidofogyasztas" />
+        </mat-form-field>
+        <mat-checkbox formControlName="aramkimaradas">
+          {{ 'ARAMKIMARADAS' | translate }}
+        </mat-checkbox>
+        <mat-form-field>
+          <mat-label>{{ 'ZOLD_ENERGIA' | translate }}</mat-label>
+          <input matInput type="number" formControlName="zoldEnergiaAranya" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Melegvíz -->
+    <mat-card>
+      <h3>{{ 'MELEGVIZ_ADATOK' | translate }}</h3>
+      <div formGroupName="melegViz">
+        <mat-form-field>
+          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
+          <input matInput type="number" formControlName="osszfogyasztas" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'HOMERSEKLET' | translate }}</mat-label>
+          <input matInput type="number" formControlName="vizhomerseklet" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'BOJLER_TIPUS' | translate }}</mat-label>
+          <input matInput formControlName="bojlerTipus" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'BOJLER_ALLAPOT' | translate }}</mat-label>
+          <input matInput formControlName="bojlerAllapot" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>{{ 'HOVESZTESEG' | translate }}</mat-label>
+          <input matInput type="number" formControlName="hoveszteseg" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <!-- Megjegyzések -->
+    <mat-card>
+      <h3>{{ 'MEGJEGYZES' | translate }}</h3>
+      <mat-form-field>
+        <mat-label>{{ 'MEGJEGYZES_TEXT' | translate }}</mat-label>
+        <textarea matInput formControlName="megjegyzesek"></textarea>
+      </mat-form-field>
+    </mat-card>
+
+    <button mat-raised-button color="primary" type="submit">
+      {{ 'MENTES' | translate }}
+    </button>
+  </form>
+</div>
