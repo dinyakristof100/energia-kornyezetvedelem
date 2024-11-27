@@ -41,6 +41,13 @@ import {
   Tooltip,
   Title
 } from 'chart.js';
+import { LoginComponent } from './pages/login/login.component';
+import {MatFormFieldModule} from "@angular/material/form-field";
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { getAuth, provideAuth } from '@angular/fire/auth';
+import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getStorage, provideStorage } from '@angular/fire/storage';
+import {AngularFireModule} from "@angular/fire/compat";
 
 // Elemek regisztrálása
 Chart.register(
@@ -62,7 +69,8 @@ Chart.register(
     FogyasztasRogzitComponent,
     FaultetesComponent,
     FogyasztasDisplayComponent,
-    MenuComponent
+    MenuComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +87,9 @@ Chart.register(
     MatCheckboxModule,
     ReactiveFormsModule,
     BaseChartDirective,
+    MatFormFieldModule,
+    MatInputModule,
+    AngularFireModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -89,7 +100,19 @@ Chart.register(
     })
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+    // provideFirebaseApp(() => initializeApp({
+    //   "projectId":"energia-kornyezetvedelem",
+    //   "appId":"1:849156197038:web:bb637306611f255907bb3f",
+    //   "storageBucket":"energia-kornyezetvedelem.firebasestorage.app",
+    //   "apiKey":"AIzaSyBh2hODUZA-ZXcXWMhHxpbBrVEHCyTZoCE",
+    //   "authDomain":"energia-kornyezetvedelem.firebaseapp.com",
+    //   "messagingSenderId":"849156197038",
+    //   "measurementId":"G-95N5THHTS0"
+    // })),
+    provideAuth(() => getAuth()),
+    provideFirestore(() => getFirestore()),
+    provideStorage(() => getStorage())
   ],
   bootstrap: [AppComponent]
 })

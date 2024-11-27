@@ -46,5 +46,13 @@
   "WATER": "Vízfogyasztás (m³)",
   "GAS": "Gázfogyasztás (m³)",
   "ELECTRICITY": "Villamosenergia fogyasztás (kWh)",
-  "HOT_WATER": "Melegvíz fogyasztás (m³)"
+  "HOT_WATER": "Melegvíz fogyasztás (m³)",
+  "LOGIN": {
+    "TITLE": "Bejelentkezés",
+    "USERNAME": "Felhasználónév",
+    "PASSWORD": "Jelszó",
+    "SHOW_PASSWORD": "Jelszó megjelenítése",
+    "HIDE_PASSWORD": "Jelszó elrejtése",
+    "SUBMIT": "Bejelentkezés"
+  }
 }

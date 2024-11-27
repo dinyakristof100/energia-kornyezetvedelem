@@ -4,6 +4,7 @@ import { MainComponent } from './pages/main/main.component';
 import { FaultetesComponent } from './pages/faultetes/faultetes.component';
 import { FogyasztasRogzitComponent } from './pages/fogyasztas-rogzit/fogyasztas-rogzit.component';
 import { FogyasztasDisplayComponent } from './pages/fogyasztas-display/fogyasztas-display.component';
+import {LoginComponent} from "./pages/login/login.component";
 
 
 const routes: Routes = [
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'faultetes', component: FaultetesComponent, data: { title: 'FA_ULTETES' } },
   { path: 'fogyasztas-rogzit', component: FogyasztasRogzitComponent, data: { title: 'FOGYASZTAS_ADD' } },
   { path: 'fogyasztas-display', component: FogyasztasDisplayComponent, data: { title: 'FOGYASZTAS_DISPLAY' } },
+  { path: 'login', component: LoginComponent, data: { title: 'LOGIN' } },
 ];
 
 @NgModule({

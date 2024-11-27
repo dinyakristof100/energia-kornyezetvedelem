@@ -47,5 +47,13 @@
   "GAS": "Gas Consumption (m³)",
   "ELECTRICITY": "Electricity Consumption (kWh)",
   "HOT_WATER": "Hot Water Consumption (m³)",
-  "ADRIAN": "Adrian"
+  "ADRIAN": "Adrian",
+  "LOGIN": {
+    "TITLE": "Login",
+    "USERNAME": "Username",
+    "PASSWORD": "Password",
+    "SHOW_PASSWORD": "Show Password",
+    "HIDE_PASSWORD": "Hide Password",
+    "SUBMIT": "Login"
+  }
 }
