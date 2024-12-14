@@ -48,6 +48,7 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import {AngularFireModule} from "@angular/fire/compat";
+import {environment} from "../environments/environment";
 
 // Elemek regisztrálása
 Chart.register(
@@ -89,7 +90,7 @@ Chart.register(
     BaseChartDirective,
     MatFormFieldModule,
     MatInputModule,
-    AngularFireModule,
+    AngularFireModule.initializeApp(environment.firebase),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

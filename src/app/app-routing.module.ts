@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'faultetes', component: FaultetesComponent, data: { title: 'FA_ULTETES' } },
   { path: 'fogyasztas-rogzit', component: FogyasztasRogzitComponent, data: { title: 'FOGYASZTAS_ADD' } },
   { path: 'fogyasztas-display', component: FogyasztasDisplayComponent, data: { title: 'FOGYASZTAS_DISPLAY' } },
-  { path: 'login', component: LoginComponent, data: { title: 'LOGIN' } },
+  { path: 'login', component: LoginComponent, data: { title: 'LOGIN.TITLE' } },
 ];
 
 @NgModule({

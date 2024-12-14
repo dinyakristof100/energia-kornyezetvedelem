@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {TranslateService} from "@ngx-translate/core";
+import {AuthService} from "../../shared/services/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -10,13 +12,16 @@ import {TranslateService} from "@ngx-translate/core";
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hide = true;
+  loading = true;
 
   constructor(
     private fb: FormBuilder,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private authService: AuthService,
+    private router: Router
     ) {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required],
+      email: ['', Validators.required],
       password: ['', Validators.required]
     });
 
@@ -25,14 +30,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initForm();
-  }
 
-  private initForm(): void {
-    this.loginForm = this.fb.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required]
-    });
   }
 
   togglePasswordVisibility(): void {
@@ -44,11 +42,15 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.loginForm.valid) {
-      console.log('Bejelentkezési adatok:', this.loginForm.value);
-      // API hívás itt
-    } else {
-      console.log('A form nem érvényes.');
-    }
+    let email = this.loginForm?.get('email')?.value.toString() || '';
+    let password = this.loginForm?.get('password')?.value.toString() || '';
+    this.authService.login(email,password).then(cred =>{
+      console.log(cred);
+      this.router.navigateByUrl('/main');
+      this.loading = false;
+    }).catch(error =>{
+      console.error(error);
+      this.loading = false;
+    })
   }
 }

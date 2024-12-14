@@ -50,6 +50,7 @@
   "LOGIN": {
     "TITLE": "Bejelentkezés",
     "USERNAME": "Felhasználónév",
+    "EMAIL": "Email",
     "PASSWORD": "Jelszó",
     "SHOW_PASSWORD": "Jelszó megjelenítése",
     "HIDE_PASSWORD": "Jelszó elrejtése",

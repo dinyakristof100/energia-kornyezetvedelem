@@ -6,9 +6,9 @@
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'LOGIN.USERNAME' | translate }}</mat-label>
+          <mat-label>{{ 'LOGIN.EMAIL' | translate }}</mat-label>
           <mat-icon matPrefix>person</mat-icon>
-          <input matInput formControlName="username" placeholder="{{ 'LOGIN.USERNAME' | translate }}">
+          <input matInput formControlName="email" placeholder="{{ 'LOGIN.EMAIL' | translate }}" type="email">
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="full-width">

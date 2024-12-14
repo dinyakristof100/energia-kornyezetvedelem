@@ -51,6 +51,7 @@
   "LOGIN": {
     "TITLE": "Login",
     "USERNAME": "Username",
+    "EMAIL": "Email",
     "PASSWORD": "Password",
     "SHOW_PASSWORD": "Show Password",
     "HIDE_PASSWORD": "Hide Password",

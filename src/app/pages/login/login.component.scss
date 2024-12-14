@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 64px);
   background: linear-gradient(135deg, #2196f3, #21cbf3);
 }
 
@@ -21,7 +21,7 @@ mat-card-title {
 
 .full-width {
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .login-button {
