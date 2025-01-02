@@ -5,15 +5,20 @@ import { FaultetesComponent } from './pages/faultetes/faultetes.component';
 import { FogyasztasRogzitComponent } from './pages/fogyasztas-rogzit/fogyasztas-rogzit.component';
 import { FogyasztasDisplayComponent } from './pages/fogyasztas-display/fogyasztas-display.component';
 import {LoginComponent} from "./pages/login/login.component";
+import {RegisterComponent} from "./pages/register/register.component";
+import {FelhasznaloProfilComponent} from "./pages/felhasznalo-profil/felhasznalo-profil.component";
+import { authGuard } from "./shared/services/auth.guard";
 
 
 const routes: Routes = [
   { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: 'main', component: MainComponent, data: { title: 'MAIN_PAGE' } },
-  { path: 'faultetes', component: FaultetesComponent, data: { title: 'FA_ULTETES' } },
-  { path: 'fogyasztas-rogzit', component: FogyasztasRogzitComponent, data: { title: 'FOGYASZTAS_ADD' } },
-  { path: 'fogyasztas-display', component: FogyasztasDisplayComponent, data: { title: 'FOGYASZTAS_DISPLAY' } },
+  { path: 'faultetes', component: FaultetesComponent, data: { title: 'FA_ULTETES' }, canActivate: [authGuard] },
+  { path: 'fogyasztas-rogzit', component: FogyasztasRogzitComponent, data: { title: 'FOGYASZTAS_ADD' }, canActivate: [authGuard]  },
+  { path: 'fogyasztas-display', component: FogyasztasDisplayComponent, data: { title: 'FOGYASZTAS_DISPLAY' }, canActivate: [authGuard]  },
   { path: 'login', component: LoginComponent, data: { title: 'LOGIN.TITLE' } },
+  { path: 'register', component: RegisterComponent, data: { title: 'REGISTER.TITLE' } },
+  { path: 'profil', component: FelhasznaloProfilComponent, data: { title: 'PROFIL.TITLE' }, canActivate: [authGuard]  },
 ];
 
 @NgModule({

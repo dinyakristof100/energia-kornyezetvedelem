@@ -55,5 +55,36 @@
     "SHOW_PASSWORD": "Jelszó megjelenítése",
     "HIDE_PASSWORD": "Jelszó elrejtése",
     "SUBMIT": "Bejelentkezés"
+  },
+  "REGISTER": {
+    "TITLE": "Regisztráció",
+    "FIRST_NAME": "Keresztnév",
+    "LAST_NAME": "Vezetéknév",
+    "EMAIL": "E-mail",
+    "PASSWORD": "Jelszó",
+    "CONFIRM_PASSWORD": "Jelszó megerősítése",
+    "SUBMIT": "Regisztráció",
+    "ERROR": {
+      "PASSWORD_MISMATCH": "A jelszavak nem egyeznek!"
+    }
+  },
+  "LOGOUT": "Kijelentkezés",
+  "PROFIL": {
+    "TITLE": "Felhasználói profil",
+    "VEZETEK_NEV": "Vezetéknév",
+    "KERESZT_NEV": "Keresztnév",
+    "HAZ_ALAPTERULET": "Ház alapterülete (m²)",
+    "SZIGETELES": "Szigetelés van",
+    "FUTES_TIPUSA": "Fűtés típusa",
+    "FUTES": {
+      "KONVEKTOR": "Konvektor",
+      "GAZKAZAN": "Gázkazán",
+      "HAGYOMANYOS_KAZAN": "Hagyományos kazán",
+      "VILLANYKAZAN": "Villanykazán",
+      "TAVFUTES": "Távfűtés",
+      "PADLOFUTES": "Padlófűtés",
+      "ELEKTROMOS_FUTES": "Elektromos fűtés"
+    },
+    "SUBMIT": "Mentés"
   }
 }

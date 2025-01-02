@@ -2,6 +2,7 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-menu',
@@ -11,11 +12,13 @@ import { filter, map } from 'rxjs/operators';
 export class MenuComponent implements OnInit  {
   @Output() selectedPage: EventEmitter<string> = new EventEmitter<string>();
   currentTitle: string = '';
+  loggedInUser?: firebase.default.User | null;
 
   constructor(
     private translate: TranslateService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    protected authService: AuthService
   ) {
     this.translate.setDefaultLang('hu');
   }
@@ -36,6 +39,15 @@ export class MenuComponent implements OnInit  {
         this.updateTitle(titleKey);
         this.emitSelectedPage(titleKey);
       });
+
+    this.authService.isUserLoggedIn().subscribe(user => {
+      this.loggedInUser = user;
+      console.log('loggedInUser:', this.loggedInUser);
+      localStorage.setItem('user', JSON.stringify(this.loggedInUser));
+    }, error =>{
+      console.error(error);
+      localStorage.setItem('user', JSON.stringify('null'));
+    })
   }
 
   changeLanguage(lang: string) {
@@ -59,5 +71,13 @@ export class MenuComponent implements OnInit  {
 
   private emitSelectedPage(titleKey: string) {
     this.selectedPage.emit(titleKey);
+  }
+
+  logout(){
+    this.authService.logout().then(() =>{
+      console.log("Logged out succesfully");
+    }).catch(error =>{
+      console.error(error);
+    });
   }
 }

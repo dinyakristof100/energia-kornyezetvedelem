@@ -14,21 +14,37 @@
       <mat-icon>home</mat-icon>
       <span>{{ 'MAIN_PAGE' | translate }}</span>
     </button>
-    <button mat-menu-item [routerLink]="'/faultetes'" routerLinkActive="active">
+    <button mat-menu-item [routerLink]="'/faultetes'" routerLinkActive="active" *ngIf="loggedInUser != null">
       <mat-icon>park</mat-icon>
       <span>{{ 'FA_ULTETES' | translate }}</span>
     </button>
-    <button mat-menu-item [routerLink]="'/fogyasztas-rogzit'" routerLinkActive="active">
+    <button mat-menu-item [routerLink]="'/fogyasztas-rogzit'" routerLinkActive="active" *ngIf="loggedInUser != null">
       <mat-icon>computer</mat-icon>
       <span>{{ 'FOGYASZTAS_ADD' | translate }}</span>
     </button>
-    <button mat-menu-item [routerLink]="'/fogyasztas-display'" routerLinkActive="active">
+    <button mat-menu-item [routerLink]="'/fogyasztas-display'" routerLinkActive="active" *ngIf="loggedInUser != null">
       <mat-icon>bar_chart</mat-icon>
       <span>{{ 'FOGYASZTAS_DISPLAY' | translate }}</span>
     </button>
-    <button mat-menu-item [routerLink]="'/login'" routerLinkActive="active">
-      <mat-icon>bar_chart</mat-icon>
+
+    <button mat-menu-item [routerLink]="'/login'" routerLinkActive="active" *ngIf="loggedInUser == null">
+      <mat-icon>login</mat-icon>
       <span>{{ 'LOGIN.TITLE' | translate }}</span>
+    </button>
+
+    <button mat-menu-item [routerLink]="'/register'" routerLinkActive="active" *ngIf="loggedInUser == null">
+      <mat-icon>person_add</mat-icon>
+      <span>{{ 'REGISTER.TITLE' | translate }}</span>
+    </button>
+
+    <button mat-menu-item [routerLink]="'/profil'" routerLinkActive="active" *ngIf="loggedInUser != null">
+      <mat-icon>person</mat-icon>
+      <span>{{ 'PROFIL.TITLE' | translate }}</span>
+    </button>
+
+    <button mat-menu-item (click)="logout()" *ngIf="loggedInUser != null">
+      <mat-icon>login</mat-icon>
+      <span>{{ 'LOGOUT' | translate }}</span>
     </button>
   </mat-menu>
 </mat-toolbar>

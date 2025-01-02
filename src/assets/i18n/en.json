@@ -56,5 +56,36 @@
     "SHOW_PASSWORD": "Show Password",
     "HIDE_PASSWORD": "Hide Password",
     "SUBMIT": "Login"
+  },
+  "REGISTER": {
+    "TITLE": "Registration",
+    "FIRST_NAME": "First Name",
+    "LAST_NAME": "Last Name",
+    "EMAIL": "Email",
+    "PASSWORD": "Password",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "SUBMIT": "Register",
+    "ERROR": {
+      "PASSWORD_MISMATCH": "Passwords do not match!"
+    }
+  },
+  "LOGOUT": "Log out",
+  "PROFIL": {
+    "TITLE": "User Profile",
+    "VEZETEK_NEV": "Last Name",
+    "KERESZT_NEV": "First Name",
+    "HAZ_ALAPTERULET": "House Area (m²)",
+    "SZIGETELES": "Insulation Present",
+    "FUTES_TIPUSA": "Heating Type",
+    "FUTES": {
+      "KONVEKTOR": "Convector",
+      "GAZKAZAN": "Gas Boiler",
+      "HAGYOMANYOS_KAZAN": "Traditional Boiler",
+      "VILLANYKAZAN": "Electric Boiler",
+      "TAVFUTES": "District Heating",
+      "PADLOFUTES": "Underfloor Heating",
+      "ELEKTROMOS_FUTES": "Electric Heating"
+    },
+    "SUBMIT": "Save"
   }
 }

@@ -1,13 +1,13 @@
-.login-container {
+.profil-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: calc(100vh - 64px);
-  background: linear-gradient(135deg, #2196f3, #21cbf3);
+  background: linear-gradient(135deg, #4caf50, #81c784);
 }
 
-.login-card {
-  width: 400px;
+.profil-card {
+  width: 500px;
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
@@ -22,10 +22,10 @@ mat-card-title {
 
 .full-width {
   width: 100%;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
-.login-button {
+.save-button {
   font-size: 16px;
   font-weight: bold;
   height: 48px;

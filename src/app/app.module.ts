@@ -18,7 +18,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -49,6 +49,9 @@ import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import {AngularFireModule} from "@angular/fire/compat";
 import {environment} from "../environments/environment";
+import { RegisterComponent } from './pages/register/register.component';
+import { FelhasznaloProfilComponent } from './pages/felhasznalo-profil/felhasznalo-profil.component';
+import {MatOption, MatSelect} from "@angular/material/select";
 
 // Elemek regisztrálása
 Chart.register(
@@ -71,7 +74,9 @@ Chart.register(
     FaultetesComponent,
     FogyasztasDisplayComponent,
     MenuComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterComponent,
+    FelhasznaloProfilComponent
   ],
   imports: [
     BrowserModule,
@@ -98,7 +103,9 @@ Chart.register(
         deps: [HttpClient]
       },
       defaultLanguage: 'hu'
-    })
+    }),
+    MatSelect,
+    MatOption
   ],
   providers: [
     provideAnimationsAsync(),
@@ -117,4 +124,9 @@ Chart.register(
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private translate: TranslateService) {
+    translate.setDefaultLang('hu');
+    translate.use('hu');
+  }
+}

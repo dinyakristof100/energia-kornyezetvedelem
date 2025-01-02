@@ -1,0 +1,42 @@
+<div class="profil-container">
+  <mat-card class="profil-card">
+    <mat-card-header>
+      <mat-card-title>{{ 'PROFIL.TITLE' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="profilForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'PROFIL.VEZETEK_NEV' | translate }}</mat-label>
+          <input matInput formControlName="vezetekNev" placeholder="{{ 'PROFIL.VEZETEK_NEV' | translate }}" type="text">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'PROFIL.KERESZT_NEV' | translate }}</mat-label>
+          <input matInput formControlName="keresztNev" placeholder="{{ 'PROFIL.KERESZT_NEV' | translate }}" type="text">
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'PROFIL.HAZ_ALAPTERULET' | translate }}</mat-label>
+          <input matInput formControlName="hazAlapterulet" placeholder="{{ 'PROFIL.HAZ_ALAPTERULET' | translate }}" type="number" min="1">
+        </mat-form-field>
+
+        <mat-checkbox formControlName="szigeteles" class="full-width">
+          {{ 'PROFIL.SZIGETELES' | translate }}
+        </mat-checkbox>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'PROFIL.FUTES_TIPUSA' | translate }}</mat-label>
+          <mat-select formControlName="futesTipusa">
+            <mat-option *ngFor="let tipus of futesTipusok" [value]="tipus">
+              {{ tipus }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" class="full-width save-button" [disabled]="!profilForm.valid">
+          {{ 'PROFIL.SUBMIT' | translate }}
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
