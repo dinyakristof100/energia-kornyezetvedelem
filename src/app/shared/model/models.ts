@@ -1,4 +1,4 @@
-export interface FogyasztasiAdat {
+export interface  FogyasztasiAdat {
    id?: string;
    datum: Date | string; //melyik időszak fogyasztása
    feltoltes_datum: Date | string; //mikor töltötte fel a user az adatokat
@@ -6,7 +6,7 @@ export interface FogyasztasiAdat {
    lakas_id: string;
    viz: number; //m^3
    gaz: number; //m^3
-   villany: number;
+   villany: number; //kw/h
    meleg_viz: number; //m^3
    megjegyzes?: string;
 
@@ -73,6 +73,7 @@ export interface Fa {
   ultetes_ideje: Date;
   ultetes_helye: Cim;
   user_id: string;
+  kep?: Kep;
 }
 
 export interface Lakas{
@@ -80,5 +81,14 @@ export interface Lakas{
   cim: Cim;
   lakasmeret?: number; //m^2
   szigeteles?: boolean;
+  epitesu: string;
   futes?: string;
+}
+
+export interface Kep{
+  id: string;
+  image_url?: string;
+  photo_url?: string;
+  username: string;
+  user_id: string;
 }
