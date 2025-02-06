@@ -42,7 +42,7 @@ export class MenuComponent implements OnInit  {
 
     this.authService.isUserLoggedIn().subscribe(user => {
       this.loggedInUser = user;
-      console.log('loggedInUser:', this.loggedInUser);
+      // console.log('loggedInUser:', this.loggedInUser);
       localStorage.setItem('user', JSON.stringify(this.loggedInUser));
     }, error =>{
       console.error(error);
@@ -76,6 +76,7 @@ export class MenuComponent implements OnInit  {
   logout(){
     this.authService.logout().then(() =>{
       console.log("Logged out succesfully");
+      this.router.navigateByUrl('/main');
     }).catch(error =>{
       console.error(error);
     });

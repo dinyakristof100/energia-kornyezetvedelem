@@ -1,5 +1,5 @@
 <div class="form-container">
-  <form [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()">
+  <form *ngIf="!loading" [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()">
     <h2>{{ 'FOGYASZTAS_ADD' | translate }}</h2>
 
     <!-- Cím -->
@@ -150,7 +150,7 @@
       </mat-form-field>
     </mat-card>
 
-    <button mat-raised-button color="primary" type="submit">
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
       {{ 'MENTES' | translate }}
     </button>
   </form>

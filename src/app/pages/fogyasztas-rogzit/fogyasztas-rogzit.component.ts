@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
+import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {FirestoreService} from "../../shared/services/firestore.service";
 
 @Component({
   selector: 'app-fogyasztas-rogzit',
@@ -9,11 +11,25 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class FogyasztasRogzitComponent implements OnInit {
   fogyasztasForm!: FormGroup;
+  userId: string | null = null;
+  loading = true;
 
-  constructor(private fb: FormBuilder, private translate: TranslateService) {}
+  constructor(
+    private fb: FormBuilder,
+    private firestoreService: FirestoreService,
+    private translate: TranslateService,
+    private auth: AngularFireAuth
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
+
+    this.auth.authState.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+      }
+      this.loading = false;
+    });
   }
 
   private initForm(): void {
@@ -67,12 +83,28 @@ export class FogyasztasRogzitComponent implements OnInit {
     this.translate.use(lang);
   }
 
+  /**
+   * Fogyasztási adatok mentése Firestore-ba
+   */
   onSubmit(): void {
     if (this.fogyasztasForm.valid) {
-      console.log('Fogyasztási adat:', this.fogyasztasForm.value);
-      // TODO API HÍVÁS
+      this.loading = true;
+
+      this.firestoreService.saveFogyasztasiAdat(this.fogyasztasForm.value)
+        .then(() => {
+          alert('Fogyasztási adatok sikeresen mentve!');
+          this.fogyasztasForm.reset();
+        })
+        .catch(error => {
+          console.error('Hiba mentéskor:', error);
+          alert('Hiba történt mentés közben!');
+        })
+        .finally(() => {
+          this.loading = false;
+        });
+
     } else {
-      console.log('Form is invalid');
+      alert('Kérjük, töltsd ki az összes mezőt helyesen!');
     }
   }
 }

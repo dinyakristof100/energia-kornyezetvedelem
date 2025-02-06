@@ -10,6 +10,6 @@ export class AppComponent{
 
   changePage(selectedPage: string){
     this.page = selectedPage;
-    console.log('Selected page:', selectedPage);
+    // console.log('Selected page:', selectedPage);
   }
 }
