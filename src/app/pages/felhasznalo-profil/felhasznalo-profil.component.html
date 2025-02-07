@@ -33,10 +33,55 @@
           </mat-select>
         </mat-form-field>
 
-        <button mat-raised-button color="primary" class="full-width save-button" [disabled]="!profilForm.valid">
+        <button type="button" mat-raised-button color="accent" class="mt-4" (click)="openLakasModal()">
+          {{ 'PROFIL.LAKAS_HOZZAADAS' | translate }}
+        </button>
+
+        <button mat-raised-button color="primary" class="full-width save-button mt-3" [disabled]="!profilForm.valid">
           {{ 'PROFIL.SUBMIT' | translate }}
         </button>
       </form>
+
+
     </mat-card-content>
   </mat-card>
+
+
+
+  <!-- Modal -->
+  <ng-template #lakasDialog>
+    <h2 mat-dialog-title>{{ 'PROFIL.LAKAS_MODAL.TITLE' | translate }}</h2>
+    <mat-dialog-content>
+      <form [formGroup]="lakasForm">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'CIM.ORSZAG' | translate }}</mat-label>
+          <input matInput formControlName="orszag" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'CIM.IRANYITOSZAM' | translate }}</mat-label>
+          <input matInput formControlName="iranyitoszam" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'CIM.TELEPULES' | translate }}</mat-label>
+          <input matInput formControlName="telepules" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'CIM.UTCA' | translate }}</mat-label>
+          <input matInput formControlName="utca" />
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>{{ 'CIM.HAZSZAM' | translate }}</mat-label>
+          <input matInput formControlName="hazszam" />
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button (click)="dialogRef.close()">
+        {{ 'PROFIL.LAKAS_MODAL.MEGSE' | translate }}
+      </button>
+      <button mat-raised-button color="primary" (click)="saveLakas()">
+        {{ 'PROFIL.LAKAS_MODAL.MENT' | translate }}
+      </button>
+    </mat-dialog-actions>
+  </ng-template>
 </div>

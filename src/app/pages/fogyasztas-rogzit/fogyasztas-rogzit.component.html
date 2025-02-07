@@ -6,66 +6,82 @@
     <mat-card>
       <h3>{{ 'CIM_ADATOK' | translate }}</h3>
       <div formGroupName="cim">
-        <mat-form-field>
-          <mat-label>{{ 'ORSZAG' | translate }}</mat-label>
-          <input matInput formControlName="orszag" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'IRANYITOSZAM' | translate }}</mat-label>
-          <input matInput formControlName="iranyitoszam" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'TELEPULES' | translate }}</mat-label>
-          <input matInput formControlName="telepules" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'UTCA' | translate }}</mat-label>
-          <input matInput formControlName="utca" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'HAZSZAM' | translate }}</mat-label>
-          <input matInput formControlName="hazszam" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'EPULET' | translate }}</mat-label>
-          <input matInput formControlName="epulet" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'EMELET' | translate }}</mat-label>
-          <input matInput formControlName="emelet" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'AJTO' | translate }}</mat-label>
-          <input matInput formControlName="ajto" />
-        </mat-form-field>
+        <mat-checkbox formControlName="sajatLakas">
+          {{ 'CIM_SAJAT_LAKAS' | translate }}
+        </mat-checkbox>
+
+        <div *ngIf="fogyasztasForm.get('cim.sajatLakas')?.value">
+          <mat-form-field>
+            <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
+            <mat-select formControlName="valasztottLakas">
+              <mat-option *ngFor="let lakas of lakasok" [value]="lakas">
+                {{ lakas }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field>
+            <mat-label>{{ 'ORSZAG' | translate }}</mat-label>
+            <input matInput formControlName="orszag" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'IRANYITOSZAM' | translate }}</mat-label>
+            <input matInput formControlName="iranyitoszam" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'TELEPULES' | translate }}</mat-label>
+            <input matInput formControlName="telepules" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'UTCA' | translate }}</mat-label>
+            <input matInput formControlName="utca" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'HAZSZAM' | translate }}</mat-label>
+            <input matInput formControlName="hazszam" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'EPULET' | translate }}</mat-label>
+            <input matInput formControlName="epulet" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'EMELET' | translate }}</mat-label>
+            <input matInput formControlName="emelet" />
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ 'AJTO' | translate }}</mat-label>
+            <input matInput formControlName="ajto" />
+          </mat-form-field>
+        </div>
       </div>
     </mat-card>
+
 
     <!-- Vízfogyasztás -->
     <mat-card>
       <h3>{{ 'VIZ_ADATOK' | translate }}</h3>
       <div formGroupName="viz">
         <mat-form-field>
-          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
-          <input matInput type="number" formControlName="osszfogyasztas" />
-        </mat-form-field>
-        <mat-form-field>
           <mat-label>{{ 'HIDEGVIZ' | translate }}</mat-label>
           <input matInput type="number" formControlName="hidegViz" />
         </mat-form-field>
-        <mat-checkbox formControlName="szivargas">
-          {{ 'SZIVARGAS' | translate }}
-        </mat-checkbox>
         <mat-form-field>
-          <mat-label>{{ 'MINOSEG' | translate }}</mat-label>
-          <input matInput formControlName="minoseg" />
+          <mat-label>{{ 'MELEGVIZ' | translate }}</mat-label>
+          <input matInput type="number" formControlName="melegViz" />
         </mat-form-field>
         <mat-form-field>
-          <mat-label>{{ 'MERES_MODJA' | translate }}</mat-label>
-          <input matInput formControlName="meresModja" />
+          <mat-label>{{ 'BOJLER_TIPUS' | translate }}</mat-label>
+          <mat-select formControlName="bojlerTipus">
+            <mat-option *ngFor="let tipus of bojlerTipusok" [value]="tipus">
+              {{ 'BOJLER_TIPUSOK.' + tipus | translate }}
+            </mat-option>
+          </mat-select>
         </mat-form-field>
       </div>
     </mat-card>
+
 
     <!-- Gázfogyasztás -->
     <mat-card>
@@ -75,20 +91,6 @@
           <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
           <input matInput type="number" formControlName="osszfogyasztas" />
         </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'CSUCSIDO_FOGYASZTAS' | translate }}</mat-label>
-          <input matInput type="number" formControlName="csucsidoFogyasztas" />
-        </mat-form-field>
-        <mat-checkbox formControlName="alacsonyNyomas">
-          {{ 'ALACSONY_NYOMAS' | translate }}
-        </mat-checkbox>
-        <mat-form-field>
-          <mat-label>{{ 'EVES_BECSULT' | translate }}</mat-label>
-          <input matInput type="number" formControlName="evesBecsult" />
-        </mat-form-field>
-        <mat-checkbox formControlName="biztonsagiEllenorzes">
-          {{ 'BIZTONSAGI_ELLENORZES' | translate }}
-        </mat-checkbox>
       </div>
     </mat-card>
 
@@ -97,47 +99,20 @@
       <h3>{{ 'VILLANY_ADATOK' | translate }}</h3>
       <div formGroupName="villany">
         <mat-form-field>
-          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
+          <mat-label>{{ 'OSSZFOGYASZTAS_VILLANY' | translate }}</mat-label>
           <input matInput type="number" formControlName="osszfogyasztas" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'CSUCSIDO_FOGYASZTAS' | translate }}</mat-label>
-          <input matInput type="number" formControlName="csucsidofogyasztas" />
         </mat-form-field>
         <mat-checkbox formControlName="aramkimaradas">
           {{ 'ARAMKIMARADAS' | translate }}
         </mat-checkbox>
-        <mat-form-field>
-          <mat-label>{{ 'ZOLD_ENERGIA' | translate }}</mat-label>
-          <input matInput type="number" formControlName="zoldEnergiaAranya" />
-        </mat-form-field>
-      </div>
-    </mat-card>
 
-    <!-- Melegvíz -->
-    <mat-card>
-      <h3>{{ 'MELEGVIZ_ADATOK' | translate }}</h3>
-      <div formGroupName="melegViz">
-        <mat-form-field>
-          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
-          <input matInput type="number" formControlName="osszfogyasztas" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'HOMERSEKLET' | translate }}</mat-label>
-          <input matInput type="number" formControlName="vizhomerseklet" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'BOJLER_TIPUS' | translate }}</mat-label>
-          <input matInput formControlName="bojlerTipus" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'BOJLER_ALLAPOT' | translate }}</mat-label>
-          <input matInput formControlName="bojlerAllapot" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'HOVESZTESEG' | translate }}</mat-label>
-          <input matInput type="number" formControlName="hoveszteseg" />
-        </mat-form-field>
+        <!-- Csak akkor jelenik meg, ha az áramkimaradás be van pipálva -->
+        <div *ngIf="fogyasztasForm.get('villany.aramkimaradas')?.value">
+          <mat-form-field>
+            <mat-label>{{ 'ARAMKIMARADAS_IDOTARTAM' | translate }}</mat-label>
+            <input matInput type="number" formControlName="kimaradasIdotartam" min="0" />
+          </mat-form-field>
+        </div>
       </div>
     </mat-card>
 

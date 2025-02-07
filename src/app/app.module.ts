@@ -52,6 +52,7 @@ import {environment} from "../environments/environment";
 import { RegisterComponent } from './pages/register/register.component';
 import { FelhasznaloProfilComponent } from './pages/felhasznalo-profil/felhasznalo-profil.component';
 import {MatOption, MatSelect} from "@angular/material/select";
+import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
 
 // Elemek regisztrálása
 Chart.register(
@@ -105,7 +106,9 @@ Chart.register(
       defaultLanguage: 'hu'
     }),
     MatSelect,
-    MatOption
+    MatOption,
+    MatDialogActions,
+    MatDialogContent
   ],
   providers: [
     provideAnimationsAsync(),

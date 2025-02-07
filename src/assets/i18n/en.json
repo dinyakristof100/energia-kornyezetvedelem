@@ -23,6 +23,7 @@
   "AJTO": "Door",
   "VIZ_ADATOK": "Water Consumption",
   "OSSZFOGYASZTAS": "Total Consumption (m³)",
+  "OSSZFOGYASZTAS_VILLANY": "Total Consumption (kWh)",
   "HIDEGVIZ": "Cold Water Consumption (m³)",
   "SZIVARGAS": "Leakage",
   "MINOSEG": "Water Quality",
@@ -30,7 +31,9 @@
   "MENTES": "Save",
   "GAZ_ADATOK": "Gas Consumption",
   "VILLANY_ADATOK": "Electricity Consumption",
+  "ARAMKIMARADAS_IDOTARTAM": "Outage (hours)",
   "MELEGVIZ_ADATOK": "Hot Water Consumption",
+  "MELEGVIZ": "Hot water",
   "CSUCSIDO_FOGYASZTAS": "Peak Time Consumption",
   "ALACSONY_NYOMAS": "Low Pressure",
   "EVES_BECSULT": "Annual Estimated Consumption",
@@ -48,6 +51,14 @@
   "ELECTRICITY": "Electricity Consumption (kWh)",
   "HOT_WATER": "Hot Water Consumption (m³)",
   "ADRIAN": "Adrian",
+  "BOJLER_TIPUSOK": {
+    "elektromos": "Electric Boiler",
+    "gaz": "Gas Boiler",
+    "hőszivattyús": "Heat Pump Boiler",
+    "napkollektoros": "Solar Boiler"
+  },
+  "CIM_SAJAT_LAKAS": "I choose my own apartment",
+  "VALASSZ_LAKAST": "Select an apartment",
   "LOGIN": {
     "TITLE": "Login",
     "USERNAME": "Username",
@@ -86,6 +97,19 @@
       "PADLOFUTES": "Underfloor Heating",
       "ELEKTROMOS_FUTES": "Electric Heating"
     },
-    "SUBMIT": "Save"
+    "SUBMIT": "Save",
+    "LAKAS_HOZZAADAS": "Add Apartment",
+    "LAKAS_MODAL": {
+      "TITLE": "Add New Apartment",
+      "MENT": "Save",
+      "MEGSE": "Cancel"
+    }
+  },
+  "CIM": {
+    "ORSZAG": "Country",
+    "IRANYITOSZAM": "Postal Code",
+    "TELEPULES": "City",
+    "UTCA": "Street",
+    "HAZSZAM": "House Number"
   }
 }

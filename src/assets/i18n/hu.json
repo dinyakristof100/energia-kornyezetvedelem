@@ -23,13 +23,16 @@
   "AJTO": "Ajtó",
   "VIZ_ADATOK": "Vízfogyasztás",
   "OSSZFOGYASZTAS": "Összfogyasztás (m³)",
+  "OSSZFOGYASZTAS_VILLANY": "Összfogyasztás (kWh)",
   "HIDEGVIZ": "Hidegvíz fogyasztás (m³)",
   "SZIVARGAS": "Szivárgás",
   "MINOSEG": "Vízminőség",
   "MERES_MODJA": "Mérés módja",
   "GAZ_ADATOK": "Gázfogyasztás",
   "VILLANY_ADATOK": "Villamosenergia fogyasztás",
+  "ARAMKIMARADAS_IDOTARTAM": "Kimaradás (óra)",
   "MELEGVIZ_ADATOK": "Melegvíz fogyasztás",
+  "MELEGVIZ": "Melegvíz",
   "CSUCSIDO_FOGYASZTAS": "Csúcsidő fogyasztás",
   "ALACSONY_NYOMAS": "Alacsony nyomás",
   "EVES_BECSULT": "Éves becsült fogyasztás",
@@ -47,6 +50,14 @@
   "GAS": "Gázfogyasztás (m³)",
   "ELECTRICITY": "Villamosenergia fogyasztás (kWh)",
   "HOT_WATER": "Melegvíz fogyasztás (m³)",
+  "BOJLER_TIPUSOK": {
+    "elektromos": "Elektromos bojler",
+    "gaz": "Gázbojler",
+    "hőszivattyús": "Hőszivattyús bojler",
+    "napkollektoros": "Napkollektoros bojler"
+  },
+  "CIM_SAJAT_LAKAS": "Magam választom ki a lakásaim közül",
+  "VALASSZ_LAKAST": "Válassz lakást",
   "LOGIN": {
     "TITLE": "Bejelentkezés",
     "USERNAME": "Felhasználónév",
@@ -85,6 +96,19 @@
       "PADLOFUTES": "Padlófűtés",
       "ELEKTROMOS_FUTES": "Elektromos fűtés"
     },
-    "SUBMIT": "Mentés"
+    "SUBMIT": "Mentés",
+    "LAKAS_HOZZAADAS": "Lakás hozzáadása",
+    "LAKAS_MODAL": {
+      "TITLE": "Új lakás hozzáadása",
+      "MENT": "Mentés",
+      "MEGSE": "Mégse"
+    }
+  },
+  "CIM": {
+    "ORSZAG": "Ország",
+    "IRANYITOSZAM": "Irányítószám",
+    "TELEPULES": "Település",
+    "UTCA": "Utca",
+    "HAZSZAM": "Házszám"
   }
 }
