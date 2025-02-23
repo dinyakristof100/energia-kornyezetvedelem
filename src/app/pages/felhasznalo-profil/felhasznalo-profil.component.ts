@@ -1,4 +1,4 @@
-import {Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import {AuthService} from "../../shared/services/auth.service";
@@ -27,7 +27,8 @@ export class FelhasznaloProfilComponent implements OnInit {
     private authService: AuthService,
     private firestoreService: FirestoreService,
     private auth: AngularFireAuth,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cd: ChangeDetectorRef
   ) {
     this.profilForm = this.fb.group({
       vezetekNev: ['', Validators.required],
@@ -38,11 +39,15 @@ export class FelhasznaloProfilComponent implements OnInit {
     });
 
     this.lakasForm = this.fb.group({
+      lakasNev: ['', Validators.required],
       orszag: ['Magyarország', Validators.required],
       iranyitoszam: ['', Validators.required],
       telepules: ['', Validators.required],
       utca: ['', Validators.required],
-      hazszam: ['', Validators.required]
+      hazszam: ['', Validators.required],
+      epitesu: ['', Validators.required],
+      futes: ['', Validators.required],
+      szigeteles: [false]
     });
   }
 
@@ -51,6 +56,7 @@ export class FelhasznaloProfilComponent implements OnInit {
 
     this.translate.onLangChange.subscribe(() => {
       this.updateFutesTipusok();
+      this.loadUserData();
     });
 
     this.auth.authState.subscribe(user => {
@@ -87,6 +93,8 @@ export class FelhasznaloProfilComponent implements OnInit {
     this.firestoreService.getDocument(this.collectionName, this.userId).subscribe(data => {
       if (data) {
         this.profilForm.patchValue(data);
+        this.updateFutesTipusok();
+        this.cd.detectChanges();
       }
     });
   }
@@ -103,14 +111,21 @@ export class FelhasznaloProfilComponent implements OnInit {
   }
 
   updateFutesTipusok(): void {
-    this.futesTipusok = [
-      this.translate.instant('PROFIL.FUTES.KONVEKTOR'),
-      this.translate.instant('PROFIL.FUTES.GAZKAZAN'),
-      this.translate.instant('PROFIL.FUTES.HAGYOMANYOS_KAZAN'),
-      this.translate.instant('PROFIL.FUTES.VILLANYKAZAN'),
-      this.translate.instant('PROFIL.FUTES.TAVFUTES'),
-      this.translate.instant('PROFIL.FUTES.PADLOFUTES'),
-      this.translate.instant('PROFIL.FUTES.ELEKTROMOS_FUTES')
-    ];
+    const futesMapping: { [key: string]: string } = {
+      "Convector": this.translate.instant('PROFIL.FUTES.KONVEKTOR'),
+      "Gas Boiler": this.translate.instant('PROFIL.FUTES.GAZKAZAN'),
+      "Traditional Boiler": this.translate.instant('PROFIL.FUTES.HAGYOMANYOS_KAZAN'),
+      "Electric Boiler": this.translate.instant('PROFIL.FUTES.VILLANYKAZAN'),
+      "District Heating": this.translate.instant('PROFIL.FUTES.TAVFUTES'),
+      "Underfloor Heating": this.translate.instant('PROFIL.FUTES.PADLOFUTES'),
+      "Electric Heating": this.translate.instant('PROFIL.FUTES.ELEKTROMOS_FUTES')
+    };
+
+    this.futesTipusok = Object.values(futesMapping);
+
+    const currentValue = this.profilForm.get('futesTipusa')?.value;
+    if (currentValue && futesMapping[currentValue]) {
+      this.profilForm.patchValue({ futesTipusa: futesMapping[currentValue] });
+    }
   }
 }

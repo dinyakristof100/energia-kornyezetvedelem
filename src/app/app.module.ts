@@ -96,6 +96,7 @@ Chart.register(
     BaseChartDirective,
     MatFormFieldModule,
     MatInputModule,
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase),
     TranslateModule.forRoot({
       loader: {

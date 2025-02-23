@@ -1,132 +1,119 @@
-<div class="form-container">
-  <form *ngIf="!loading" [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()">
-    <h2>{{ 'FOGYASZTAS_ADD' | translate }}</h2>
+<div class="min-h-screen flex justify-center items-center bg-gradient-to-r from-blue-500 to-blue-300 p-10">
+  <div class="max-w-7xl mx-auto p-6 rounded-xl shadow-lg bg-amber-200">
+    <form *ngIf="!loading" [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      <h2 class="text-2xl font-bold text-gray-800">{{ 'FOGYASZTAS_ADD' | translate }}</h2>
 
-    <!-- Cím -->
-    <mat-card>
-      <h3>{{ 'CIM_ADATOK' | translate }}</h3>
-      <div formGroupName="cim">
-        <mat-checkbox formControlName="sajatLakas">
-          {{ 'CIM_SAJAT_LAKAS' | translate }}
-        </mat-checkbox>
+      <!-- Cím -->
+      <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+        <h3 class="text-xl font-semibold text-gray-700">{{ 'CIM_ADATOK' | translate }}</h3>
+        <div formGroupName="cim" class="space-y-4">
+          <mat-checkbox formControlName="sajatLakas" class="mt-2">
+            {{ 'CIM_SAJAT_LAKAS' | translate }}
+          </mat-checkbox>
 
-        <div *ngIf="fogyasztasForm.get('cim.sajatLakas')?.value">
-          <mat-form-field>
-            <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
-            <mat-select formControlName="valasztottLakas">
-              <mat-option *ngFor="let lakas of lakasok" [value]="lakas">
-                {{ lakas }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          <div *ngIf="fogyasztasForm.get('cim.sajatLakas')?.value">
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
+              <mat-select formControlName="valasztottLakas">
+                <mat-option *ngFor="let lakas of lakasok" [value]="lakas">
+                  {{ lakas }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div *ngIf="!fogyasztasForm.get('cim.sajatLakas')?.value" class="grid grid-cols-2 gap-4">
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'ORSZAG' | translate }}</mat-label>
+              <input matInput formControlName="orszag" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'IRANYITOSZAM' | translate }}</mat-label>
+              <input matInput formControlName="iranyitoszam" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'TELEPULES' | translate }}</mat-label>
+              <input matInput formControlName="telepules" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'UTCA' | translate }}</mat-label>
+              <input matInput formControlName="utca" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+          </div>
         </div>
+      </mat-card>
 
-        <div>
-          <mat-form-field>
-            <mat-label>{{ 'ORSZAG' | translate }}</mat-label>
-            <input matInput formControlName="orszag" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ 'IRANYITOSZAM' | translate }}</mat-label>
-            <input matInput formControlName="iranyitoszam" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ 'TELEPULES' | translate }}</mat-label>
-            <input matInput formControlName="telepules" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ 'UTCA' | translate }}</mat-label>
-            <input matInput formControlName="utca" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ 'HAZSZAM' | translate }}</mat-label>
-            <input matInput formControlName="hazszam" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ 'EPULET' | translate }}</mat-label>
-            <input matInput formControlName="epulet" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ 'EMELET' | translate }}</mat-label>
-            <input matInput formControlName="emelet" />
-          </mat-form-field>
-          <mat-form-field>
-            <mat-label>{{ 'AJTO' | translate }}</mat-label>
-            <input matInput formControlName="ajto" />
-          </mat-form-field>
-        </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Vízfogyasztás -->
+        <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50 w-full">
+          <h3 class="text-xl font-semibold text-gray-700">{{ 'VIZ_ADATOK' | translate }}</h3>
+          <div formGroupName="viz" class="grid grid-cols-2 gap-4">
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'HIDEGVIZ' | translate }}</mat-label>
+              <input matInput type="number" formControlName="hidegViz" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'MELEGVIZ' | translate }}</mat-label>
+              <input matInput type="number" formControlName="melegViz" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+          </div>
+        </mat-card>
+
+        <!-- Gázfogyasztás -->
+        <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50 w-full">
+          <h3 class="text-xl font-semibold text-gray-700">{{ 'GAZ_ADATOK' | translate }}</h3>
+          <div formGroupName="gaz">
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
+              <input matInput type="number" formControlName="osszfogyasztas" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+          </div>
+        </mat-card>
+
+        <!-- Villamosenergia -->
+        <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50 w-full">
+          <h3 class="text-xl font-semibold text-gray-700">{{ 'VILLANY_ADATOK' | translate }}</h3>
+          <div formGroupName="villany" class="grid">
+            <!-- Fogyasztás -->
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'OSSZFOGYASZTAS_VILLANY' | translate }}</mat-label>
+              <input matInput type="number" formControlName="osszfogyasztas" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+
+            <!-- Áramkimaradás checkbox (input mező alatt) -->
+            <div>
+              <mat-checkbox formControlName="aramkimaradas">
+                {{ 'ARAMKIMARADAS' | translate }}
+              </mat-checkbox>
+            </div>
+          </div>
+
+          <!-- Csak akkor jelenik meg, ha be van pipálva -->
+          <div *ngIf="fogyasztasForm.get('villany.aramkimaradas')?.value" class="grid gap-4 mt-4">
+            <mat-form-field class="w-full">
+              <mat-label>{{ 'ARAMKIMARADAS_IDOTARTAM' | translate }}</mat-label>
+              <input matInput type="number" formControlName="kimaradasIdotartam" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
+            </mat-form-field>
+          </div>
+        </mat-card>
       </div>
-    </mat-card>
 
+      <!-- Megjegyzés -->
+      <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+        <h3 class="text-xl font-semibold text-gray-700">{{ 'MEGJEGYZES' | translate }}</h3>
+        <mat-form-field class="w-full">
+          <mat-label>{{ 'MEGJEGYZES_TEXT' | translate }}</mat-label>
+          <textarea matInput formControlName="megjegyzesek" class="border border-gray-300 rounded-lg px-3 py-2 w-full h-24"></textarea>
+        </mat-form-field>
+      </mat-card>
 
-    <!-- Vízfogyasztás -->
-    <mat-card>
-      <h3>{{ 'VIZ_ADATOK' | translate }}</h3>
-      <div formGroupName="viz">
-        <mat-form-field>
-          <mat-label>{{ 'HIDEGVIZ' | translate }}</mat-label>
-          <input matInput type="number" formControlName="hidegViz" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'MELEGVIZ' | translate }}</mat-label>
-          <input matInput type="number" formControlName="melegViz" />
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ 'BOJLER_TIPUS' | translate }}</mat-label>
-          <mat-select formControlName="bojlerTipus">
-            <mat-option *ngFor="let tipus of bojlerTipusok" [value]="tipus">
-              {{ 'BOJLER_TIPUSOK.' + tipus | translate }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
+      <!-- Mentés gomb -->
+      <div class="flex justify-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading"
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300">
+          {{ 'MENTES' | translate }}
+        </button>
       </div>
-    </mat-card>
-
-
-    <!-- Gázfogyasztás -->
-    <mat-card>
-      <h3>{{ 'GAZ_ADATOK' | translate }}</h3>
-      <div formGroupName="gaz">
-        <mat-form-field>
-          <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
-          <input matInput type="number" formControlName="osszfogyasztas" />
-        </mat-form-field>
-      </div>
-    </mat-card>
-
-    <!-- Villamosenergia -->
-    <mat-card>
-      <h3>{{ 'VILLANY_ADATOK' | translate }}</h3>
-      <div formGroupName="villany">
-        <mat-form-field>
-          <mat-label>{{ 'OSSZFOGYASZTAS_VILLANY' | translate }}</mat-label>
-          <input matInput type="number" formControlName="osszfogyasztas" />
-        </mat-form-field>
-        <mat-checkbox formControlName="aramkimaradas">
-          {{ 'ARAMKIMARADAS' | translate }}
-        </mat-checkbox>
-
-        <!-- Csak akkor jelenik meg, ha az áramkimaradás be van pipálva -->
-        <div *ngIf="fogyasztasForm.get('villany.aramkimaradas')?.value">
-          <mat-form-field>
-            <mat-label>{{ 'ARAMKIMARADAS_IDOTARTAM' | translate }}</mat-label>
-            <input matInput type="number" formControlName="kimaradasIdotartam" min="0" />
-          </mat-form-field>
-        </div>
-      </div>
-    </mat-card>
-
-    <!-- Megjegyzések -->
-    <mat-card>
-      <h3>{{ 'MEGJEGYZES' | translate }}</h3>
-      <mat-form-field>
-        <mat-label>{{ 'MEGJEGYZES_TEXT' | translate }}</mat-label>
-        <textarea matInput formControlName="megjegyzesek"></textarea>
-      </mat-form-field>
-    </mat-card>
-
-    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-      {{ 'MENTES' | translate }}
-    </button>
-  </form>
+    </form>
+  </div>
 </div>

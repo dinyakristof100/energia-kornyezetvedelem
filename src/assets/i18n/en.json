@@ -106,10 +106,14 @@
     }
   },
   "CIM": {
+    "LAKAS_NEV": "Apartment Name",
     "ORSZAG": "Country",
-    "IRANYITOSZAM": "Postal Code",
+    "IRANYITOSZAM": "ZIP Code",
     "TELEPULES": "City",
     "UTCA": "Street",
-    "HAZSZAM": "House Number"
+    "HAZSZAM": "House Number",
+    "EPITES_MOD": "Building Type",
+    "FUTES_TIPUS": "Heating Type",
+    "SZIGETELES": "Has Insulation"
   }
 }

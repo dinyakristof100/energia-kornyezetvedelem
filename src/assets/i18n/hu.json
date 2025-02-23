@@ -105,10 +105,14 @@
     }
   },
   "CIM": {
+    "LAKAS_NEV": "Lakás neve",
     "ORSZAG": "Ország",
     "IRANYITOSZAM": "Irányítószám",
     "TELEPULES": "Település",
     "UTCA": "Utca",
-    "HAZSZAM": "Házszám"
+    "HAZSZAM": "Házszám",
+    "EPITES_MOD": "Építési mód",
+    "FUTES_TIPUS": "Fűtési típus",
+    "SZIGETELES": "Szigetelés van"
   }
 }
