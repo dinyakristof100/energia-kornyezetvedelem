@@ -9,38 +9,6 @@ export interface  FogyasztasiAdat {
    villany: number; //kw/h
    meleg_viz: number; //m^3
    megjegyzes?: string;
-
-  //  viz: {
-  //    osszfogyasztas: number;
-  //    hidegViz: number;
-  //    szivargas: boolean;
-  //    minoseg: string;
-  //    meres_modja: string;
-  // };
-  //
-  //  gaz: {
-  //    osszfogyasztas: number;
-  //    csucsidoFogyasztas: number;
-  //    alacsonyNyomas: boolean;
-  //    evesBecsult: number;
-  //    biztonsagi_ellenorzes: boolean;
-  // };
-  //
-  //  villany: {
-  //    osszfogyasztas: number;
-  //    csucsidofogyasztas: number;
-  //    aramkimaradas: boolean;
-  //    zoldEnergiaAranya: number;
-  //    tarifak: { [id: string]: number };
-  // };
-  //
-  //  meleg_viz: {
-  //    osszfogyasztas: number;
-  //    vizhomerseklet: number;
-  //    bojler_tipus: string;
-  //    bojler_allapot: string;
-  //    hoveszteseg: number;
-  // };
 }
 
 export interface Cim {
@@ -78,11 +46,13 @@ export interface Fa {
 
 export interface Lakas{
   id: string;
+  lakasNev: string;
   cim: Cim;
   lakasmeret?: number; //m^2
   szigeteles?: boolean;
-  epitesu: string;
-  futes?: string;
+  epitesiMod: string;
+  futesiMod: string;
+  userId: string;
 }
 
 export interface Kep{

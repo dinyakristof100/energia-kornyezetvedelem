@@ -106,12 +106,26 @@
   },
   "CIM": {
     "LAKAS_NEV": "Lakás neve",
+    "LAKASMERET": "Alapterület (m²)",
     "ORSZAG": "Ország",
     "IRANYITOSZAM": "Irányítószám",
     "TELEPULES": "Település",
     "UTCA": "Utca",
     "HAZSZAM": "Házszám",
-    "EPITES_MOD": "Építési mód",
+    "EPULET": "Épület",
+    "EMELET": "Emelet",
+    "AJTO": "Ajtó",
+    "EPITES_MOD": {
+      "TITLE": "Építési mód",
+      "TEGLA": "Téglaépítésű",
+      "PANEL": "Panelépület",
+      "FA": "Fa szerkezetű",
+      "KONNYUSZERKEZET": "Könnyűszerkezetes",
+      "VALYOG": "Vályogház",
+      "BETON": "Beton szerkezetű",
+      "KONTAINER": "Konténerház",
+      "KO": "Kőház"
+    },
     "FUTES_TIPUS": "Fűtési típus",
     "SZIGETELES": "Szigetelés van"
   }

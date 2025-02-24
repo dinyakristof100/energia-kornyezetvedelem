@@ -5,6 +5,9 @@ import {AuthService} from "../../shared/services/auth.service";
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {Lakas} from "../../shared/model/models";
+import {HttpClient} from "@angular/common/http";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-felhasznalo-profil',
@@ -15,20 +18,25 @@ export class FelhasznaloProfilComponent implements OnInit {
   profilForm: FormGroup;
   lakasForm: FormGroup;
   futesTipusok: string[] = [];
+  epitesiModok: string[] = [];
+  lakasok: any[] = [];
   userId: string | null = null;
   collectionName = 'UserInformations';
   dialogRef!: MatDialogRef<any>;
+
+  iranyitoszamok: { [key: string]: string} = {};
 
   @ViewChild('lakasDialog') lakasDialog!: TemplateRef<any>;
 
   constructor(
     private fb: FormBuilder,
     private translate: TranslateService,
-    private authService: AuthService,
     private firestoreService: FirestoreService,
     private auth: AngularFireAuth,
     private dialog: MatDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private http: HttpClient,
+    private snackBar: MatSnackBar
   ) {
     this.profilForm = this.fb.group({
       vezetekNev: ['', Validators.required],
@@ -40,21 +48,30 @@ export class FelhasznaloProfilComponent implements OnInit {
 
     this.lakasForm = this.fb.group({
       lakasNev: ['', Validators.required],
-      orszag: ['Magyarország', Validators.required],
-      iranyitoszam: ['', Validators.required],
-      telepules: ['', Validators.required],
-      utca: ['', Validators.required],
-      hazszam: ['', Validators.required],
-      epitesu: ['', Validators.required],
-      futes: ['', Validators.required],
+      cim: this.fb.group({
+        orszag: ['Magyarország', Validators.required],
+        iranyitoszam: ['', Validators.required],
+        telepules: ['', Validators.required],
+        utca: ['', Validators.required],
+        hazszam: ['', Validators.required],
+        epulet: [''],
+        emelet: [''],
+        ajto: ['']
+      }),
+      lakasmeret: [null, [Validators.min(1)]],
+      epitesMod: ['', Validators.required],
+      futesTipus: ['', Validators.required],
       szigeteles: [false]
     });
   }
 
   ngOnInit(): void {
     this.updateFutesTipusok();
+    this.loadIranyitoszamok();
+    this.setupAutoFillListeners();
 
     this.translate.onLangChange.subscribe(() => {
+      this.updateEpitesiModok();
       this.updateFutesTipusok();
       this.loadUserData();
     });
@@ -63,25 +80,124 @@ export class FelhasznaloProfilComponent implements OnInit {
       if (user) {
         this.userId = user.uid;
         this.loadUserData();
+        this.loadLakasok();
       }
     });
+  }
 
+  /**
+   * Betölti a felhasználóhoz tartozó lakásokat Firestore-ból.
+   */
+  loadLakasok(): void {
+    if (!this.userId) return;
+
+    this.firestoreService.getCollection<Lakas>('Lakasok').subscribe(lakasok => {
+      this.lakasok = lakasok.filter(lakas => lakas.userId === this.userId).map(lakas => ({
+        ...lakas,
+        cim: {
+          orszag: lakas.cim?.orszag || '',
+          iranyitoszam: lakas.cim?.iranyitoszam || '',
+          telepules: lakas.cim?.telepules || '',
+          utca: lakas.cim?.utca || '',
+          hazszam: lakas.cim?.hazszam || '',
+          epulet: lakas.cim?.epulet || '',
+          emelet: lakas.cim?.emelet || '',
+          ajto: lakas.cim?.ajto || ''
+        }
+      }));
+      this.cd.detectChanges();
+    });
   }
 
   /**
    * Megnyitja a lakás hozzáadása modalt.
    */
-  openLakasModal(): void {
+  openLakasModal(lakas?: Lakas): void {
+    if (lakas) {
+      this.lakasForm.patchValue({
+        lakasNev: lakas.lakasNev,
+        cim: {
+          orszag: lakas.cim?.orszag || 'Magyarország',
+          iranyitoszam: lakas.cim?.iranyitoszam || '',
+          telepules: lakas.cim?.telepules || '',
+          utca: lakas.cim?.utca || '',
+          hazszam: lakas.cim?.hazszam || '',
+          epulet: lakas.cim?.epulet || '',
+          emelet: lakas.cim?.emelet || '',
+          ajto: lakas.cim?.ajto || ''
+        },
+        lakasmeret: lakas.lakasmeret || null,
+        epitesMod: lakas.epitesiMod || '',
+        futesTipus: lakas.futesiMod || '',
+        szigeteles: lakas.szigeteles || false
+      });
+    } else {
+      this.lakasForm.reset({
+        lakasNev: '',
+        cim: {
+          orszag: 'Magyarország',
+          iranyitoszam: '',
+          telepules: '',
+          utca: '',
+          hazszam: '',
+          epulet: '',
+          emelet: '',
+          ajto: ''
+        },
+        lakasmeret: null,
+        epitesMod: '',
+        futesTipus: '',
+        szigeteles: false
+      });
+    }
+
     this.dialogRef = this.dialog.open(this.lakasDialog);
   }
 
   /**
-   * A felhasználó által bevitt lakásadatokat kiírja a konzolra,
-   * majd bezárja a modalt.
+   * A felhasználó által bevitt lakásadatokat elmenti Firestore-ba.
    */
   saveLakas(): void {
-    console.log("Mentett lakás:", this.lakasForm.value);
-    this.dialogRef.close();
+    if (this.lakasForm.valid && this.userId) {
+      const lakasId = this.firestoreService.createId();
+
+      const lakasAdatok: Lakas = {
+        id: lakasId,
+        lakasNev: this.lakasForm.value.lakasNev,
+        cim: {
+          orszag: this.lakasForm.value.cim.orszag,
+          iranyitoszam: this.lakasForm.value.cim.iranyitoszam,
+          telepules: this.lakasForm.value.cim.telepules,
+          utca: this.lakasForm.value.cim.utca,
+          hazszam: this.lakasForm.value.cim.hazszam,
+          epulet: this.lakasForm.value.cim.epulet,
+          emelet: this.lakasForm.value.cim.emelet,
+          ajto: this.lakasForm.value.cim.ajto
+        },
+        lakasmeret: this.lakasForm.value.lakasmeret,
+        epitesiMod: this.lakasForm.value.epitesMod,
+        futesiMod: this.lakasForm.value.futesTipus,
+        szigeteles: this.lakasForm.value.szigeteles,
+        userId: this.userId
+      };
+
+      this.firestoreService.createDocument<Lakas>('Lakasok', lakasAdatok)
+        .then(() => {
+          console.log("Mentett lakás:", lakasAdatok);
+          this.loadLakasok();
+
+          this.snackBar.open('Hibás e-mail vagy jelszó!', 'Bezárás', {
+            duration: 3000,
+            panelClass: ['bg-red-500', 'text-white', 'text-center'],
+            verticalPosition: "top"
+          });
+
+          this.dialogRef.close();
+        })
+        .catch(error => console.error('Hiba lakás mentésekor:', error));
+    } else {
+      console.error('A lakás mentése sikertelen: hiányzó adatok vagy felhasználó ID.');
+    }
   }
 
   /**
@@ -93,7 +209,6 @@ export class FelhasznaloProfilComponent implements OnInit {
     this.firestoreService.getDocument(this.collectionName, this.userId).subscribe(data => {
       if (data) {
         this.profilForm.patchValue(data);
-        this.updateFutesTipusok();
         this.cd.detectChanges();
       }
     });
@@ -127,5 +242,66 @@ export class FelhasznaloProfilComponent implements OnInit {
     if (currentValue && futesMapping[currentValue]) {
       this.profilForm.patchValue({ futesTipusa: futesMapping[currentValue] });
     }
+  }
+
+  /**
+   * Nyelvváltásra reagáló építési módok betöltése.
+   */
+  updateEpitesiModok(): void {
+    const epitesiMapping: { [key: string]: string } = {
+      "Brick": this.translate.instant('CIM.EPITES_MOD.TEGLA'),
+      "Panel": this.translate.instant('CIM.EPITES_MOD.PANEL'),
+      "Wooden": this.translate.instant('CIM.EPITES_MOD.FA'),
+      "Lightweight": this.translate.instant('CIM.EPITES_MOD.KONNYUSZERKEZET'),
+      "Adobe": this.translate.instant('CIM.EPITES_MOD.VALYOG'),
+      "Concrete": this.translate.instant('CIM.EPITES_MOD.BETON'),
+      "Container": this.translate.instant('CIM.EPITES_MOD.KONTAINER'),
+      "Stone": this.translate.instant('CIM.EPITES_MOD.KO')
+    };
+
+    this.epitesiModok = Object.values(epitesiMapping);
+
+    const currentValue = this.lakasForm.get('epitesMod')?.value;
+    if (currentValue && epitesiMapping[currentValue]) {
+      this.lakasForm.patchValue({ epitesMod: epitesiMapping[currentValue] });
+    }
+  }
+
+  onClose(){
+    this.lakasForm.reset(null);
+    this.dialogRef.close();
+  }
+
+  /**
+   * Betölti az irányítószámokat az assets JSON fájlból.
+   */
+  loadIranyitoszamok(): void {
+    this.http.get<{ [key: string]: string }>('/assets/iranyitoszamok/iranyitoszamok.json')
+      .subscribe(data => {
+        this.iranyitoszamok = data;
+      });
+  }
+  /**
+   * Figyeli az irányítószám és település mezőket, és automatikusan kitölti a megfelelő mezőt.
+   */
+  setupAutoFillListeners(): void {
+    this.lakasForm.get('cim.iranyitoszam')?.valueChanges.subscribe(value => {
+      if (value && this.iranyitoszamok[value]) {
+        this.lakasForm.patchValue({
+          cim: { telepules: this.iranyitoszamok[value] }
+        }, { emitEvent: false });
+      }
+    });
+
+    this.lakasForm.get('cim.telepules')?.valueChanges.subscribe(value => {
+      if (value) {
+        const foundEntry = Object.entries(this.iranyitoszamok).find(([key, city]) => city.toLowerCase() === value.toLowerCase());
+        if (foundEntry) {
+          this.lakasForm.patchValue({
+            cim: { iranyitoszam: foundEntry[0] }
+          }, { emitEvent: false });
+        }
+      }
+    });
   }
 }

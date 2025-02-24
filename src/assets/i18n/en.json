@@ -107,12 +107,26 @@
   },
   "CIM": {
     "LAKAS_NEV": "Apartment Name",
+    "LAKASMERET": "Base Area (m²)",
     "ORSZAG": "Country",
     "IRANYITOSZAM": "ZIP Code",
     "TELEPULES": "City",
     "UTCA": "Street",
     "HAZSZAM": "House Number",
-    "EPITES_MOD": "Building Type",
+    "EPULET": "Building",
+    "EMELET": "Floor",
+    "AJTO": "Door",
+    "EPITES_MOD": {
+      "TITLE": "Building mode",
+      "TEGLA": "Brick",
+      "PANEL": "Panel",
+      "FA": "Wooden",
+      "KONNYUSZERKEZET": "Lightweight",
+      "VALYOG": "Adobe",
+      "BETON": "Concrete",
+      "KONTAINER": "Container",
+      "KO": "Stone"
+    },
     "FUTES_TIPUS": "Heating Type",
     "SZIGETELES": "Has Insulation"
   }

@@ -1,4 +1,5 @@
 <div class="profil-container">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
   <mat-card class="profil-card">
     <mat-card-header>
       <mat-card-title>{{ 'PROFIL.TITLE' | translate }}</mat-card-title>
@@ -15,29 +16,11 @@
           <input matInput formControlName="keresztNev" type="text">
         </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width" floatLabel="auto">
-          <mat-label>{{ 'PROFIL.HAZ_ALAPTERULET' | translate }}</mat-label>
-          <input matInput formControlName="hazAlapterulet"type="number" min="1">
-        </mat-form-field>
-
-        <mat-checkbox formControlName="szigeteles" class="full-width">
-          {{ 'PROFIL.SZIGETELES' | translate }}
-        </mat-checkbox>
-
-        <mat-form-field appearance="fill" class="full-width" floatLabel="auto">
-          <mat-label>{{ 'PROFIL.FUTES_TIPUSA' | translate }}</mat-label>
-          <mat-select formControlName="futesTipusa">
-            <mat-option *ngFor="let tipus of futesTipusok" [value]="tipus">
-              {{ tipus }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-
         <button type="button" mat-raised-button color="accent" class="mt-4" (click)="openLakasModal()">
           {{ 'PROFIL.LAKAS_HOZZAADAS' | translate }}
         </button>
 
-        <button mat-raised-button color="primary" class="full-width save-button mt-3" [disabled]="!profilForm.valid">
+        <button mat-raised-button color="primary" class="full-width save-button mt-3" [disabled]="!profilForm.valid || profilForm.pristine">
           {{ 'PROFIL.SUBMIT' | translate }}
         </button>
       </form>
@@ -46,6 +29,7 @@
     </mat-card-content>
   </mat-card>
 
+  </div>
 
 
   <!-- Modal -->
@@ -66,40 +50,76 @@
           </mat-form-field>
 
           <mat-form-field appearance="fill" class="w-full">
-            <mat-label>{{ 'CIM.ORSZAG' | translate }}</mat-label>
-            <input matInput formControlName="orszag" class="rounded-lg shadow-sm border-gray-300" />
+            <mat-label>{{ 'CIM.LAKASMERET' | translate }}</mat-label>
+            <input matInput type="number" formControlName="lakasmeret" min="0" class="rounded-lg shadow-sm border-gray-300" />
           </mat-form-field>
 
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>{{ 'CIM.IRANYITOSZAM' | translate }}</mat-label>
-            <input matInput formControlName="iranyitoszam" type="number" min="0" class="rounded-lg shadow-sm border-gray-300" />
-          </mat-form-field>
+          <div formGroupName="cim">
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.ORSZAG' | translate }}</mat-label>
+              <input matInput formControlName="orszag" class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
 
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>{{ 'CIM.TELEPULES' | translate }}</mat-label>
-            <input matInput formControlName="telepules" class="rounded-lg shadow-sm border-gray-300" />
-          </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.IRANYITOSZAM' | translate }}</mat-label>
+              <input matInput formControlName="iranyitoszam"
+                     type="number"
+                     min="0"
+                     autocomplete="off"
+                     class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
 
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>{{ 'CIM.UTCA' | translate }}</mat-label>
-            <input matInput formControlName="utca" class="rounded-lg shadow-sm border-gray-300" />
-          </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.TELEPULES' | translate }}</mat-label>
+              <input matInput formControlName="telepules"
+                     autocomplete="off"
+                     class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
 
-          <mat-form-field appearance="fill" class="w-full">
-            <mat-label>{{ 'CIM.HAZSZAM' | translate }}</mat-label>
-            <input matInput formControlName="hazszam" class="rounded-lg shadow-sm border-gray-300" />
-          </mat-form-field>
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.UTCA' | translate }}</mat-label>
+              <input matInput formControlName="utca" class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.HAZSZAM' | translate }}</mat-label>
+              <input matInput formControlName="hazszam" class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.EPULET' | translate }}</mat-label>
+              <input matInput formControlName="epulet" class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.EMELET' | translate }}</mat-label>
+              <input matInput formControlName="emelet" class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="w-full">
+              <mat-label>{{ 'CIM.AJTO' | translate }}</mat-label>
+              <input matInput formControlName="ajto" class="rounded-lg shadow-sm border-gray-300" />
+            </mat-form-field>
+          </div>
 
           <!-- Építési mód -->
           <mat-form-field appearance="fill" class="w-full">
-            <mat-label>{{ 'CIM.EPITES_MOD' | translate }}</mat-label>
-            <input matInput formControlName="epitesu" class="rounded-lg shadow-sm border-gray-300" />
+            <mat-label>{{ 'CIM.EPITES_MOD.TITLE' | translate }}</mat-label>
+            <mat-select formControlName="epitesMod" class="rounded-lg shadow-sm border-gray-300">
+              <mat-option *ngFor="let epitesiMod of epitesiModok" value="epitesiModd">
+                {{ epitesiMod }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <!-- Fűtési típus -->
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>{{ 'CIM.FUTES_TIPUS' | translate }}</mat-label>
-            <input matInput formControlName="futes" class="rounded-lg shadow-sm border-gray-300" />
+            <mat-select formControlName="futesTipus" class="rounded-lg shadow-sm border-gray-300">
+              <mat-option *ngFor="let futesTipus of futesTipusok" value="futesTipus">
+                {{ futesTipus }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
 
           <!-- Szigetelés checkbox -->
@@ -110,14 +130,19 @@
       </mat-dialog-content>
 
       <!-- Modal gombok -->
-      <mat-dialog-actions class="flex justify-end space-x-4 mt-6">
-        <button mat-button (click)="dialogRef.close()" class="px-4 py-2 text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg">
-          {{ 'PROFIL.LAKAS_MODAL.MEGSE' | translate }}
-        </button>
-        <button mat-raised-button color="primary" (click)="saveLakas()" class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg">
-          {{ 'PROFIL.LAKAS_MODAL.MENT' | translate }}
-        </button>
-      </mat-dialog-actions>
+      <div class="flex justify-end">
+        <mat-dialog-actions class="flex justify-end space-x-4 mt-6  ">
+          <button mat-button (click)="onClose()" class="px-4 py-2 text-gray-600 bg-gray-200 hover:bg-gray-300 rounded-lg">
+            {{ 'PROFIL.LAKAS_MODAL.MEGSE' | translate }}
+          </button>
+          <button mat-raised-button color="primary"
+                  (click)="saveLakas()"
+                  [disabled]="lakasForm.invalid"
+                  class="px-5 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg">
+            {{ 'PROFIL.LAKAS_MODAL.MENT' | translate }}
+          </button>
+        </mat-dialog-actions>
+      </div>
     </div>
   </ng-template>
 

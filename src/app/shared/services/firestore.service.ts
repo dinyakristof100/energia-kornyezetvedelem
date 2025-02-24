@@ -79,6 +79,13 @@ export class FirestoreService {
   }
 
   /**
+   * Firestore egyedi dokumentum azonosító generálása.
+   */
+  createId(): string {
+    return this.firestore.createId();
+  }
+
+  /**
    * Lekéri a bejelentkezett felhasználó összes fogyasztási adatát.
    */
   getFogyasztasiAdatok(): Observable<any[]> {
