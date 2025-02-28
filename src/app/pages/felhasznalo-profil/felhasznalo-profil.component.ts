@@ -1,7 +1,6 @@
-import {ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import {AuthService} from "../../shared/services/auth.service";
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
@@ -36,7 +35,7 @@ export class FelhasznaloProfilComponent implements OnInit {
     private dialog: MatDialog,
     private cd: ChangeDetectorRef,
     private http: HttpClient,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {
     this.profilForm = this.fb.group({
       vezetekNev: ['', Validators.required],
@@ -47,6 +46,7 @@ export class FelhasznaloProfilComponent implements OnInit {
     });
 
     this.lakasForm = this.fb.group({
+      id: [null],
       lakasNev: ['', Validators.required],
       cim: this.fb.group({
         orszag: ['Magyarország', Validators.required],
@@ -61,7 +61,8 @@ export class FelhasznaloProfilComponent implements OnInit {
       lakasmeret: [null, [Validators.min(1)]],
       epitesMod: ['', Validators.required],
       futesTipus: ['', Validators.required],
-      szigeteles: [false]
+      szigeteles: [false],
+      userId: [null]
     });
   }
 
@@ -114,23 +115,30 @@ export class FelhasznaloProfilComponent implements OnInit {
    */
   openLakasModal(lakas?: Lakas): void {
     if (lakas) {
+      this.lakasForm.reset();
+
       this.lakasForm.patchValue({
-        lakasNev: lakas.lakasNev,
-        cim: {
-          orszag: lakas.cim?.orszag || 'Magyarország',
-          iranyitoszam: lakas.cim?.iranyitoszam || '',
-          telepules: lakas.cim?.telepules || '',
-          utca: lakas.cim?.utca || '',
-          hazszam: lakas.cim?.hazszam || '',
-          epulet: lakas.cim?.epulet || '',
-          emelet: lakas.cim?.emelet || '',
-          ajto: lakas.cim?.ajto || ''
-        },
-        lakasmeret: lakas.lakasmeret || null,
+        id: lakas.id || null,
+        userId: lakas.userId || null,
+        lakasNev: lakas.lakasNev || '',
+        lakasmeret: lakas.lakasmeret ?? null,
         epitesMod: lakas.epitesiMod || '',
         futesTipus: lakas.futesiMod || '',
-        szigeteles: lakas.szigeteles || false
+        szigeteles: !!lakas.szigeteles
       });
+
+      this.lakasForm.get('cim')?.patchValue({
+        orszag: lakas.cim?.orszag || 'Magyarország',
+        iranyitoszam: lakas.cim?.iranyitoszam || '',
+        telepules: lakas.cim?.telepules || '',
+        utca: lakas.cim?.utca || '',
+        hazszam: lakas.cim?.hazszam || '',
+        epulet: lakas.cim?.epulet || '',
+        emelet: lakas.cim?.emelet || '',
+        ajto: lakas.cim?.ajto || ''
+      });
+
+      this.cd.detectChanges();
     } else {
       this.lakasForm.reset({
         lakasNev: '',
@@ -151,11 +159,24 @@ export class FelhasznaloProfilComponent implements OnInit {
       });
     }
 
-    this.dialogRef = this.dialog.open(this.lakasDialog);
+    this.dialogRef = this.dialog.open(this.lakasDialog, {
+      width: '600px',
+      disableClose: false
+    });
+
+    console.log("LakasForm aktuális érték:", this.lakasForm.value);
+
   }
 
   /**
-   * A felhasználó által bevitt lakásadatokat elmenti Firestore-ba.
+   * Bezárja a lakás hozzáadása / szerkesztése modált.
+   */
+  closeLakasModal(): void {
+    this.dialogRef.close();
+  }
+
+  /**
+   * Ellenőrzi, hogy a lakás már létezik-e, majd elmenti.
    */
   saveLakas(): void {
     if (this.lakasForm.valid && this.userId) {
@@ -180,6 +201,18 @@ export class FelhasznaloProfilComponent implements OnInit {
         szigeteles: this.lakasForm.value.szigeteles,
         userId: this.userId
       };
+
+      const duplicateLakas = this.lakasok.some(lakas =>
+        lakas.lakasNev.toLowerCase() === lakasAdatok.lakasNev.toLowerCase()
+      );
+
+      if (duplicateLakas) {
+        this.snackBar.open('Már létezik egy lakás ezzel a névvel!', 'Bezárás', {
+          duration: 3000,
+          panelClass: ['bg-red-500', 'text-white', 'text-center']
+        });
+        return;
+      }
 
       this.firestoreService.createDocument<Lakas>('Lakasok', lakasAdatok)
         .then(() => {

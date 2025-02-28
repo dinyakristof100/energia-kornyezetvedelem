@@ -53,6 +53,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FelhasznaloProfilComponent } from './pages/felhasznalo-profil/felhasznalo-profil.component';
 import {MatOption, MatSelect} from "@angular/material/select";
 import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
+import {MatTable} from "@angular/material/table";
 
 // Elemek regisztrálása
 Chart.register(
@@ -79,38 +80,39 @@ Chart.register(
     RegisterComponent,
     FelhasznaloProfilComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatMenuModule,
-    MatGridListModule,
-    MatInputModule,
-    MatCheckboxModule,
-    ReactiveFormsModule,
-    BaseChartDirective,
-    MatFormFieldModule,
-    MatInputModule,
-    HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      },
-      defaultLanguage: 'hu'
-    }),
-    MatSelect,
-    MatOption,
-    MatDialogActions,
-    MatDialogContent
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatMenuModule,
+        MatGridListModule,
+        MatInputModule,
+        MatCheckboxModule,
+        ReactiveFormsModule,
+        BaseChartDirective,
+        MatFormFieldModule,
+        MatInputModule,
+        HttpClientModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        TranslateModule.forRoot({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            },
+            defaultLanguage: 'hu'
+        }),
+        MatSelect,
+        MatOption,
+        MatDialogActions,
+        MatDialogContent,
+        MatTable
+    ],
   providers: [
     provideAnimationsAsync(),
     // provideFirebaseApp(() => initializeApp({

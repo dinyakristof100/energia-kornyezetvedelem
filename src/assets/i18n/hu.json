@@ -102,7 +102,11 @@
       "TITLE": "Új lakás hozzáadása",
       "MENT": "Mentés",
       "MEGSE": "Mégse"
-    }
+    },
+    "DUPLICATE_LAKAS": "Már létezik egy lakás ezzel a névvel vagy címmel!",
+    "LAKASOK_LISTA": "Lakásaid",
+    "LAKAS_LISTA": "Lakáslista megtekintése",
+    "NINCS_LAKAS": "Még nincs hozzáadott lakás."
   },
   "CIM": {
     "LAKAS_NEV": "Lakás neve",

@@ -103,7 +103,11 @@
       "TITLE": "Add New Apartment",
       "MENT": "Save",
       "MEGSE": "Cancel"
-    }
+    },
+    "DUPLICATE_LAKAS": "A home with this name or address already exists!",
+    "LAKASOK_LISTA": "Your Homes",
+    "LAKAS_LISTA": "Show Home List",
+    "NINCS_LAKAS": "No homes added yet."
   },
   "CIM": {
     "LAKAS_NEV": "Apartment Name",

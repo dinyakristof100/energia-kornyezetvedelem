@@ -1,6 +1,6 @@
 <div class="profil-container">
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-  <mat-card class="profil-card">
+  <mat-card class="profil-card  p-6 shadow-lg rounded-2xl">
     <mat-card-header>
       <mat-card-title>{{ 'PROFIL.TITLE' | translate }}</mat-card-title>
     </mat-card-header>
@@ -24,12 +24,35 @@
           {{ 'PROFIL.SUBMIT' | translate }}
         </button>
       </form>
+    </mat-card-content>
+  </mat-card>
 
-
+  <mat-card class="p-6 shadow-lg rounded-2xl">
+    <mat-card-header>
+      <mat-card-title class="text-lg font-semibold">{{ 'PROFIL.LAKASOK_LISTA' | translate }}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <table class="w-full border-collapse">
+        <thead>
+        <tr class="bg-gray-300 text-gray-700">
+          <th class="py-2 px-4 text-left">{{ 'CIM.LAKAS_NEV' | translate }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let lakas of lakasok" class="border-b cursor-pointer hover:bg-gray-200 transition"
+            (click)="openLakasModal(lakas)">
+          <td class="py-2 px-4">{{ lakas.lakasNev }}</td>
+        </tr>
+        <tr *ngIf="lakasok.length === 0">
+          <td class="py-4 text-center text-gray-500">{{ 'PROFIL.NINCS_LAKAS' | translate }}</td>
+        </tr>
+        </tbody>
+      </table>
     </mat-card-content>
   </mat-card>
 
   </div>
+
 
 
   <!-- Modal -->
