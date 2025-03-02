@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     let password = this.loginForm?.get('password')?.value.toString() || '';
 
     this.authService.login(email,password).then(cred =>{
-      console.log(cred);
+      // console.log(cred);
       this.router.navigateByUrl('/main');
       this.loading = false;
     }).catch(error =>{

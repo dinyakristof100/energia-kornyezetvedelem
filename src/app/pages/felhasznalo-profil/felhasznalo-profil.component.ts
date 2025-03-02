@@ -7,6 +7,8 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {Lakas} from "../../shared/model/models";
 import {HttpClient} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {LakasModalComponent} from "../../shared/modals/lakas-modal/lakas-modal.component";
+import {LakasService} from "../../shared/services/lakas.service";
 
 @Component({
   selector: 'app-felhasznalo-profil',
@@ -36,6 +38,7 @@ export class FelhasznaloProfilComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private http: HttpClient,
     private snackBar: MatSnackBar,
+    private lakasService: LakasService
   ) {
     this.profilForm = this.fb.group({
       vezetekNev: ['', Validators.required],
@@ -82,6 +85,7 @@ export class FelhasznaloProfilComponent implements OnInit {
         this.userId = user.uid;
         this.loadUserData();
         this.loadLakasok();
+
       }
     });
   }
@@ -110,63 +114,32 @@ export class FelhasznaloProfilComponent implements OnInit {
     });
   }
 
+
+
   /**
    * Megnyitja a lakás hozzáadása modalt.
    */
+// felhasznalo-profil.component.ts
   openLakasModal(lakas?: Lakas): void {
-    if (lakas) {
-      this.lakasForm.reset();
+    this.lakasService.setLakas(lakas || null);
 
-      this.lakasForm.patchValue({
-        id: lakas.id || null,
-        userId: lakas.userId || null,
-        lakasNev: lakas.lakasNev || '',
-        lakasmeret: lakas.lakasmeret ?? null,
-        epitesMod: lakas.epitesiMod || '',
-        futesTipus: lakas.futesiMod || '',
-        szigeteles: !!lakas.szigeteles
-      });
-
-      this.lakasForm.get('cim')?.patchValue({
-        orszag: lakas.cim?.orszag || 'Magyarország',
-        iranyitoszam: lakas.cim?.iranyitoszam || '',
-        telepules: lakas.cim?.telepules || '',
-        utca: lakas.cim?.utca || '',
-        hazszam: lakas.cim?.hazszam || '',
-        epulet: lakas.cim?.epulet || '',
-        emelet: lakas.cim?.emelet || '',
-        ajto: lakas.cim?.ajto || ''
-      });
-
-      this.cd.detectChanges();
-    } else {
-      this.lakasForm.reset({
-        lakasNev: '',
-        cim: {
-          orszag: 'Magyarország',
-          iranyitoszam: '',
-          telepules: '',
-          utca: '',
-          hazszam: '',
-          epulet: '',
-          emelet: '',
-          ajto: ''
-        },
-        lakasmeret: null,
-        epitesMod: '',
-        futesTipus: '',
-        szigeteles: false
-      });
-    }
-
-    this.dialogRef = this.dialog.open(this.lakasDialog, {
+    this.dialogRef = this.dialog.open(LakasModalComponent, {
       width: '600px',
-      disableClose: false
+      data: { lakas }
     });
 
-    console.log("LakasForm aktuális érték:", this.lakasForm.value);
+    this.dialogRef.afterOpened().subscribe(() => {
+      this.cd.detectChanges(); // Kézzel detektáljuk a változást, hogy a HTML frissüljön
+    });
 
+    this.dialogRef.afterClosed().subscribe(() => {
+      this.loadLakasok(); // Frissítjük a lakások listáját bezárás után
+      this.cd.detectChanges();
+    });
   }
+
+
+
 
   /**
    * Bezárja a lakás hozzáadása / szerkesztése modált.
@@ -178,56 +151,74 @@ export class FelhasznaloProfilComponent implements OnInit {
   /**
    * Ellenőrzi, hogy a lakás már létezik-e, majd elmenti.
    */
-  saveLakas(): void {
+  saveLakas(lakasData?: Lakas): void {
     if (this.lakasForm.valid && this.userId) {
       const lakasId = this.firestoreService.createId();
 
-      const lakasAdatok: Lakas = {
-        id: lakasId,
-        lakasNev: this.lakasForm.value.lakasNev,
-        cim: {
-          orszag: this.lakasForm.value.cim.orszag,
-          iranyitoszam: this.lakasForm.value.cim.iranyitoszam,
-          telepules: this.lakasForm.value.cim.telepules,
-          utca: this.lakasForm.value.cim.utca,
-          hazszam: this.lakasForm.value.cim.hazszam,
-          epulet: this.lakasForm.value.cim.epulet,
-          emelet: this.lakasForm.value.cim.emelet,
-          ajto: this.lakasForm.value.cim.ajto
-        },
-        lakasmeret: this.lakasForm.value.lakasmeret,
-        epitesiMod: this.lakasForm.value.epitesMod,
-        futesiMod: this.lakasForm.value.futesTipus,
-        szigeteles: this.lakasForm.value.szigeteles,
-        userId: this.userId
-      };
+      if(!lakasData){
+        const lakasAdatok: Lakas = {
+          id: lakasId,
+          lakasNev: this.lakasForm.value.lakasNev,
+          cim: {
+            orszag: this.lakasForm.value.cim.orszag,
+            iranyitoszam: this.lakasForm.value.cim.iranyitoszam,
+            telepules: this.lakasForm.value.cim.telepules,
+            utca: this.lakasForm.value.cim.utca,
+            hazszam: this.lakasForm.value.cim.hazszam,
+            epulet: this.lakasForm.value.cim.epulet,
+            emelet: this.lakasForm.value.cim.emelet,
+            ajto: this.lakasForm.value.cim.ajto
+          },
+          lakasmeret: this.lakasForm.value.lakasmeret,
+          epitesiMod: this.lakasForm.value.epitesMod,
+          futesiMod: this.lakasForm.value.futesTipus,
+          szigeteles: this.lakasForm.value.szigeteles,
+          userId: this.userId
+        };
 
-      const duplicateLakas = this.lakasok.some(lakas =>
-        lakas.lakasNev.toLowerCase() === lakasAdatok.lakasNev.toLowerCase()
-      );
+        const duplicateLakas = this.lakasok.some(lakas =>
+          lakas.lakasNev.toLowerCase() === lakasAdatok.lakasNev.toLowerCase()
+        );
 
-      if (duplicateLakas) {
-        this.snackBar.open('Már létezik egy lakás ezzel a névvel!', 'Bezárás', {
-          duration: 3000,
-          panelClass: ['bg-red-500', 'text-white', 'text-center']
-        });
-        return;
-      }
-
-      this.firestoreService.createDocument<Lakas>('Lakasok', lakasAdatok)
-        .then(() => {
-          console.log("Mentett lakás:", lakasAdatok);
-          this.loadLakasok();
-
-          this.snackBar.open('Hibás e-mail vagy jelszó!', 'Bezárás', {
+        if (duplicateLakas) {
+          this.snackBar.open('Már létezik egy lakás ezzel a névvel!', 'Bezárás', {
             duration: 3000,
-            panelClass: ['bg-red-500', 'text-white', 'text-center'],
-            verticalPosition: "top"
+            panelClass: ['bg-red-500', 'text-white', 'text-center']
           });
+          return;
+        }
 
-          this.dialogRef.close();
-        })
-        .catch(error => console.error('Hiba lakás mentésekor:', error));
+        this.firestoreService.createDocument<Lakas>('Lakasok', lakasAdatok)
+          .then(() => {
+            console.log("Mentett lakás:", lakasAdatok);
+            this.loadLakasok();
+
+            this.snackBar.open('Hibás e-mail vagy jelszó!', 'Bezárás', {
+              duration: 3000,
+              panelClass: ['bg-red-500', 'text-white', 'text-center'],
+              verticalPosition: "top"
+            });
+
+            this.dialogRef.close();
+          })
+          .catch(error => console.error('Hiba lakás mentésekor:', error));
+      }else{
+        const exists = this.lakasok.some(lakas =>
+          lakas.lakasNev.toLowerCase() === lakasData.lakasNev.toLowerCase()
+        );
+
+        if (exists) {
+          this.snackBar.open('Már létezik ilyen nevű lakás!', 'Bezárás', {
+            duration: 3000,
+            panelClass: ['bg-red-500', 'text-white', 'text-center']
+          });
+          return;
+        }
+
+        this.firestoreService.createDocument<Lakas>('Lakasok', lakasData)
+          .then(() => this.loadLakasok())
+          .catch(error => console.error('Hiba lakás mentésekor:', error));
+      }
     } else {
       console.error('A lakás mentése sikertelen: hiányzó adatok vagy felhasználó ID.');
     }
@@ -337,4 +328,5 @@ export class FelhasznaloProfilComponent implements OnInit {
       }
     });
   }
+
 }

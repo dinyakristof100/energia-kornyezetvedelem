@@ -52,8 +52,9 @@ import {environment} from "../environments/environment";
 import { RegisterComponent } from './pages/register/register.component';
 import { FelhasznaloProfilComponent } from './pages/felhasznalo-profil/felhasznalo-profil.component';
 import {MatOption, MatSelect} from "@angular/material/select";
-import {MatDialogActions, MatDialogContent} from "@angular/material/dialog";
+import {MatDialogActions, MatDialogContent, MatDialogModule} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
+import { LakasModalComponent } from './shared/modals/lakas-modal/lakas-modal.component';
 
 // Elemek regisztrálása
 Chart.register(
@@ -78,7 +79,8 @@ Chart.register(
     MenuComponent,
     LoginComponent,
     RegisterComponent,
-    FelhasznaloProfilComponent
+    FelhasznaloProfilComponent,
+    LakasModalComponent
   ],
     imports: [
         BrowserModule,
@@ -97,6 +99,7 @@ Chart.register(
         BaseChartDirective,
         MatFormFieldModule,
         MatInputModule,
+        MatDialogModule,
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase),
         TranslateModule.forRoot({
@@ -128,7 +131,7 @@ Chart.register(
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(private translate: TranslateService) {
