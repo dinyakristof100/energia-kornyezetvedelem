@@ -9,6 +9,7 @@ import {HttpClient} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {LakasModalComponent} from "../../shared/modals/lakas-modal/lakas-modal.component";
 import {LakasService} from "../../shared/services/lakas.service";
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-felhasznalo-profil',
@@ -38,7 +39,8 @@ export class FelhasznaloProfilComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private http: HttpClient,
     private snackBar: MatSnackBar,
-    private lakasService: LakasService
+    private lakasService: LakasService,
+    private modalService: NgbModal
   ) {
     this.profilForm = this.fb.group({
       vezetekNev: ['', Validators.required],
@@ -114,6 +116,10 @@ export class FelhasznaloProfilComponent implements OnInit {
     });
   }
 
+  openTestModal(): void {
+    this.modalService.open('<h1>Ez egy teszt modal!</h1>', { centered: true });
+  }
+
 
 
   /**
@@ -121,25 +127,32 @@ export class FelhasznaloProfilComponent implements OnInit {
    */
 // felhasznalo-profil.component.ts
   openLakasModal(lakas?: Lakas): void {
+    console.log("openLakasModal called")
     this.lakasService.setLakas(lakas || null);
 
-    this.dialogRef = this.dialog.open(LakasModalComponent, {
-      width: '600px',
-      data: { lakas }
-    });
+    setTimeout(() => {
+      const modalRef = this.modalService.open(LakasModalComponent, {
+        centered: true,
+        backdrop: 'static',
+        size: 'lg',
+        animation: false
+      });
 
-    this.dialogRef.afterOpened().subscribe(() => {
-      this.cd.detectChanges(); // Kézzel detektáljuk a változást, hogy a HTML frissüljön
-    });
+      modalRef.componentInstance.lakas = lakas ? lakas : null;
 
-    this.dialogRef.afterClosed().subscribe(() => {
-      this.loadLakasok(); // Frissítjük a lakások listáját bezárás után
-      this.cd.detectChanges();
-    });
+      modalRef.result.then(
+        (result) => {
+          console.log("Modal result:", result);
+          this.loadLakasok();
+        },
+        (error) => {
+          console.error("Modal dismissed with error:", error);
+        }
+      );
+    }, 100)
+
+    console.log("openLakasModal lefutt");
   }
-
-
-
 
   /**
    * Bezárja a lakás hozzáadása / szerkesztése modált.

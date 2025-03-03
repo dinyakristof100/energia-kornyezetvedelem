@@ -1,11 +1,11 @@
 import {ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import {Lakas} from "../../model/models";
 import { FirestoreService } from "../../services/firestore.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
 import {LakasService} from "../../services/lakas.service";
+import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-lakas-modal',
@@ -25,8 +25,8 @@ export class LakasModalComponent implements OnInit {
     private snackBar: MatSnackBar,
     private translate: TranslateService,
     private cd: ChangeDetectorRef,
-    public dialogRef: MatDialogRef<LakasModalComponent>,
-    private lakasService: LakasService
+    private lakasService: LakasService,
+    public activeModal: NgbActiveModal
   ) {
     this.lakasForm = this.fb.group({
       id: [null],
@@ -125,12 +125,12 @@ export class LakasModalComponent implements OnInit {
           .catch(error => console.error('Hiba lakás mentésekor:', error));
 
 
-      this.dialogRef.close(lakasData);
+      this.activeModal.close(lakasData);
     }
   }
 
   onCancel(): void {
-    this.dialogRef.close(null);
+    this.activeModal.close(null);
   }
 
   private showSnackBar(message: string): void {

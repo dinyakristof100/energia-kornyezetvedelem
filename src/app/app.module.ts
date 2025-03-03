@@ -55,6 +55,7 @@ import {MatOption, MatSelect} from "@angular/material/select";
 import {MatDialogActions, MatDialogContent, MatDialogModule} from "@angular/material/dialog";
 import {MatTable} from "@angular/material/table";
 import { LakasModalComponent } from './shared/modals/lakas-modal/lakas-modal.component';
+import {NgbModalModule, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 // Elemek regisztrálása
 Chart.register(
@@ -80,7 +81,7 @@ Chart.register(
     LoginComponent,
     RegisterComponent,
     FelhasznaloProfilComponent,
-    LakasModalComponent
+    LakasModalComponent,
   ],
     imports: [
         BrowserModule,
@@ -100,6 +101,8 @@ Chart.register(
         MatFormFieldModule,
         MatInputModule,
         MatDialogModule,
+        NgbModule,
+        NgbModalModule,
         HttpClientModule,
         AngularFireModule.initializeApp(environment.firebase),
         TranslateModule.forRoot({
@@ -131,7 +134,7 @@ Chart.register(
     provideFirestore(() => getFirestore()),
     provideStorage(() => getStorage())
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
   constructor(private translate: TranslateService) {
