@@ -11,6 +11,10 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   padding: 20px;
   animation: fadeIn 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh; /* A modal maximális magassága */
+  overflow: hidden; /* Fontos a görgetés működéséhez */
 }
 
 .modal-header {
@@ -22,10 +26,14 @@
 }
 
 .modal-body {
+  flex-grow: 1;
   padding: 15px 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
+  overflow-y: auto; /* Görgethetővé teszi a modal törzsét */
+  max-height: 60vh; /* Biztosítja, hogy ne lógjon ki az ablakból */
+  padding-right: 10px; /* Scrollbar miatt */
 }
 
 .modal-footer {

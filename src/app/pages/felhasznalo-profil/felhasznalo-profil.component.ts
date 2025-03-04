@@ -116,31 +116,27 @@ export class FelhasznaloProfilComponent implements OnInit {
     });
   }
 
-  openTestModal(): void {
-    this.modalService.open('<h1>Ez egy teszt modal!</h1>', { centered: true });
-  }
-
-
 
   /**
    * Megnyitja a lakás hozzáadása modalt.
    */
 // felhasznalo-profil.component.ts
   openLakasModal(lakas?: Lakas): void {
-    console.log("openLakasModal called")
-    this.lakasService.setLakas(lakas || null);
+    console.log("lakas adatai:",lakas)
 
-    setTimeout(() => {
       const modalRef = this.modalService.open(LakasModalComponent, {
         centered: true,
         backdrop: 'static',
         size: 'lg',
-        animation: false
+        animation: false,
+        keyboard: false,
+        beforeDismiss: () => false
       });
 
-      modalRef.componentInstance.lakas = lakas ? lakas : null;
+    modalRef.componentInstance.beforeOpen(lakas);
 
-      modalRef.result.then(
+
+    modalRef.result.then(
         (result) => {
           console.log("Modal result:", result);
           this.loadLakasok();
@@ -149,9 +145,7 @@ export class FelhasznaloProfilComponent implements OnInit {
           console.error("Modal dismissed with error:", error);
         }
       );
-    }, 100)
 
-    console.log("openLakasModal lefutt");
   }
 
   /**
@@ -183,8 +177,8 @@ export class FelhasznaloProfilComponent implements OnInit {
             ajto: this.lakasForm.value.cim.ajto
           },
           lakasmeret: this.lakasForm.value.lakasmeret,
-          epitesiMod: this.lakasForm.value.epitesMod,
-          futesiMod: this.lakasForm.value.futesTipus,
+          epitesMod: this.lakasForm.value.epitesMod,
+          futesTipus: this.lakasForm.value.futesTipus,
           szigeteles: this.lakasForm.value.szigeteles,
           userId: this.userId
         };

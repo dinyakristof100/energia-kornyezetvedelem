@@ -50,8 +50,8 @@ export interface Lakas{
   cim: Cim;
   lakasmeret?: number; //m^2
   szigeteles?: boolean;
-  epitesiMod: string;
-  futesiMod: string;
+  epitesMod: string;
+  futesTipus: string;
   userId: string;
 }
 
