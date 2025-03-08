@@ -12,7 +12,7 @@
   "dependencies": {
     "@angular/animations": "^17.3.12",
     "@angular/cdk": "^17.3.10",
-    "@angular/common": "^17.2.0",
+    "@angular/common": "^17.3.12",
     "@angular/compiler": "^17.2.0",
     "@angular/core": "^17.2.0",
     "@angular/fire": "^17.1.0",
@@ -21,16 +21,18 @@
     "@angular/platform-browser": "^17.2.0",
     "@angular/platform-browser-dynamic": "^17.2.0",
     "@angular/router": "^17.2.0",
+    "@genkit-ai/googleai": "^1.1.0",
     "@ng-bootstrap/ng-bootstrap": "^16.0.0",
     "@ngx-translate/core": "^16.0.3",
     "@ngx-translate/http-loader": "^16.0.0",
+    "bootstrap": "^5.3.0",
     "chart.js": "^4.4.6",
     "flag-icons": "^7.2.3",
+    "genkit": "^1.1.0",
     "ng2-charts": "^6.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.14.3",
-    "bootstrap": "^5.3.0"
+    "zone.js": "~0.14.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^17.2.0",
