@@ -1,12 +1,11 @@
-import {ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Lakas} from "../../model/models";
-import { FirestoreService } from "../../services/firestore.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import {FirestoreService} from "../../services/firestore.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
 import {LakasService} from "../../services/lakas.service";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import { Input } from "@angular/core";
 
 @Component({
   selector: 'app-lakas-modal',
@@ -17,8 +16,16 @@ export class LakasModalComponent implements OnInit, OnChanges{
   @Input() lakas?: Lakas;
 
   lakasForm: FormGroup;
-  futesTipusok: string[] = [];
-  epitesiModok: string[] = [];
+
+  futesTipusok: string[] = [
+    'PANEL', 'FA', 'KONNYUSZERKEZET',
+    'VALYOG', 'BETON', 'KONTAINER', 'KO'
+  ];
+  epitesiModok: string[] = [
+    'TEGLA','KONVEKTOR', 'GAZKAZAN', 'HAGYOMANYOS_KAZAN',
+    'VILLANYKAZAN', 'TAVFUTES', 'PADLOFUTES', 'ELEKTROMOS_FUTES'
+  ];
+
 
 
   constructor(
@@ -50,25 +57,17 @@ export class LakasModalComponent implements OnInit, OnChanges{
       userId: [null]
     });
 
-    console.log("constructor lefutott")
   }
 
   ngOnInit() {
-    console.log("ngOnInit called");
-
-    console.log("this.lakas:",this.lakas);
     if(this.lakas){
       this.lakasForm.patchValue(this.lakas);
       this.cd.detectChanges();
     }
-
-    this.updateFutesTipusok();
-    this.updateEpitesiModok();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['lakas'] && changes['lakas'].currentValue) {
-      console.log("ngOnChanges lefutott, this.lakas:", this.lakas);
       if(this.lakas){
         this.lakasForm.patchValue(this.lakas);
       }
@@ -76,85 +75,19 @@ export class LakasModalComponent implements OnInit, OnChanges{
     }
   }
 
-  async beforeOpen(lakas?: Lakas){
+  async beforeOpen(lakas?: Lakas) {
     if (lakas) {
-      console.log("beforeOpen metódus fut, kapott lakas:", lakas);
-      this.lakas = lakas;
-    }
+      this.lakas = { ...lakas };
 
-    await this.updateEpitesiModok();
-    await this.updateFutesTipusok();
-
-    setTimeout(() => {
-      if (this.lakas) {
-        this.lakasForm.patchValue({
-          id: this.lakas.id,
-          lakasNev: this.lakas.lakasNev,
-          lakasmeret: this.lakas.lakasmeret,
-          epitesMod: this.lakas.epitesMod ,
-          futesTipus: this.lakas.futesTipus,
-          szigeteles: this.lakas.szigeteles,
-          cim: {
-            orszag: this.lakas.cim.orszag,
-            iranyitoszam: this.lakas.cim.iranyitoszam,
-            telepules: this.lakas.cim.telepules,
-            utca: this.lakas.cim.utca,
-            hazszam: this.lakas.cim.hazszam,
-            epulet: this.lakas.cim.epulet,
-            emelet: this.lakas.cim.emelet,
-            ajto: this.lakas.cim.ajto
-          },
-          userId: this.lakas.userId
-        });
+      setTimeout(() => {
+        this.lakasForm.patchValue(this.lakas!);
         this.cd.detectChanges();
-      }
-    }, 100);
-  }
-
-  /**
-  * Frissíti a fűtési típusokat a nyelv alapján.
-*/
-  async updateFutesTipusok(): Promise<void> {
-    const futesMapping: { [key: string]: string } = {
-      "Convector": this.translate.instant('PROFIL.FUTES.KONVEKTOR'),
-      "Gas Boiler": this.translate.instant('PROFIL.FUTES.GAZKAZAN'),
-      "Traditional Boiler": this.translate.instant('PROFIL.FUTES.HAGYOMANYOS_KAZAN'),
-      "Electric Boiler": this.translate.instant('PROFIL.FUTES.VILLANYKAZAN'),
-      "District Heating": this.translate.instant('PROFIL.FUTES.TAVFUTES'),
-      "Underfloor Heating": this.translate.instant('PROFIL.FUTES.PADLOFUTES'),
-      "Electric Heating": this.translate.instant('PROFIL.FUTES.ELEKTROMOS_FUTES')
-    };
-
-    this.futesTipusok = Object.values(futesMapping);
-
-    const currentValue = this.lakasForm.get('futesTipus')?.value;
-    if (currentValue && futesMapping[currentValue]) {
-      this.lakasForm.patchValue({ futesTipus: futesMapping[currentValue] });
+      }, 100);
     }
   }
 
-  /**
-   * Frissíti az építési módokat a nyelv alapján.
-   */
-  async updateEpitesiModok(): Promise<void> {
-    const epitesiMapping: { [key: string]: string } = {
-      "Brick": this.translate.instant('CIM.EPITES_MOD.TEGLA'),
-      "Panel": this.translate.instant('CIM.EPITES_MOD.PANEL'),
-      "Wooden": this.translate.instant('CIM.EPITES_MOD.FA'),
-      "Lightweight": this.translate.instant('CIM.EPITES_MOD.KONNYUSZERKEZET'),
-      "Adobe": this.translate.instant('CIM.EPITES_MOD.VALYOG'),
-      "Concrete": this.translate.instant('CIM.EPITES_MOD.BETON'),
-      "Container": this.translate.instant('CIM.EPITES_MOD.KONTAINER'),
-      "Stone": this.translate.instant('CIM.EPITES_MOD.KO')
-    };
 
-    this.epitesiModok = Object.values(epitesiMapping);
 
-    const currentValue = this.lakasForm.get('epitesMod')?.value;
-    if (currentValue && epitesiMapping[currentValue]) {
-      this.lakasForm.patchValue({ epitesMod: epitesiMapping[currentValue] });
-    }
-  }
 
   onSave(): void {
     if (this.lakasForm.valid) {
