@@ -56,49 +56,29 @@ export class FogyasztasRogzitComponent implements OnInit {
    **/
   private initFormGroup(): void {
     this.fogyasztasForm = this.fb.group({
-      cim: this.fb.group({
-        sajatLakas: [false],
-        valasztottLakas: [{ value: '', disabled: true }],
-        orszag: ['Magyarország', Validators.required],
-        iranyitoszam: ['', Validators.required],
-        telepules: ['', Validators.required],
-        utca: ['', Validators.required],
-        hazszam: ['', Validators.required],
-        epulet: [''],
-        emelet: [''],
-        ajto: ['']
-      }),
-      datum: [new Date(), Validators.required],
-      feltoltesDatum: [new Date(), Validators.required],
-      userId: ['', Validators.required],
+      lakasId: [''],
+      datum: [new Date().toISOString(), Validators.required],
+      feltoltes_datum: [new Date().toISOString(), Validators.required],
+      user_id: ['', Validators.required],
 
-      viz: this.fb.group({
-        hidegViz: [0, [Validators.required, Validators.min(0)]],
-        melegViz: [0, [Validators.required, Validators.min(0)]],
-        bojlerTipus: ['', Validators.required]
-      }),
-
-      gaz: this.fb.group({
-        osszfogyasztas: [0, [Validators.required, Validators.min(0)]]
-      }),
-
-      villany: this.fb.group({
-        osszfogyasztas: [0, [Validators.required, Validators.min(0)]],
-        aramkimaradas: [false],
-        kimaradasIdotartam: [{ value: null, disabled: true }, [Validators.min(0)]]
-      }),
+      viz: [0, [Validators.required, Validators.min(0)]],
+      gaz: [0, [Validators.required, Validators.min(0)]],
+      villany: [0, [Validators.required, Validators.min(0)]],
+      meleg_viz: [0, [Validators.required, Validators.min(0)]],
 
       megjegyzesek: ['']
     });
 
     this.fogyasztasForm.get('cim.sajatLakas')?.valueChanges.subscribe(value => {
       const valasztottLakasControl = this.fogyasztasForm.get('cim.valasztottLakas');
+      const lakasIdControl = this.fogyasztasForm.get('lakasId');
 
       if (value) {
         valasztottLakasControl?.enable();
       } else {
         valasztottLakasControl?.disable();
         valasztottLakasControl?.setValue('');
+        lakasIdControl?.setValue('');
       }
     });
 

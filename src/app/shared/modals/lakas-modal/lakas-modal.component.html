@@ -70,8 +70,8 @@
         <div class="form-group">
           <label for="epitesMod">{{ 'CIM.EPITES_MOD.TITLE' | translate }}</label>
           <select id="epitesMod" class="form-control" formControlName="epitesMod">
-            <option *ngFor="let epitesiMod of epitesiModok" [value]="epitesiMod">
-              {{ ('CIM.EPITES_MOD.' + epitesiMod) | translate }}
+            <option *ngFor="let epitesiMod of epitesiModok" [value]="epitesiMod.key">
+              {{ epitesiMod.label }}
             </option>
           </select>
         </div>
@@ -80,8 +80,8 @@
         <div class="form-group">
           <label for="futesTipus">{{ 'CIM.FUTES_TIPUS' | translate }}</label>
           <select id="futesTipus" class="form-control" formControlName="futesTipus">
-            <option *ngFor="let futesTipus of futesTipusok" [value]="futesTipus">
-              {{ ('PROFIL.FUTES.' + futesTipus) | translate }}
+            <option *ngFor="let futesTipus of futesTipusok" [value]="futesTipus.key">
+              {{ futesTipus.label }}
             </option>
           </select>
         </div>
