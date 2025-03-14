@@ -122,7 +122,6 @@ export class FelhasznaloProfilComponent implements OnInit {
    */
 // felhasznalo-profil.component.ts
   openLakasModal(lakas?: Lakas): void {
-    console.log("lakas adatai:",lakas)
 
       const modalRef = this.modalService.open(LakasModalComponent, {
         centered: true,
@@ -133,6 +132,7 @@ export class FelhasznaloProfilComponent implements OnInit {
         beforeDismiss: () => false
       });
 
+    modalRef.componentInstance.lakas = lakas;
     modalRef.componentInstance.beforeOpen(lakas);
 
 

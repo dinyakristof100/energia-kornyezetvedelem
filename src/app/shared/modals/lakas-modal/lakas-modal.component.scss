@@ -27,7 +27,7 @@
 
 .modal-body {
   flex-grow: 1;
-  padding: 15px 0;
+  padding: 15px 3px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -82,8 +82,13 @@
   color: white;
 }
 
-.btn-primary:hover {
+.btn-primary:hover, .btn-primary:invalid {
   background-color: #0056b3;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border: 1px solid red;
 }
 
 .btn-secondary {
@@ -106,3 +111,16 @@
     transform: translate(-50%, -50%);
   }
 }
+
+.close-btn {
+  border: none !important;
+  outline: none !important;
+
+  width:15px !important;
+  height:15px !important;
+
+  &:hover {
+    background: rgba(211, 211, 211, 0.3);
+  }
+}
+

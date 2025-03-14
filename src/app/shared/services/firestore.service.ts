@@ -70,6 +70,15 @@ export class FirestoreService {
           const newId = this.firestore.createId(); // Egyedi dokumentum ID generálása
           data.userId = user.uid; // Felhasználói azonosító hozzáadása
           data.feltoltesDatum = new Date(); // Feltöltés dátuma
+
+          const convertToFloat = (value: any) =>
+            typeof value === 'string' ? parseFloat(value.replace(',', '.')) : value;
+
+          data.viz = convertToFloat(data.viz);
+          data.meleg_viz = convertToFloat(data.meleg_viz);
+          data.gaz = convertToFloat(data.gaz);
+          data.villany = convertToFloat(data.villany);
+
           return this.firestore.collection(this.fogyasztasiCollection).doc(newId).set(data);
         } else {
           return of(null);

@@ -6,6 +6,8 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {TranslateService} from "@ngx-translate/core";
 import {LakasService} from "../../services/lakas.service";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {HttpClient} from "@angular/common/http";
+import {AngularFireAuth} from "@angular/fire/compat/auth";
 
 @Component({
   selector: 'app-lakas-modal',
@@ -15,15 +17,9 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 export class LakasModalComponent implements OnInit, OnChanges{
   @Input() lakas?: Lakas;
   lakasForm: FormGroup;
-
-  futesTipusokKeys: string[] = [
-    'PANEL', 'FA', 'KONNYUSZERKEZET',
-    'VALYOG', 'BETON', 'KONTAINER', 'KO'
-  ];
-  epitesiModokKeys: string[] = [
-    'TEGLA','KONVEKTOR', 'GAZKAZAN', 'HAGYOMANYOS_KAZAN',
-    'VILLANYKAZAN', 'TAVFUTES', 'PADLOFUTES', 'ELEKTROMOS_FUTES'
-  ];
+  iranyitoszamok: Record<string, string> = {};
+  userId: string | null = null;
+  loading = false;
 
   futesTipusok: { key: string, label: string }[] = [];
   epitesiModok: { key: string, label: string }[] = [];
@@ -34,8 +30,9 @@ export class LakasModalComponent implements OnInit, OnChanges{
     private snackBar: MatSnackBar,
     private translate: TranslateService,
     private cd: ChangeDetectorRef,
-    private lakasService: LakasService,
-    public activeModal: NgbActiveModal
+    private http: HttpClient,
+    public activeModal: NgbActiveModal,
+    private auth: AngularFireAuth
   ) {
     this.lakasForm = this.fb.group({
       id: [null],
@@ -60,10 +57,96 @@ export class LakasModalComponent implements OnInit, OnChanges{
 
   ngOnInit() {
     console.log("ngOnInit called");
+    this.loading = true;
+
     if(this.lakas){
       this.lakasForm.patchValue(this.lakas);
       this.cd.detectChanges();
     }
+
+    this.loadIranyitoszamok();
+    this.setupFormListeners();
+
+    const currentLang = this.translate.currentLang;
+
+    if (currentLang === 'hu') {
+      this.futesTipusok = [
+        { key: 'KONVEKTOR', label: 'Konvektor' },
+        { key: 'GAZKAZAN', label: 'Gázkazán' },
+        { key: 'HAGYOMANYOS_KAZAN', label: 'Hagyományos kazán' },
+        { key: 'VILLANYKAZAN', label: 'Villanykazán' },
+        { key: 'TAVFUTES', label: 'Távfűtés' },
+        { key: 'PADLOFUTES', label: 'Padlófűtés' },
+        { key: 'ELEKTROMOS_FUTES', label: 'Elektromos fűtés' }
+      ];
+    } else {
+      this.futesTipusok = [
+        { key: 'KONVEKTOR', label: 'Convector' },
+        { key: 'GAZKAZAN', label: 'Gas Boiler' },
+        { key: 'HAGYOMANYOS_KAZAN', label: 'Traditional Boiler' },
+        { key: 'VILLANYKAZAN', label: 'Electric Boiler' },
+        { key: 'TAVFUTES', label: 'District Heating' },
+        { key: 'PADLOFUTES', label: 'Underfloor Heating' },
+        { key: 'ELEKTROMOS_FUTES', label: 'Electric Heating' }
+      ];
+    }
+    if (currentLang === 'hu') {
+      this.epitesiModok = [
+        { key: 'TEGLA', label: 'Téglaépítésű' },
+        { key: 'PANEL', label: 'Panelépület' },
+        { key: 'FA', label: 'Fa szerkezetű' },
+        { key: 'KONNYUSZERKEZET', label: 'Könnyűszerkezetes' },
+        { key: 'VALYOG', label: 'Vályogház' },
+        { key: 'BETON', label: 'Beton szerkezetű' },
+        { key: 'KONTAINER', label: 'Konténerház' },
+        { key: 'KO', label: 'Kőház' }
+      ];
+    } else {
+      this.epitesiModok = [
+        { key: 'TEGLA', label: 'Brick' },
+        { key: 'PANEL', label: 'Panel' },
+        { key: 'FA', label: 'Wooden' },
+        { key: 'KONNYUSZERKEZET', label: 'Lightweight' },
+        { key: 'VALYOG', label: 'Adobe' },
+        { key: 'BETON', label: 'Concrete' },
+        { key: 'KONTAINER', label: 'Container' },
+        { key: 'KO', label: 'Stone' }
+      ];
+    }
+
+    if (this.lakas) {
+      this.lakas = { ...this.lakas };
+
+      setTimeout(() => {
+        this.lakasForm.patchValue({
+          id: this.lakas?.id,
+          lakasNev: this.lakas?.lakasNev,
+          lakasmeret: this.lakas?.lakasmeret,
+          epitesMod: this.lakas?.epitesMod,
+          futesTipus: this.lakas?.futesTipus,
+          szigeteles: this.lakas?.szigeteles,
+          cim: {
+            orszag: this.lakas?.cim.orszag,
+            iranyitoszam: this.lakas?.cim.iranyitoszam,
+            telepules: this.lakas?.cim.telepules,
+            utca: this.lakas?.cim.utca,
+            hazszam: this.lakas?.cim.hazszam,
+            epulet: this.lakas?.cim.epulet,
+            emelet: this.lakas?.cim.emelet,
+            ajto: this.lakas?.cim.ajto
+          },
+          userId: this.lakas?.userId
+        });
+
+        this.cd.detectChanges();
+      }, 100);
+    }
+
+    this.auth.authState.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+      }});
+    this.loading = false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -73,6 +156,30 @@ export class LakasModalComponent implements OnInit, OnChanges{
       }
       this.cd.detectChanges();
     }
+  }
+
+  private loadIranyitoszamok(): void {
+    this.http.get<Record<string, string>>('/assets/iranyitoszamok/iranyitoszamok.json')
+      .subscribe(data => {
+        this.iranyitoszamok = data;
+      });
+  }
+
+  private setupFormListeners(): void {
+    const cimGroup = this.lakasForm.get('cim');
+
+    cimGroup?.get('iranyitoszam')?.valueChanges.subscribe(value => {
+      if (this.iranyitoszamok[value]) {
+        cimGroup.get('telepules')?.setValue(this.iranyitoszamok[value], { emitEvent: false });
+      }
+    });
+
+    cimGroup?.get('telepules')?.valueChanges.subscribe(value => {
+      const foundEntry = Object.entries(this.iranyitoszamok).find(([, city]) => city.toLowerCase() === value.toLowerCase());
+      if (foundEntry) {
+        cimGroup.get('iranyitoszam')?.setValue(foundEntry[0], { emitEvent: false });
+      }
+    });
   }
 
   async beforeOpen(lakas?: Lakas) {
@@ -123,6 +230,11 @@ export class LakasModalComponent implements OnInit, OnChanges{
       ];
     }
 
+    this.auth.authState.subscribe(user => {
+      if (user) {
+        this.userId = user.uid;
+      }});
+
     if (lakas) {
       this.lakas = { ...lakas };
 
@@ -154,6 +266,8 @@ export class LakasModalComponent implements OnInit, OnChanges{
 
   onSave(): void {
     if (this.lakasForm.valid) {
+
+      this.lakasForm.patchValue({userId: this.userId});
       const lakasData: Lakas = this.lakasForm.value;
 
       if (lakasData.id) {
@@ -185,4 +299,5 @@ export class LakasModalComponent implements OnInit, OnChanges{
     });
   }
 
+  protected readonly HTMLInputElement = HTMLInputElement;
 }

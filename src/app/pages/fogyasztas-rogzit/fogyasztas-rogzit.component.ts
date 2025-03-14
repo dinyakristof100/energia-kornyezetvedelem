@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { AngularFireAuth } from "@angular/fire/compat/auth";
 import { FirestoreService } from "../../shared/services/firestore.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {FogyasztasiAdat, Lakas} from "../../shared/model/models";
 
 @Component({
   selector: 'app-fogyasztas-rogzit',
@@ -16,14 +17,15 @@ export class FogyasztasRogzitComponent implements OnInit {
   loading = true;
 
   bojlerTipusok: string[] = [];
-  lakasok: string[] = [];
+  lakasok: Lakas[] = [];
 
   constructor(
     private fb: FormBuilder,
     private firestoreService: FirestoreService,
     private translate: TranslateService,
     private auth: AngularFireAuth,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -34,18 +36,12 @@ export class FogyasztasRogzitComponent implements OnInit {
       'napkollektoros'
     ];
 
-    this.lakasok = [
-      'Lakás 1',
-      'Lakás 2',
-      'Lakás 3'
-    ];
-
-    this.initFormGroup();
-
     this.auth.authState.subscribe(user => {
       if (user) {
         this.userId = user.uid;
-        this.fogyasztasForm.patchValue({ userId: this.userId });
+        this.initFormGroup();
+        this.fogyasztasForm.patchValue({ user_id: this.userId });
+        this.loadLakasok();
       }
       this.loading = false;
     });
@@ -56,40 +52,15 @@ export class FogyasztasRogzitComponent implements OnInit {
    **/
   private initFormGroup(): void {
     this.fogyasztasForm = this.fb.group({
-      lakasId: [''],
       datum: [new Date().toISOString(), Validators.required],
       feltoltes_datum: [new Date().toISOString(), Validators.required],
       user_id: ['', Validators.required],
-
+      lakas_id: ['', Validators.required],
       viz: [0, [Validators.required, Validators.min(0)]],
       gaz: [0, [Validators.required, Validators.min(0)]],
       villany: [0, [Validators.required, Validators.min(0)]],
       meleg_viz: [0, [Validators.required, Validators.min(0)]],
-
-      megjegyzesek: ['']
-    });
-
-    this.fogyasztasForm.get('cim.sajatLakas')?.valueChanges.subscribe(value => {
-      const valasztottLakasControl = this.fogyasztasForm.get('cim.valasztottLakas');
-      const lakasIdControl = this.fogyasztasForm.get('lakasId');
-
-      if (value) {
-        valasztottLakasControl?.enable();
-      } else {
-        valasztottLakasControl?.disable();
-        valasztottLakasControl?.setValue('');
-        lakasIdControl?.setValue('');
-      }
-    });
-
-    this.fogyasztasForm.get('villany.aramkimaradas')?.valueChanges.subscribe(value => {
-      const kimaradasControl = this.fogyasztasForm.get('villany.kimaradasIdotartam');
-      if (value) {
-        kimaradasControl?.enable();
-      } else {
-        kimaradasControl?.disable();
-        kimaradasControl?.setValue(null);
-      }
+      megjegyzes: ['']
     });
   }
 
@@ -104,25 +75,55 @@ export class FogyasztasRogzitComponent implements OnInit {
     if (this.fogyasztasForm.valid) {
       this.loading = true;
 
-      this.firestoreService.saveFogyasztasiAdat(this.fogyasztasForm.value)
+      this.fogyasztasForm.patchValue({ user_id: this.userId });
+      const fogyasztasiAdat: FogyasztasiAdat = this.fogyasztasForm.value;
+
+      this.firestoreService.saveFogyasztasiAdat(fogyasztasiAdat)
         .then(() => {
-          alert('Fogyasztási adatok sikeresen mentve!');
+          this.snackBar.open('Fogyasztási adatok sikeresen mentve!', 'Bezárás', {
+            duration: 3000,
+            panelClass: ['bg-green-500', 'text-white'],
+            verticalPosition: 'top'
+          });
           this.fogyasztasForm.reset();
+          setTimeout(() => this.initFormGroup(), 0);
+          this.cd.detectChanges();
         })
         .catch(error => {
           console.error('Hiba mentéskor:', error);
-          alert('Hiba történt mentés közben!');
+          this.snackBar.open('Hiba történt mentés közben!', 'Bezárás', {
+            duration: 3000,
+            panelClass: ['bg-red-500', 'text-white'],
+            verticalPosition: 'top'
+          });
         })
         .finally(() => {
           this.loading = false;
         });
-
     } else {
-      this.snackBar.open('Kérlek minden adatot tölts ki!', 'Bezárás', {
+      const invalidControls = Object.keys(this.fogyasztasForm.controls)
+        .filter(key => this.fogyasztasForm.get(key)?.invalid)
+        .map(key => ({
+          field: key,
+          errors: this.fogyasztasForm.get(key)?.errors
+        }));
+
+      console.warn('A form érvénytelen! Hibás mezők:', invalidControls);
+
+      this.snackBar.open('Kérlek minden adatot tölts ki, és helyes adatokkal dolgozz!', 'Bezárás', {
         duration: 3000,
-        panelClass: ['bg-red-500', 'text-white', 'text-center'],
+        panelClass: ['bg-red-500', 'text-white'],
         verticalPosition: "top"
       });
     }
+  }
+
+  private loadLakasok(): void {
+    if (!this.userId) return;
+
+    this.firestoreService.getCollection<Lakas>('Lakasok').subscribe(lakasok => {
+      this.lakasok = lakasok.filter(lakas => lakas.userId === this.userId);
+      this.cd.detectChanges();
+    });
   }
 }

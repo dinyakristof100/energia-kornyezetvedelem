@@ -1,7 +1,7 @@
 export interface  FogyasztasiAdat {
    id?: string;
    datum: Date | string; //melyik időszak fogyasztása
-   feltoltes_datum: Date | string; //mikor töltötte fel a user az adatokat
+   feltoltes_datum: Date | string;
    user_id: string;
    lakas_id: string;
    viz: number; //m^3
