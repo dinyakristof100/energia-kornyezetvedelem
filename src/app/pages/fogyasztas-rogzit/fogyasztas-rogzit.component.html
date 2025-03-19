@@ -1,11 +1,11 @@
-<div class="min-h-screen flex justify-center items-center bg-gradient-to-r from-blue-500 to-blue-300 p-10">
-  <div class="max-w-7xl mx-auto p-6 rounded-xl shadow-lg bg-amber-200">
-    <form *ngIf="!loading" [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()" class="space-y-6">
+<div id="fogyasztasDiv" class="flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-300">
+  <div class="w-full max-w-5xl p-4 rounded-xl shadow-lg bg-amber-200">
+    <form [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()" class="space-y-6">
       <h2 class="text-2xl font-bold text-gray-800">{{ 'FOGYASZTAS_ADD' | translate }}</h2>
 
       <!-- Lakás kiválasztása -->
-      <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-        <h3 class="text-xl font-semibold text-gray-700">{{ 'VALASSZ_LAKAST' | translate }}</h3>
+      <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-700">{{ 'VALASSZ_LAKAST' | translate }}</h3>
         <mat-form-field class="w-full">
           <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
           <mat-select formControlName="lakas_id">
@@ -16,10 +16,23 @@
         </mat-form-field>
       </mat-card>
 
+      <!--Dátum kiválasztása-->
+      <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-700">{{ 'DATUM' | translate }}</h3>
+
+        <mat-form-field class="w-full">
+          <mat-label>{{ 'DATUM' | translate }}</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="datum" required>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+      </mat-card>
+
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Vízfogyasztás -->
-        <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-          <h3 class="text-xl font-semibold text-gray-700">{{ 'VIZ_ADATOK' | translate }}</h3>
+        <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+          <h3 class="text-lg font-semibold text-gray-700">{{ 'VIZ_ADATOK' | translate }}</h3>
           <mat-form-field class="w-full">
             <mat-label>{{ 'HIDEGVIZ' | translate }}</mat-label>
             <input matInput type="number" formControlName="viz" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
@@ -32,8 +45,8 @@
         </mat-card>
 
         <!-- Gázfogyasztás -->
-        <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-          <h3 class="text-xl font-semibold text-gray-700">{{ 'GAZ_ADATOK' | translate }}</h3>
+        <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+          <h3 class="text-lg font-semibold text-gray-700">{{ 'GAZ_ADATOK' | translate }}</h3>
           <mat-form-field class="w-full">
             <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
             <input matInput type="number" formControlName="gaz" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
@@ -41,8 +54,8 @@
         </mat-card>
 
         <!-- Villamosenergia -->
-        <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-          <h3 class="text-xl font-semibold text-gray-700">{{ 'VILLANY_ADATOK' | translate }}</h3>
+        <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+          <h3 class="text-lg font-semibold text-gray-700">{{ 'VILLANY_ADATOK' | translate }}</h3>
           <mat-form-field class="w-full">
             <mat-label>{{ 'OSSZFOGYASZTAS_VILLANY' | translate }}</mat-label>
             <input matInput type="number" formControlName="villany" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
@@ -51,8 +64,8 @@
       </div>
 
       <!-- Megjegyzés -->
-      <mat-card class="p-6 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-        <h3 class="text-xl font-semibold text-gray-700">{{ 'MEGJEGYZES' | translate }}</h3>
+      <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+        <h3 class="text-lg font-semibold text-gray-700">{{ 'MEGJEGYZES' | translate }}</h3>
         <mat-form-field class="w-full">
           <mat-label>{{ 'MEGJEGYZES_TEXT' | translate }}</mat-label>
           <textarea matInput formControlName="megjegyzes" class="border border-gray-300 rounded-lg px-3 py-2 w-full h-24"></textarea>

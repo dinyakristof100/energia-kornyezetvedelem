@@ -59,7 +59,8 @@
   },
   "CIM_SAJAT_LAKAS": "I choose my own apartment",
   "VALASSZ_LAKAST": "Select an apartment",
-  "LOGIN": {s
+  "VALASSZ_FOGYASZTASI_TIPUST": "Select Consumption Type",
+  "LOGIN": {
     "TITLE": "Login",
     "USERNAME": "Username",
     "EMAIL": "Email",

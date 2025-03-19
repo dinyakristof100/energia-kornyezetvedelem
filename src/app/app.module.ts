@@ -22,8 +22,12 @@ import {TranslateLoader, TranslateModule, TranslateService} from '@ngx-translate
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Chart } from 'chart.js';
+import { NgApexchartsModule } from "ng-apexcharts";
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { MatNativeDateModule, MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -56,6 +60,7 @@ import {MatDialogActions, MatDialogContent, MatDialogModule} from "@angular/mate
 import {MatTable} from "@angular/material/table";
 import { LakasModalComponent } from './shared/modals/lakas-modal/lakas-modal.component';
 import {NgbModalModule, NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 
 // Elemek regisztrálása
 Chart.register(
@@ -83,42 +88,49 @@ Chart.register(
     FelhasznaloProfilComponent,
     LakasModalComponent,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        HttpClientModule,
-        MatToolbarModule,
-        MatButtonModule,
-        MatIconModule,
-        MatCardModule,
-        MatMenuModule,
-        MatGridListModule,
-        MatInputModule,
-        MatCheckboxModule,
-        ReactiveFormsModule,
-        BaseChartDirective,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDialogModule,
-        NgbModule,
-        NgbModalModule,
-        HttpClientModule,
-        AngularFireModule.initializeApp(environment.firebase),
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            },
-            defaultLanguage: 'hu'
-        }),
-        MatSelect,
-        MatOption,
-        MatDialogActions,
-        MatDialogContent,
-        MatTable
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatMenuModule,
+    MatGridListModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
+    BaseChartDirective,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    NgbModule,
+    NgbModalModule,
+    HttpClientModule,
+    NgApexchartsModule,
+    MatNativeDateModule,
+    MatNativeDateModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'hu'
+    }),
+    MatSelect,
+    MatOption,
+    MatDialogActions,
+    MatDialogContent,
+    MatTable,
+    FormsModule,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatDatepicker
+  ],
   providers: [
     provideAnimationsAsync(),
     // provideFirebaseApp(() => initializeApp({
@@ -132,9 +144,11 @@ Chart.register(
     // })),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideStorage(() => getStorage()),
+    { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule {
   constructor(private translate: TranslateService) {

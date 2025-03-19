@@ -1,11 +1,37 @@
 <div class="chart-container">
   <h2>{{ 'FOGYASZTAS_DISPLAY' | translate }}</h2>
-  <div style="display: block;">
-    <canvas
-      baseChart
-      [data]="fogyasztasChartData"
-      [options]="fogyasztasChartOptions"
-      [type]="fogyasztasChartType">
-    </canvas>
+
+  <!-- Lakás kiválasztása -->
+  <mat-form-field class="w-full">
+    <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
+    <mat-select [(ngModel)]="selectedLakasId" (selectionChange)="onLakasChange($event.value)">
+      <mat-option *ngFor="let lakas of lakasok" [value]="lakas.id">
+        {{ lakas.lakasNev }} - {{ lakas.cim.telepules }}, {{ lakas.cim.utca }} {{ lakas.cim.hazszam }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Fogyasztási típus kiválasztása -->
+  <mat-form-field class="w-full">
+    <mat-label>{{ 'VALASSZ_FOGYASZTASI_TIPUST' | translate }}</mat-label>
+    <mat-select [(ngModel)]="selectedType" (selectionChange)="updateChart()">
+      <mat-option *ngFor="let type of fogyasztasiTipusok" [value]="type.key">
+        {{ type.label | translate }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- ApexChart diagram -->
+  <div *ngIf="chartData.series.length">
+    <apx-chart
+      #chart
+      [series]="chartData.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [title]="chartOptions.title"
+      [dataLabels]="chartOptions.dataLabels"
+      [stroke]="chartOptions.stroke"
+      [colors]="chartOptions.colors">
+    </apx-chart>
   </div>
 </div>

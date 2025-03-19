@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ChartData, ChartType, ChartOptions } from 'chart.js';
+import { Component, OnInit,ViewChild } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { TranslateService } from '@ngx-translate/core';
+import { Lakas, FogyasztasiAdat } from '../../shared/model/models';
+import {
+  ChartComponent, ChartType,
+} from 'ng-apexcharts';
 
 @Component({
   selector: 'app-fogyasztas-display',
@@ -8,83 +12,89 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./fogyasztas-display.component.scss'],
 })
 export class FogyasztasDisplayComponent implements OnInit {
-  // Mock-adatok
-  fogyasztasiAdatok = [
-    { datum: '2024-01', viz: 25.3, gaz: 45.8, villany: 350, melegViz: 15.5 },
-    { datum: '2024-02', viz: 30.1, gaz: 50.2, villany: 400, melegViz: 20.3 },
-    { datum: '2024-03', viz: 28.4, gaz: 48.0, villany: 370, melegViz: 18.1 },
-    { datum: '2024-04', viz: 32.0, gaz: 53.5, villany: 420, melegViz: 22.0 },
+  @ViewChild("chart") chart!: ChartComponent;
+
+  lakasok: Lakas[] = [];
+  fogyasztasiAdatok: FogyasztasiAdat[] = [];
+  selectedLakasId: string | null = null;
+  selectedType: 'viz' | 'gaz' | 'villany' | 'meleg_viz' = 'viz';
+
+  fogyasztasiTipusok = [
+    { key: 'viz', label: 'WATER' },
+    { key: 'gaz', label: 'GAS' },
+    { key: 'villany', label: 'ELECTRICITY' },
+    { key: 'melegViz', label: 'HOT_WATER' }
   ];
 
-  // Diagram adatok
-  public fogyasztasChartData: ChartData<'bar'> = {
-    labels: [],
-    datasets: [],
+  // ApexChart adatok
+  chartData = {
+    series: [] as { name: string; data: number[] }[],
   };
 
-  // Diagram konfiguráció
-  public fogyasztasChartOptions: ChartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: true,
-        position: 'top',
-      },
+  chartOptions = {
+    chart: {
+      type: 'line' as ChartType,
+      height: 350,
     },
-    scales: {
-      x: {},
-      y: {
-        beginAtZero: true,
-      },
+    xaxis: {
+      categories: [] as string[]
     },
+    title: {
+      text: '',
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      width: 1,
+    },
+    colors: ['#1E88E5'],
   };
 
-  public fogyasztasChartType: ChartType = 'bar';
-
-  constructor(private translate: TranslateService) {}
+  constructor(private firestore: AngularFirestore, private translate: TranslateService) {}
 
   ngOnInit(): void {
-    this.updateChart();
-    this.translate.onLangChange.subscribe(() => {
+    this.loadLakasok();
+  }
+
+  /**
+   * Lekérdezi a felhasználóhoz tartozó lakásokat
+   */
+  private loadLakasok(): void {
+    this.firestore.collection<Lakas>('Lakasok').valueChanges().subscribe(lakasok => {
+      this.lakasok = lakasok;
+    });
+  }
+
+  /**
+   * Lakás kiválasztása után betölti a fogyasztási adatokat
+   */
+  onLakasChange(lakasId: string): void {
+    this.selectedLakasId = lakasId;
+    this.firestore.collection<FogyasztasiAdat>('FogyasztasiAdatok', ref =>
+      ref.where('lakas_id', '==', lakasId)
+    ).valueChanges().subscribe(adatok => {
+      this.fogyasztasiAdatok = adatok;
       this.updateChart();
     });
   }
 
+  /**
+   * Frissíti a diagramot a kiválasztott fogyasztási típus alapján
+   */
   updateChart(): void {
-    this.translate.get(['WATER', 'GAS', 'ELECTRICITY', 'HOT_WATER']).subscribe((translations) => {
-      this.fogyasztasChartData = {
-        labels: this.fogyasztasiAdatok.map((adat) => adat.datum),
-        datasets: [
-          {
-            data: this.fogyasztasiAdatok.map((adat) => adat.viz),
-            label: translations['WATER'],
-            backgroundColor: 'rgba(54, 162, 235, 0.7)',
-            borderColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-          },
-          {
-            data: this.fogyasztasiAdatok.map((adat) => adat.gaz),
-            label: translations['GAS'],
-            backgroundColor: 'rgba(255, 159, 64, 0.7)',
-            borderColor: 'rgba(255, 159, 64, 1)',
-            borderWidth: 1,
-          },
-          {
-            data: this.fogyasztasiAdatok.map((adat) => adat.villany),
-            label: translations['ELECTRICITY'],
-            backgroundColor: 'rgba(75, 192, 192, 0.7)',
-            borderColor: 'rgba(75, 192, 192, 1)',
-            borderWidth: 1,
-          },
-          {
-            data: this.fogyasztasiAdatok.map((adat) => adat.melegViz),
-            label: translations['HOT_WATER'],
-            backgroundColor: 'rgba(153, 102, 255, 0.7)',
-            borderColor: 'rgba(153, 102, 255, 1)',
-            borderWidth: 1,
-          },
-        ],
-      };
+    if (!this.fogyasztasiAdatok.length || !this.selectedType) return;
+
+    const labels = this.fogyasztasiAdatok.map(adat => String(adat.datum));  // 🔹 Biztosítjuk, hogy `string` típus legyen
+    const values = this.fogyasztasiAdatok.map(adat => {
+      return typeof adat[this.selectedType] === 'number' ? adat[this.selectedType] as number : 0;
+    });
+    const typeObj = this.fogyasztasiTipusok.find(t => t.key === this.selectedType);
+    if (!typeObj) return;
+
+    this.translate.get(typeObj.label).subscribe(label => {
+      this.chartData = { series: [{ name: label, data: values }] };
+      this.chartOptions = { ...this.chartOptions, xaxis: { categories: labels }, title: { text: label } };
     });
   }
 }

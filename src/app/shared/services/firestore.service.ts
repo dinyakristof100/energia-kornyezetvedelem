@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import {Observable, of, switchMap} from 'rxjs';
+import {catchError, from, Observable, of, switchMap} from 'rxjs';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -63,13 +64,18 @@ export class FirestoreService {
    * Fogyasztási adatok mentése Firestore-ba.
    * Minden új bejegyzés külön dokumentumként tárolódik.
    */
-  saveFogyasztasiAdat(data: any): Promise<void> {
-    return this.auth.authState.pipe(
-      switchMap(user => {
-        if (user) {
-          const newId = this.firestore.createId(); // Egyedi dokumentum ID generálása
-          data.userId = user.uid; // Felhasználói azonosító hozzáadása
-          data.feltoltesDatum = new Date(); // Feltöltés dátuma
+  saveFogyasztasiAdat(data: any): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.auth.authState.pipe(
+        switchMap(user => {
+          if (!user) {
+            console.error("Hiba: Nincs bejelentkezett felhasználó.");
+            return of(false);
+          }
+
+          const newId = this.firestore.createId();
+          data.userId = user.uid;
+          data.feltoltesDatum = new Date();
 
           const convertToFloat = (value: any) =>
             typeof value === 'string' ? parseFloat(value.replace(',', '.')) : value;
@@ -79,12 +85,21 @@ export class FirestoreService {
           data.gaz = convertToFloat(data.gaz);
           data.villany = convertToFloat(data.villany);
 
-          return this.firestore.collection(this.fogyasztasiCollection).doc(newId).set(data);
-        } else {
-          return of(null);
-        }
-      })
-    ).toPromise() as Promise<void>;
+          return from(this.firestore.collection(this.fogyasztasiCollection).doc(newId).set(data))
+            .pipe(
+              map(() => true),  // Ha sikerül a mentés → true
+              catchError(error => {
+                console.error("Firestore mentési hiba:", error);
+                reject(error);
+                return of(false);
+              })
+            );
+        })
+      ).subscribe({
+        next: (result) => resolve(result),
+        error: (err) => reject(err)
+      });
+    });
   }
 
   /**
