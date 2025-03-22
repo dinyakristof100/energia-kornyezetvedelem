@@ -23,7 +23,7 @@ export class FogyasztasDisplayComponent implements OnInit {
     { key: 'viz', label: 'WATER' },
     { key: 'gaz', label: 'GAS' },
     { key: 'villany', label: 'ELECTRICITY' },
-    { key: 'melegViz', label: 'HOT_WATER' }
+    { key: 'meleg_viz', label: 'HOT_WATER' }
   ];
 
   // ApexChart adatok
@@ -35,6 +35,9 @@ export class FogyasztasDisplayComponent implements OnInit {
     chart: {
       type: 'line' as ChartType,
       height: 350,
+      toolbar: {
+        show: false,
+      },
     },
     xaxis: {
       categories: [] as string[]
@@ -55,6 +58,10 @@ export class FogyasztasDisplayComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadLakasok();
+
+    this.translate.onLangChange.subscribe(() => {
+      this.updateChart();
+    });
   }
 
   /**
@@ -75,6 +82,11 @@ export class FogyasztasDisplayComponent implements OnInit {
       ref.where('lakas_id', '==', lakasId)
     ).valueChanges().subscribe(adatok => {
       this.fogyasztasiAdatok = adatok;
+      this.fogyasztasiAdatok.sort((a, b) => {
+        const dateA = (a.datum as any)?.toDate?.() ?? new Date(a.datum);
+        const dateB = (b.datum as any)?.toDate?.() ?? new Date(b.datum);
+        return dateA.getTime() - dateB.getTime();
+      });
       this.updateChart();
     });
   }
@@ -85,7 +97,10 @@ export class FogyasztasDisplayComponent implements OnInit {
   updateChart(): void {
     if (!this.fogyasztasiAdatok.length || !this.selectedType) return;
 
-    const labels = this.fogyasztasiAdatok.map(adat => String(adat.datum));  // 🔹 Biztosítjuk, hogy `string` típus legyen
+    const labels = this.fogyasztasiAdatok.map(adat => {
+      const date = (adat.datum as any)?.toDate?.() ?? new Date(adat.datum);
+      return `${date.getFullYear()}. ${String(date.getMonth() + 1).padStart(2, '0')}. ${String(date.getDate()).padStart(2, '0')}`;
+    });
     const values = this.fogyasztasiAdatok.map(adat => {
       return typeof adat[this.selectedType] === 'number' ? adat[this.selectedType] as number : 0;
     });

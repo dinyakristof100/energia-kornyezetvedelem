@@ -1,1 +1,41 @@
-<p>faultetes works!</p>
+<div class="min-h-screen bg-gradient-to-br from-green-600 to-lime-400 px-4 py-10 flex justify-center">
+  <div class="w-full max-w-6xl bg-white rounded-2xl shadow-xl p-6 space-y-6">
+
+    <h2 class="text-3xl font-bold text-green-800 text-center">
+      {{ 'FAULTETES.TITLE' | translate }}
+    </h2>
+
+    <div class="flex justify-end">
+      <button (click)="megnyitUjFaModal()"
+              class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition">
+        {{ 'FAULTETES.UJ_FA' | translate }}
+      </button>
+    </div>
+
+    <ng-container *ngIf="trees.length > 0; else noTrees">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div *ngFor="let fa of trees" class="bg-gray-50 p-5 rounded-xl shadow-md border border-green-200 space-y-2">
+          <img *ngIf="fa.kep?.photo_url" [src]="fa.kep?.photo_url" alt="Fa képe" class="w-full h-48 object-cover rounded-md">
+          <h3 class="text-xl font-bold text-green-900">{{ fa.nev }}</h3>
+          <p class="text-sm text-gray-600 italic">{{ fa.fajta }}</p>
+          <p class="text-sm text-gray-600">
+            {{ 'FAULTETES.ULTETES_IDEJE' | translate }}: {{ fa.ultetes_ideje | date:'yyyy. MM. dd.' }}
+          </p>
+          <p class="text-sm text-gray-600">
+            {{ 'FAULTETES.HELY' | translate }}:
+            {{ fa.ultetes_helye.iranyitoszam }}, {{ fa.ultetes_helye.telepules }}, {{ fa.ultetes_helye.utca }} {{ fa.ultetes_helye.hazszam }}
+          </p>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noTrees>
+      <div class="text-center py-10">
+        <p class="text-lg text-gray-600">
+          {{ 'FAULTETES.NINCS_FA' | translate }} 😢
+        </p>
+      </div>
+    </ng-template>
+
+  </div>
+</div>

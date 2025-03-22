@@ -1,0 +1,35 @@
+<div class="p-6 space-y-4">
+  <h3 class="text-xl font-bold text-green-800">{{ 'FAULTETES.UJ_FA_CIM' | translate }}</h3>
+
+  <form class="space-y-3">
+    <input [(ngModel)]="faAdat.nev" name="nev" placeholder="{{ 'FAULTETES.FA_NEV' | translate }}"
+           class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+    <input [(ngModel)]="faAdat.fajta" name="fajta" placeholder="{{ 'FAULTETES.FA_FAJTA' | translate }}"
+           class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+    <input type="date" [(ngModel)]="faAdat.ultetes_ideje" name="ultetes_ideje"
+           class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+    <input [(ngModel)]="faAdat.ultetes_helye.iranyitoszam" name="iranyitoszam" placeholder="{{ 'CIM.IRANYITOSZAM' | translate }}"
+           class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+    <input [(ngModel)]="faAdat.ultetes_helye.telepules" name="telepules" placeholder="{{ 'CIM.TELEPULES' | translate }}"
+           class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+    <input [(ngModel)]="faAdat.ultetes_helye.utca" name="utca" placeholder="{{ 'CIM.UTCA' | translate }}"
+           class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+    <input [(ngModel)]="faAdat.ultetes_helye.hazszam" name="hazszam" placeholder="{{ 'CIM.HAZSZAM' | translate }}"
+           class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+    <div class="flex justify-end gap-2 pt-4">
+      <button type="button" (click)="megse()" class="px-4 py-2 rounded-md border border-gray-300 hover:bg-gray-100">
+        {{ 'GENERAL.MEGSE' | translate }}
+      </button>
+      <button type="button" (click)="mentes()" class="px-4 py-2 rounded-md bg-green-600 hover:bg-green-700 text-white font-semibold">
+        {{ 'GENERAL.MENTES' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

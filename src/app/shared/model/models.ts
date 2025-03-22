@@ -37,6 +37,7 @@ export interface User {
 
 export interface Fa {
   id: string;
+  nev: string
   fajta: string;
   ultetes_ideje: Date;
   ultetes_helye: Cim;
@@ -57,7 +58,6 @@ export interface Lakas{
 
 export interface Kep{
   id: string;
-  image_url?: string;
   photo_url?: string;
   username: string;
   user_id: string;

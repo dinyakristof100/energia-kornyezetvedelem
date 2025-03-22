@@ -46,6 +46,8 @@
   "MEGJEGYZES": "Megjegyzés",
   "MEGJEGYZES_TEXT": "További megjegyzések",
   "MENTES": "Mentés",
+  "DATUM": "Dátum",
+  "DATUM_SZOVEG": "Dátum megadása esetén csak az év és a hónap lesz figyelembe véve.",
   "WATER": "Vízfogyasztás (m³)",
   "GAS": "Gázfogyasztás (m³)",
   "ELECTRICITY": "Villamosenergia fogyasztás (kWh)",
@@ -133,5 +135,16 @@
     },
     "FUTES_TIPUS": "Fűtési típus",
     "SZIGETELES": "Szigetelés van"
-  }
+  },
+  "FAULTETES": {
+    "TITLE": "Ültetett fáim",
+    "NINCS_FA": "Úgy tűnik, még nem ültettél egy fát sem",
+    "ULTETES_IDEJE": "Ültetés ideje",
+    "HELY": "Ültetés helye",
+    "UJ_FA": "Új fa ültetése",
+    "UJ_FA_CIM": "Új fa hozzáadása",
+    "FA_NEV": "Fa elnevezése",
+    "FA_FAJTA": "Fa fajtája"
+  },
+  "MEGSE": "Mégse"
 }

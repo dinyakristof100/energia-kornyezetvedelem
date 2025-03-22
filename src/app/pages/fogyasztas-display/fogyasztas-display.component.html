@@ -1,28 +1,39 @@
-<div class="chart-container">
-  <h2>{{ 'FOGYASZTAS_DISPLAY' | translate }}</h2>
+<div class="chart-container max-w-4xl mx-auto px-4 py-6 bg-white rounded-xl shadow-lg space-y-6">
 
-  <!-- Lakás kiválasztása -->
-  <mat-form-field class="w-full">
-    <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
-    <mat-select [(ngModel)]="selectedLakasId" (selectionChange)="onLakasChange($event.value)">
-      <mat-option *ngFor="let lakas of lakasok" [value]="lakas.id">
-        {{ lakas.lakasNev }} - {{ lakas.cim.telepules }}, {{ lakas.cim.utca }} {{ lakas.cim.hazszam }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <h2 class="text-2xl font-bold text-blue-800 text-center">
+    {{ 'FOGYASZTAS_DISPLAY' | translate }}
+  </h2>
 
-  <!-- Fogyasztási típus kiválasztása -->
-  <mat-form-field class="w-full">
-    <mat-label>{{ 'VALASSZ_FOGYASZTASI_TIPUST' | translate }}</mat-label>
-    <mat-select [(ngModel)]="selectedType" (selectionChange)="updateChart()">
-      <mat-option *ngFor="let type of fogyasztasiTipusok" [value]="type.key">
-        {{ type.label | translate }}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div>
+    <label class="block text-sm font-medium text-gray-700 mb-1">
+      {{ 'VALASSZ_LAKAST' | translate }}
+    </label>
+    <mat-form-field appearance="fill" class="w-full bg-white rounded-lg">
+      <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
+      <mat-select [(ngModel)]="selectedLakasId" (selectionChange)="onLakasChange($event.value)">
+        <mat-option *ngFor="let lakas of lakasok" [value]="lakas.id">
+          {{ lakas.lakasNev }} - {{ lakas.cim.telepules }}, {{ lakas.cim.utca }} {{ lakas.cim.hazszam }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
 
-  <!-- ApexChart diagram -->
-  <div *ngIf="chartData.series.length">
+  <div *ngIf="selectedLakasId">
+    <label class="block text-sm font-medium text-gray-700 mb-1">
+      {{ 'VALASSZ_FOGYASZTASI_TIPUST' | translate }}
+    </label>
+    <mat-form-field appearance="fill" class="w-full bg-white rounded-lg">
+      <mat-label>{{ 'VALASSZ_FOGYASZTASI_TIPUST' | translate }}</mat-label>
+      <mat-select [(ngModel)]="selectedType" (selectionChange)="updateChart()">
+        <mat-option *ngFor="let type of fogyasztasiTipusok" [value]="type.key">
+          {{ type.label | translate }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Diagram -->
+  <div *ngIf="chartData.series.length" class="bg-gray-50 p-4 rounded-lg shadow-inner">
     <apx-chart
       #chart
       [series]="chartData.series"

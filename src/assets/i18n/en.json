@@ -29,6 +29,8 @@
   "MINOSEG": "Water Quality",
   "MERES_MODJA": "Measurement Method",
   "MENTES": "Save",
+  "DATUM": "Date",
+  "DATUM_SZOVEG": "When specifying a date, only the year and month will be taken into account.",
   "GAZ_ADATOK": "Gas Consumption",
   "VILLANY_ADATOK": "Electricity Consumption",
   "ARAMKIMARADAS_IDOTARTAM": "Outage (hours)",
@@ -134,5 +136,16 @@
     },
     "FUTES_TIPUS": "Heating Type",
     "SZIGETELES": "Has Insulation"
-  }
+  },
+  "FAULTETES": {
+    "TITLE": "My Planted Trees",
+    "NINCS_FA": "It seems you haven't planted any trees yet",
+    "ULTETES_IDEJE": "Planting date",
+    "HELY": "Planting location",
+    "UJ_FA": "Plant a New Tree",
+    "UJ_FA_CIM": "Add a New Tree",
+    "FA_NEV": "Tree Name",
+    "FA_FAJTA": "Tree Species"
+  },
+  "MEGSE": "Cancel"
 }

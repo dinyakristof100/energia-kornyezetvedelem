@@ -20,7 +20,7 @@ export class FogyasztasRogzitComponent implements OnInit {
   bojlerTipusok: string[] = [];
   lakasok: Lakas[] = [];
 
-  defaultDate: Date = new Date();
+  maxDate: Date = new Date();
 
   constructor(
     private fb: FormBuilder,

@@ -1,12 +1,11 @@
-<div id="fogyasztasDiv" class="flex items-center justify-center bg-gradient-to-r from-blue-500 to-blue-300">
-  <div class="w-full max-w-5xl p-4 rounded-xl shadow-lg bg-amber-200">
+<div id="fogyasztasDiv" class="min-h-screen bg-gradient-to-r from-blue-500 to-blue-300 flex items-start justify-center overflow-auto py-6">
+  <div class="w-full max-w-4xl bg-white rounded-xl shadow-xl p-6 space-y-6">
     <form [formGroup]="fogyasztasForm" (ngSubmit)="onSubmit()" class="space-y-6">
-      <h2 class="text-2xl font-bold text-gray-800">{{ 'FOGYASZTAS_ADD' | translate }}</h2>
+      <h2 class="text-2xl font-bold text-blue-800 text-center">{{ 'FOGYASZTAS_ADD' | translate }}</h2>
 
-      <!-- Lakás kiválasztása -->
-      <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+      <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
         <h3 class="text-lg font-semibold text-gray-700">{{ 'VALASSZ_LAKAST' | translate }}</h3>
-        <mat-form-field class="w-full">
+        <mat-form-field appearance="fill" class="w-full">
           <mat-label>{{ 'VALASSZ_LAKAST' | translate }}</mat-label>
           <mat-select formControlName="lakas_id">
             <mat-option *ngFor="let lakas of lakasok" [value]="lakas.id">
@@ -14,65 +13,56 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </mat-card>
+      </div>
 
-      <!--Dátum kiválasztása-->
-      <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
+      <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
         <h3 class="text-lg font-semibold text-gray-700">{{ 'DATUM' | translate }}</h3>
-
-        <mat-form-field class="w-full">
+        <mat-form-field appearance="fill" class="w-full">
           <mat-label>{{ 'DATUM' | translate }}</mat-label>
-          <input matInput [matDatepicker]="picker" formControlName="datum" required>
+          <input matInput [matDatepicker]="picker" [max]="maxDate" formControlName="datum" required>
           <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-
-      </mat-card>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Vízfogyasztás -->
-        <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-          <h3 class="text-lg font-semibold text-gray-700">{{ 'VIZ_ADATOK' | translate }}</h3>
-          <mat-form-field class="w-full">
-            <mat-label>{{ 'HIDEGVIZ' | translate }}</mat-label>
-            <input matInput type="number" formControlName="viz" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
-          </mat-form-field>
-
-          <mat-form-field class="w-full">
-            <mat-label>{{ 'MELEGVIZ' | translate }} (m³)</mat-label>
-            <input matInput type="number" formControlName="meleg_viz" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
-          </mat-form-field>
-        </mat-card>
-
-        <!-- Gázfogyasztás -->
-        <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-          <h3 class="text-lg font-semibold text-gray-700">{{ 'GAZ_ADATOK' | translate }}</h3>
-          <mat-form-field class="w-full">
-            <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
-            <input matInput type="number" formControlName="gaz" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
-          </mat-form-field>
-        </mat-card>
-
-        <!-- Villamosenergia -->
-        <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-          <h3 class="text-lg font-semibold text-gray-700">{{ 'VILLANY_ADATOK' | translate }}</h3>
-          <mat-form-field class="w-full">
-            <mat-label>{{ 'OSSZFOGYASZTAS_VILLANY' | translate }}</mat-label>
-            <input matInput type="number" formControlName="villany" min="0" class="border border-gray-300 rounded-lg px-3 py-2" />
-          </mat-form-field>
-        </mat-card>
       </div>
 
-      <!-- Megjegyzés -->
-      <mat-card class="p-4 rounded-lg shadow-md border border-gray-200 bg-gray-50">
-        <h3 class="text-lg font-semibold text-gray-700">{{ 'MEGJEGYZES' | translate }}</h3>
-        <mat-form-field class="w-full">
-          <mat-label>{{ 'MEGJEGYZES_TEXT' | translate }}</mat-label>
-          <textarea matInput formControlName="megjegyzes" class="border border-gray-300 rounded-lg px-3 py-2 w-full h-24"></textarea>
-        </mat-form-field>
-      </mat-card>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
+          <h3 class="text-lg font-semibold text-gray-700">{{ 'VIZ_ADATOK' | translate }}</h3>
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>{{ 'HIDEGVIZ' | translate }}</mat-label>
+            <input matInput type="number" formControlName="viz" min="0">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>{{ 'MELEGVIZ' | translate }} (m³)</mat-label>
+            <input matInput type="number" formControlName="meleg_viz" min="0">
+          </mat-form-field>
+        </div>
 
-      <!-- Mentés gomb -->
+        <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
+          <h3 class="text-lg font-semibold text-gray-700">{{ 'GAZ_ADATOK' | translate }}</h3>
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>{{ 'OSSZFOGYASZTAS' | translate }}</mat-label>
+            <input matInput type="number" formControlName="gaz" min="0">
+          </mat-form-field>
+        </div>
+
+        <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
+          <h3 class="text-lg font-semibold text-gray-700">{{ 'VILLANY_ADATOK' | translate }}</h3>
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>{{ 'OSSZFOGYASZTAS_VILLANY' | translate }}</mat-label>
+            <input matInput type="number" formControlName="villany" min="0">
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
+        <h3 class="text-lg font-semibold text-gray-700">{{ 'MEGJEGYZES' | translate }}</h3>
+        <mat-form-field appearance="fill" class="w-full">
+          <mat-label>{{ 'MEGJEGYZES_TEXT' | translate }}</mat-label>
+          <textarea matInput formControlName="megjegyzes" class="w-full h-24 resize-none"></textarea>
+        </mat-form-field>
+      </div>
+
       <div class="flex justify-end">
         <button mat-raised-button color="primary" type="submit" [disabled]="loading || fogyasztasForm.invalid"
                 class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition duration-300">
