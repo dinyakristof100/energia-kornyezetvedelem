@@ -145,7 +145,11 @@
     "UJ_FA": "Plant a New Tree",
     "UJ_FA_CIM": "Add a New Tree",
     "FA_NEV": "Tree Name",
-    "FA_FAJTA": "Tree Species"
+    "FA_FAJTA": "Tree Species",
+    "PLACEHOLDER_DATUM": "yyyy. mm. dd.",
+    "FA_ADATOK": "Tree datas",
+    "HELY_ADATOK": "Planting place datas",
+    "FA_KEPE": "Picutre of the plant"
   },
   "MEGSE": "Cancel"
 }

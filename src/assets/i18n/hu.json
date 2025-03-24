@@ -144,7 +144,11 @@
     "UJ_FA": "Új fa ültetése",
     "UJ_FA_CIM": "Új fa hozzáadása",
     "FA_NEV": "Fa elnevezése",
-    "FA_FAJTA": "Fa fajtája"
+    "FA_FAJTA": "Fa fajtája",
+    "PLACEHOLDER_DATUM": "éééé. hh. nn.",
+    "FA_ADATOK": "Fa adatok",
+    "HELY_ADATOK": "Hely adatok",
+    "FA_KEPE": "Kép a csemetéről"
   },
   "MEGSE": "Mégse"
 }
