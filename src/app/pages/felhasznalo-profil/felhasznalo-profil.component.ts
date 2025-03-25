@@ -124,12 +124,9 @@ export class FelhasznaloProfilComponent implements OnInit {
   openLakasModal(lakas?: Lakas): void {
 
       const modalRef = this.modalService.open(LakasModalComponent, {
-        centered: true,
-        backdrop: 'static',
         size: 'lg',
-        animation: false,
-        keyboard: false,
-        beforeDismiss: () => false
+        centered: true,
+        backdrop: "static"
       });
 
     modalRef.componentInstance.lakas = lakas;

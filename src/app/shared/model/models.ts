@@ -39,7 +39,7 @@ export interface Fa {
   id: string;
   nev: string
   fajta: string;
-  ultetes_ideje: Date;
+  ultetes_ideje: any;
   ultetes_helye: Cim;
   user_id: string;
   kep?: Kep;

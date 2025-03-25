@@ -113,6 +113,9 @@
     "NINCS_LAKAS": "No homes added yet."
   },
   "CIM": {
+    "EGYEB": "Other",
+    "ADATOK": "Datas",
+    "LAKAS_ADATOK": "Apartment datas",
     "LAKAS_NEV": "Apartment Name",
     "LAKASMERET": "Base Area (m²)",
     "ORSZAG": "Country",

@@ -39,6 +39,7 @@ export class FaModalComponent implements OnInit{
   userId: any;
   userData: any
 
+  imagePreview: string | null = null;
 
   constructor(
     public activeModal: NgbActiveModal,
@@ -62,7 +63,7 @@ export class FaModalComponent implements OnInit{
   }
 
   async mentes() {
-    if (!this.faAdat.nev || !this.faAdat.fajta || !this.faAdat.ultetes_ideje || !this.faAdat.ultetes_helye.telepules) {
+    if (!this.faAdat.nev || !this.faAdat.fajta || !this.faAdat.ultetes_ideje || !this.faAdat.ultetes_helye.telepules || !this.selectedFile) {
       alert('Kérlek, tölts ki minden kötelező mezőt!');
       return;
     }
@@ -122,6 +123,12 @@ export class FaModalComponent implements OnInit{
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.selectedFile = input.files[0];
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(this.selectedFile);
     }
   }
 

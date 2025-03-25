@@ -112,6 +112,9 @@
     "NINCS_LAKAS": "Még nincs hozzáadott lakás."
   },
   "CIM": {
+    "EGYEB": "Egyéb",
+    "ADATOK": "Adatok",
+    "LAKAS_ADATOK": "Lakás adatok",
     "LAKAS_NEV": "Lakás neve",
     "LAKASMERET": "Alapterület (m²)",
     "ORSZAG": "Ország",

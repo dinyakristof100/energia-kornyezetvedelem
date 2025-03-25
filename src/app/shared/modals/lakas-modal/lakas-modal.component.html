@@ -1,103 +1,90 @@
-<div class="modal-backdrop"></div>
+<div class="p-6 space-y-6 bg-white rounded-xl shadow-xl">
+  <h2 class="text-2xl font-bold text-green-800 text-center">
+    {{ 'PROFIL.LAKAS_MODAL.TITLE' | translate }}
+  </h2>
 
-<div class="modal">
-  <div class="modal-content">
-    <!-- Modal fejléce -->
-    <div class="modal-header">
-      <h2>{{ 'PROFIL.LAKAS_MODAL.TITLE' | translate }}</h2>
-      <button type="button" class="close-btn" (click)="onCancel()">&times;</button>
+  <form [formGroup]="lakasForm" class="space-y-6">
+
+    <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
+      <h3 class="text-lg font-semibold text-gray-700">{{ 'CIM.LAKAS_ADATOK' | translate }}</h3>
+
+      <input type="text" id="lakasNev" formControlName="lakasNev"
+             placeholder="{{ 'CIM.LAKAS_NEV' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
+
+      <input type="number" id="lakasmeret" formControlName="lakasmeret"
+             placeholder="{{ 'CIM.LAKASMERET' | translate }}" min="0"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
     </div>
 
-    <!-- Modal törzs -->
-    <div class="modal-body">
-      <form [formGroup]="lakasForm" class="space-y-4">
-        <!-- Lakás megnevezése -->
-        <div class="form-group">
-          <label for="lakasNev">{{ 'CIM.LAKAS_NEV' | translate }}</label>
-          <input type="text" id="lakasNev" class="form-control" formControlName="lakasNev" />
-        </div>
+    <div formGroupName="cim" class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
+      <h3 class="text-lg font-semibold text-gray-700">{{ 'CIM.ADATOK' | translate }}</h3>
 
-        <!-- Lakás mérete -->
-        <div class="form-group">
-          <label for="lakasmeret">{{ 'CIM.LAKASMERET' | translate }}</label>
-          <input type="number" id="lakasmeret" class="form-control" formControlName="lakasmeret" min="0" />
-        </div>
+      <input type="text" id="orszag" formControlName="orszag" placeholder="{{ 'CIM.ORSZAG' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-        <!-- Cím adatok -->
-        <div formGroupName="cim">
-          <div class="form-group">
-            <label for="orszag">{{ 'CIM.ORSZAG' | translate }}</label>
-            <input type="text" id="orszag" class="form-control" formControlName="orszag" />
-          </div>
+      <input type="number" id="iranyitoszam" formControlName="iranyitoszam" min="0"
+             placeholder="{{ 'CIM.IRANYITOSZAM' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-          <div class="form-group">
-            <label for="iranyitoszam">{{ 'CIM.IRANYITOSZAM' | translate }}</label>
-            <input type="number" id="iranyitoszam" class="form-control" formControlName="iranyitoszam" min="0" />
-          </div>
+      <input type="text" id="telepules" formControlName="telepules" placeholder="{{ 'CIM.TELEPULES' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-          <div class="form-group">
-            <label for="telepules">{{ 'CIM.TELEPULES' | translate }}</label>
-            <input type="text" id="telepules" class="form-control" formControlName="telepules" />
-          </div>
+      <input type="text" id="utca" formControlName="utca" placeholder="{{ 'CIM.UTCA' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-          <div class="form-group">
-            <label for="utca">{{ 'CIM.UTCA' | translate }}</label>
-            <input type="text" id="utca" class="form-control" formControlName="utca" />
-          </div>
+      <input type="text" id="hazszam" formControlName="hazszam" placeholder="{{ 'CIM.HAZSZAM' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-          <div class="form-group">
-            <label for="hazszam">{{ 'CIM.HAZSZAM' | translate }}</label>
-            <input type="text" id="hazszam" class="form-control" formControlName="hazszam" />
-          </div>
+      <input type="text" id="epulet" formControlName="epulet" placeholder="{{ 'CIM.EPULET' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-          <div class="form-group">
-            <label for="epulet">{{ 'CIM.EPULET' | translate }}</label>
-            <input type="text" id="epulet" class="form-control" formControlName="epulet" />
-          </div>
+      <input type="text" id="emelet" formControlName="emelet" placeholder="{{ 'CIM.EMELET' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-          <div class="form-group">
-            <label for="emelet">{{ 'CIM.EMELET' | translate }}</label>
-            <input type="text" id="emelet" class="form-control" formControlName="emelet" />
-          </div>
-
-          <div class="form-group">
-            <label for="ajto">{{ 'CIM.AJTO' | translate }}</label>
-            <input type="text" id="ajto" class="form-control" formControlName="ajto" />
-          </div>
-        </div>
-
-        <!-- Építési mód -->
-        <div class="form-group">
-          <label for="epitesMod">{{ 'CIM.EPITES_MOD.TITLE' | translate }}</label>
-          <select id="epitesMod" class="form-control" formControlName="epitesMod">
-            <option *ngFor="let epitesiMod of epitesiModok" [value]="epitesiMod.key">
-              {{ epitesiMod.label }}
-            </option>
-          </select>
-        </div>
-
-        <!-- Fűtési típus -->
-        <div class="form-group">
-          <label for="futesTipus">{{ 'CIM.FUTES_TIPUS' | translate }}</label>
-          <select id="futesTipus" class="form-control" formControlName="futesTipus">
-            <option *ngFor="let futesTipus of futesTipusok" [value]="futesTipus.key">
-              {{ futesTipus.label }}
-            </option>
-          </select>
-        </div>
-
-        <!-- Szigetelés checkbox -->
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" id="szigeteles" formControlName="szigeteles" />
-          <label class="form-check-label ml-1" for="szigeteles">{{ 'CIM.SZIGETELES' | translate }}</label>
-        </div>
-      </form>
+      <input type="text" id="ajto" formControlName="ajto" placeholder="{{ 'CIM.AJTO' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2" />
     </div>
 
-    <!-- Modal lábléc -->
-    <div class="modal-footer">
-      <button type="button" class="btn btn-secondary" (click)="onCancel()">Mégse</button>
-      <button type="button" class="btn btn-primary" (click)="onSave()" [disabled]="lakasForm.invalid">Mentés</button>
+    <div class="bg-gray-50 p-4 rounded-lg shadow-md border border-gray-200 space-y-3">
+      <h3 class="text-lg font-semibold text-gray-700">{{ 'CIM.EGYEB' | translate }}</h3>
+
+      <select id="epitesMod" formControlName="epitesMod"
+              class="w-full border border-gray-300 rounded-md px-3 py-2">
+        <option value="" disabled selected hidden>{{ 'CIM.EPITES_MOD.TITLE' | translate }}</option>
+        <option *ngFor="let epitesiMod of epitesiModok" [value]="epitesiMod.key">
+          {{ epitesiMod.label }}
+        </option>
+      </select>
+
+      <select id="futesTipus" formControlName="futesTipus"
+              class="w-full border border-gray-300 rounded-md px-3 py-2">
+        <option value="" disabled selected hidden>{{ 'CIM.FUTES_TIPUS' | translate }}</option>
+        <option *ngFor="let futesTipus of futesTipusok" [value]="futesTipus.key">
+          {{ futesTipus.label }}
+        </option>
+      </select>
+
+      <div class="flex items-center">
+        <input type="checkbox" id="szigeteles" formControlName="szigeteles"
+               class="h-4 w-4 text-green-600 border-gray-300 rounded" />
+        <label for="szigeteles" class="ml-2 text-sm text-gray-700">
+          {{ 'CIM.SZIGETELES' | translate }}
+        </label>
+      </div>
     </div>
-  </div>
+
+    <div class="flex justify-end gap-2">
+      <button type="button" (click)="onCancel()"
+              class="bg-white border border-gray-300 hover:bg-gray-100 px-6 py-2 rounded-lg">
+        {{ 'MEGSE' | translate }}
+      </button>
+      <button type="button" (click)="onSave()"
+              [disabled]="lakasForm.invalid"
+              class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg">
+        {{ 'MENTES' | translate }}
+      </button>
+    </div>
+
+  </form>
 </div>

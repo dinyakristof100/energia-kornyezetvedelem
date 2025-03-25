@@ -5,6 +5,7 @@ import { Fa } from "../../shared/model/models";
 import {AngularFireAuth} from "@angular/fire/compat/auth";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FaModalComponent} from "../../shared/modals/fa-modal/fa-modal.component";
+import { Timestamp } from 'firebase/firestore';
 
 @Component({
   selector: 'app-faultetes',
@@ -33,7 +34,8 @@ export class FaultetesComponent implements OnInit {
   megnyitUjFaModal() {
     const modalRef = this.modalService.open(FaModalComponent, {
       size: 'lg',
-      centered: true
+      centered: true,
+      backdrop: "static"
     });
 
     modalRef.result.then((result) => {
@@ -44,15 +46,20 @@ export class FaultetesComponent implements OnInit {
   }
 
   betoltFak(): void {
+    console.log("betoltFak called");
+    console.trace();
     this.firestore.collection<Fa>('Trees', ref =>
       ref.where('user_id', '==', this.userId)
     ).valueChanges({ idField: 'id' }).subscribe(async fak => {
       const promises = fak.map(async (fa) => {
+        const ultetesIdo = (fa.ultetes_ideje as Timestamp)?.toDate?.() ?? null;
+
         if (fa.kep?.photo_url) {
           try {
             const url = await this.storage.ref(fa.kep.photo_url).getDownloadURL().toPromise();
             return {
               ...fa,
+              ultetes_ideje: ultetesIdo,
               kep: {
                 ...fa.kep,
                 photo_url: url
