@@ -30,8 +30,9 @@ export interface User {
     vezeteknev: string;
     keresztnev: string;
   };
-  fogyasztasi_adatok?: [FogyasztasiAdat]
-  lakasok?: [Lakas]
+  readonly admin: boolean
+  fogyasztasi_adatok?: [FogyasztasiAdat];
+  lakasok?: [Lakas];
   ultetett_fak?: [Fa];
 }
 
@@ -42,6 +43,7 @@ export interface Fa {
   ultetes_ideje: any;
   ultetes_helye: Cim;
   user_id: string;
+  jovahagyott: boolean;
   kep?: Kep;
 }
 

@@ -26,7 +26,8 @@ export class FaModalComponent implements OnInit{
       utca: '',
       hazszam: ''
     },
-    user_id: ''
+    user_id: '',
+    jovahagyott: false
   };
 
   maxDate: Date = new Date();
@@ -46,7 +47,6 @@ export class FaModalComponent implements OnInit{
     private firestoreService: FirestoreService,
     private auth: AngularFireAuth,
     private http: HttpClient,
-    private translate: TranslateService,
     private storage: AngularFireStorage
   ) {}
 

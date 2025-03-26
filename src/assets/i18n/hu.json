@@ -153,5 +153,9 @@
     "HELY_ADATOK": "Hely adatok",
     "FA_KEPE": "Kép a csemetéről"
   },
-  "MEGSE": "Mégse"
+  "MEGSE": "Mégse",
+  "TOLTES": "Adatok betöltése...",
+  "SNACKBAR": {
+    "SUCCESS": "Sikeresen mentetted. Kérlek várj az adminok jóváhagyására."
+  }
 }

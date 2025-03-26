@@ -30,7 +30,8 @@ export class RegisterComponent implements OnInit {
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      admin: [false]
     }, {
       validators: this.passwordMatchValidator
     });
@@ -75,7 +76,8 @@ export class RegisterComponent implements OnInit {
             vezeteknev: firstName,
             keresztnev: lastName
           },
-          username: email.split('@')[0]
+          username: email.split('@')[0],
+          admin: false
         }
 
         this.userService.create(user).then(_ =>{

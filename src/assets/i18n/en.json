@@ -154,5 +154,9 @@
     "HELY_ADATOK": "Planting place datas",
     "FA_KEPE": "Picutre of the plant"
   },
-  "MEGSE": "Cancel"
+  "MEGSE": "Cancel",
+  "TOLTES": "Loading...",
+  "SNACKBAR": {
+    "SUCCESS": "Successfully saved. Please wait for admin approval."
+  }
 }
