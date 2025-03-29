@@ -23,12 +23,20 @@ export class FelhasznaloProfilComponent implements OnInit {
   epitesiModok: string[] = [];
   lakasok: any[] = [];
   userId: string | null = null;
-  collectionName = 'UserInformations';
+  collectionName = 'Users';
   dialogRef!: MatDialogRef<any>;
 
   iranyitoszamok: { [key: string]: string} = {};
 
   @ViewChild('lakasDialog') lakasDialog!: TemplateRef<any>;
+
+  get profilFormValue(){
+    return this.lakasForm.getRawValue();
+  }
+
+  get lakasFormValue(){
+    return this.lakasForm.getRawValue();
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -43,11 +51,13 @@ export class FelhasznaloProfilComponent implements OnInit {
     private modalService: NgbModal
   ) {
     this.profilForm = this.fb.group({
-      vezetekNev: ['', Validators.required],
-      keresztNev: ['', Validators.required],
-      hazAlapterulet: [null, [Validators.required, Validators.min(1)]],
-      szigeteles: [false, Validators.required],
-      futesTipusa: ['', Validators.required]
+      id: [null],
+      nev: this.fb.group({
+        vezeteknev: ['', Validators.required],
+        keresztnev: ['', Validators.required]
+      }),
+      email: [null, Validators.required],
+      username: [null,Validators.required]
     });
 
     this.lakasForm = this.fb.group({
@@ -79,7 +89,6 @@ export class FelhasznaloProfilComponent implements OnInit {
     this.translate.onLangChange.subscribe(() => {
       this.updateEpitesiModok();
       this.updateFutesTipusok();
-      this.loadUserData();
     });
 
     this.auth.authState.subscribe(user => {
@@ -185,23 +194,28 @@ export class FelhasznaloProfilComponent implements OnInit {
         );
 
         if (duplicateLakas) {
-          this.snackBar.open('Már létezik egy lakás ezzel a névvel!', 'Bezárás', {
-            duration: 3000,
-            panelClass: ['bg-red-500', 'text-white', 'text-center']
+          this.translate.get(['PROFIL.LAKAS_DUPLICATE', 'PROFIL.CLOSE']).subscribe(t => {
+            this.snackBar.open(t['PROFIL.LAKAS_DUPLICATE'], t['PROFIL.CLOSE'], {
+              duration: 3000,
+              panelClass: ['bg-red-500', 'text-white', 'text-center'],
+              verticalPosition: 'top'
+            });
           });
           return;
         }
 
         this.firestoreService.createDocument<Lakas>('Lakasok', lakasAdatok)
           .then(() => {
-            console.log("Mentett lakás:", lakasAdatok);
             this.loadLakasok();
 
-            this.snackBar.open('Hibás e-mail vagy jelszó!', 'Bezárás', {
-              duration: 3000,
-              panelClass: ['bg-red-500', 'text-white', 'text-center'],
-              verticalPosition: "top"
+            this.translate.get(['PROFIL.EMAIL_PASSWORD_ERROR', 'PROFIL.CLOSE']).subscribe(t => {
+              this.snackBar.open(t['PROFIL.EMAIL_PASSWORD_ERROR'], t['PROFIL.CLOSE'], {
+                duration: 3000,
+                panelClass: ['bg-red-500', 'text-white', 'text-center'],
+                verticalPosition: 'top'
+              });
             });
+
 
             this.dialogRef.close();
           })
@@ -212,10 +226,13 @@ export class FelhasznaloProfilComponent implements OnInit {
         );
 
         if (exists) {
-          this.snackBar.open('Már létezik ilyen nevű lakás!', 'Bezárás', {
-            duration: 3000,
-            panelClass: ['bg-red-500', 'text-white', 'text-center']
+          this.translate.get(['PROFIL.LAKAS_DUPLICATE_EXISTING', 'PROFIL.CLOSE']).subscribe(t => {
+            this.snackBar.open(t['PROFIL.LAKAS_DUPLICATE_EXISTING'], t['PROFIL.CLOSE'], {
+              duration: 3000,
+              panelClass: ['bg-red-500', 'text-white', 'text-center']
+            });
           });
+
           return;
         }
 
@@ -234,6 +251,7 @@ export class FelhasznaloProfilComponent implements OnInit {
   loadUserData(): void {
     if (!this.userId) return;
 
+
     this.firestoreService.getDocument(this.collectionName, this.userId).subscribe(data => {
       if (data) {
         this.profilForm.patchValue(data);
@@ -248,7 +266,11 @@ export class FelhasznaloProfilComponent implements OnInit {
   onSubmit(): void {
     if (this.profilForm.valid && this.userId) {
       this.firestoreService.updateDocument(this.collectionName, this.userId, this.profilForm.value)
-        .then(() => alert('Adatok sikeresen mentve!'))
+        .then(() => {
+          this.translate.get('PROFIL.ADATOK_SIKERES_MENTESE').subscribe((message: string) => {
+            alert(message);
+          });
+        })
         .catch(error => console.error('Hiba mentéskor:', error));
     }
   }

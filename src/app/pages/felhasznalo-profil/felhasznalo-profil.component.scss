@@ -33,3 +33,9 @@ mat-card-title {
   height: 48px;
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
 }
+
+::ng-deep mat-form-field:has(input[readonly]) .mat-form-field-flex {
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}
+

@@ -48,7 +48,7 @@ export class FirestoreService {
    * @param data A frissítendő adatok
    */
   updateDocument<T>(collectionName: string, docId: string, data: T): Promise<void> {
-    return this.firestore.collection<T>(collectionName).doc(docId).set(data, { merge: true });
+    return this.firestore.collection<T>(collectionName).doc(docId).update(data);
   }
 
   /**

@@ -58,6 +58,12 @@
     "hőszivattyús": "Hőszivattyús bojler",
     "napkollektoros": "Napkollektoros bojler"
   },
+  "FOGYASZTAS": {
+    "SAVE_SUCCESS": "Fogyasztási adatok sikeresen mentve!",
+    "SAVE_ERROR": "Hiba történt mentés közben!",
+    "INVALID_FORM": "Kérlek minden adatot tölts ki, és helyes adatokkal dolgozz!",
+    "CLOSE": "Bezárás"
+  },
   "CIM_SAJAT_LAKAS": "Magam választom ki a lakásaim közül",
   "VALASSZ_LAKAST": "Válassz lakást",
   "VALASSZ_FOGYASZTASI_TIPUST": "Válassz fogyasztási típust",
@@ -68,7 +74,9 @@
     "PASSWORD": "Jelszó",
     "SHOW_PASSWORD": "Jelszó megjelenítése",
     "HIDE_PASSWORD": "Jelszó elrejtése",
-    "SUBMIT": "Bejelentkezés"
+    "SUBMIT": "Bejelentkezés",
+    "ERROR_INVALID": "Hibás e-mail vagy jelszó!",
+    "CLOSE": "Bezárás"
   },
   "REGISTER": {
     "TITLE": "Regisztráció",
@@ -87,6 +95,8 @@
     "TITLE": "Felhasználói profil",
     "VEZETEK_NEV": "Vezetéknév",
     "KERESZT_NEV": "Keresztnév",
+    "EMAIL": "E-mail cím",
+    "USERNAME": "Felhasználónév",
     "HAZ_ALAPTERULET": "Ház alapterülete (m²)",
     "SZIGETELES": "Szigetelés van",
     "FUTES_TIPUSA": "Fűtés típusa",
@@ -106,10 +116,17 @@
       "MENT": "Mentés",
       "MEGSE": "Mégse"
     },
-    "DUPLICATE_LAKAS": "Már létezik egy lakás ezzel a névvel vagy címmel!",
     "LAKASOK_LISTA": "Lakásaid",
-    "LAKAS_LISTA": "Lakáslista megtekintése",
-    "NINCS_LAKAS": "Még nincs hozzáadott lakás."
+    "LAKAS_MAR_LETEZIK": "Már létezik egy lakás ezzel a névvel!",
+    "LAKAS_MAR_LETEZIK_EGYEB": "Már létezik ilyen nevű lakás!",
+    "HIBAS_EMAIL_VAGY_JELSZO": "Hibás e-mail vagy jelszó!",
+    "BEZARAS": "Bezárás",
+    "ADATOK_SIKERES_MENTESE": "Adatok sikeresen mentve!"
+  },
+  "LAKAS": {
+    "MENTES_SIKERES": "Új lakás sikeresen létrehozva!",
+    "FRISSITES_SIKERES": "Lakás adatai frissítve!",
+    "BEZARAS": "Bezárás"
   },
   "CIM": {
     "EGYEB": "Egyéb",
@@ -151,11 +168,39 @@
     "PLACEHOLDER_DATUM": "éééé. hh. nn.",
     "FA_ADATOK": "Fa adatok",
     "HELY_ADATOK": "Hely adatok",
-    "FA_KEPE": "Kép a csemetéről"
+    "FA_KEPE": "Kép a csemetéről",
+    "INFO_TOOLTIP": "Amikor sikeresen ültettél egy fát és ezt feltöltöd, még nem látod egyből a fáid között. Várnod kell, amíg az adminok jóváhagyják neked.",
+    "VALASSZ_FAJTA": "Válassz fafajtát",
+    "FAJTA": {
+      "TOLGY": "Tölgy",
+      "BUKK": "Bükk",
+      "GYERTYAN": "Gyertyán",
+      "AKAC": "Akác",
+      "FEHER_NYAR": "Fehér nyár",
+      "KOCSANYOS_TOLGY": "Kocsányos tölgy",
+      "HARS": "Hárs",
+      "JUHAR": "Juhar",
+      "NYIR": "Nyír",
+      "SZIL": "Szil",
+      "KORIS": "Kőris",
+      "FUZ": "Fűz",
+      "CSONTOS_FENYO": "Csontos fenyő",
+      "ERDEI_FENYO": "Erdei fenyő",
+      "LUCFENYO": "Lucfenyő",
+      "EZUSTFENYO": "Ezüstfenyő",
+      "TUJAFELE": "Tujaféle",
+      "CSONTOS_HARS": "Csontos hárs",
+      "KIS_LEVELU_HARS": "Kis levelű hárs",
+      "CSERESZNYEFA": "Cseresznyefa"
+    },
+    "O2_TERMELT": "Termelt oxigén",
+    "CO2_MEGKOTOTT": "Megkötött szén-dioxid"
   },
   "MEGSE": "Mégse",
   "TOLTES": "Adatok betöltése...",
   "SNACKBAR": {
     "SUCCESS": "Sikeresen mentetted. Kérlek várj az adminok jóváhagyására."
-  }
+  },
+  "JOVAHAGY": "Jóváhagy",
+  "TORLES": "Törlés"
 }

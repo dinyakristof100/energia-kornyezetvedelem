@@ -19,8 +19,39 @@ export class FaultetesComponent implements OnInit {
   trees: Fa[] = [];
   userId: string = '';
 
+  showTooltip: boolean = false;
+
   loading = true;
   private isAdmin = false;
+
+  readonly fajtaNovesiSebesseg: { [key: string]: 'lassu' | 'kozepes' | 'gyors' } = {
+    TOLGY: 'lassu',
+    BUKK: 'lassu',
+    GYERTYAN: 'kozepes',
+    AKAC: 'gyors',
+    FEHER_NYAR: 'gyors',
+    KOCSANYOS_TOLGY: 'lassu',
+    HARS: 'kozepes',
+    JUHAR: 'kozepes',
+    NYIR: 'gyors',
+    SZIL: 'kozepes',
+    KORIS: 'kozepes',
+    FUZ: 'gyors',
+    CSONTOS_FENYO: 'lassu',
+    ERDEI_FENYO: 'kozepes',
+    LUCFENYO: 'lassu',
+    EZUSTFENYO: 'lassu',
+    TUJAFELE: 'lassu',
+    CSONTOS_HARS: 'kozepes',
+    KIS_LEVELU_HARS: 'kozepes',
+    CSERESZNYEFA: 'kozepes'
+  };
+
+  readonly novekedesiFaktor: { [key: string]: number } = {
+    lassu: 8,
+    kozepes: 14,
+    gyors: 21
+  };
 
   constructor(
     private firestore: AngularFirestore,
@@ -80,8 +111,6 @@ export class FaultetesComponent implements OnInit {
   }
 
   betoltFak(): void {
-    console.log("betoltFak called");
-
     const refBuilder = this.firestore.collection<Fa>('Trees', ref => {
       let query: firebase.default.firestore.Query = ref;
       if (this.isAdmin) {
@@ -136,7 +165,7 @@ export class FaultetesComponent implements OnInit {
     }).catch(err => console.error('Hiba a jóváhagyáskor:', err));
   }
 
-  torolFa(faId: string, userId: string) {
+  torolFa(faId: string) {
     this.firestore.collection('Trees').doc(faId).delete().then(() => {
       // this.emailService.kuldesTorlesEmail(userId);
       this.betoltFak();
@@ -146,5 +175,37 @@ export class FaultetesComponent implements OnInit {
   adminElerheto(): boolean {
     return this.isAdmin;
   }
+
+  szamolCO2Megkotes(ultetesDatum: Date, fajta: string): number {
+    const ma = new Date();
+    const elteltEv = (ma.getTime() - new Date(ultetesDatum).getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+
+    const sebesseg = this.fajtaNovesiSebesseg[fajta.toUpperCase()] || 'kozepes';
+    const faktor = this.novekedesiFaktor[sebesseg];
+
+    // Az éves megkötés nő lineárisan: év * faktor
+    // Összes CO2 = Σ (év * faktor), közelítve: (év * (év+1)/2) * faktor
+    const co2 = (elteltEv * (elteltEv + 1)) / 2 * (faktor * 1.5); // 1.5x szorzó: CO2 megkötés becslés
+    return Math.round(co2 * 10) / 10;
+  }
+
+  szamolO2Termeles(ultetesDatum: Date, fajta: string): number {
+    const ma = new Date();
+    const elteltEv = (ma.getTime() - new Date(ultetesDatum).getTime()) / (1000 * 60 * 60 * 24 * 365.25);
+
+    const sebesseg = this.fajtaNovesiSebesseg[fajta.toUpperCase()] || 'kozepes';
+    const faktor = this.novekedesiFaktor[sebesseg];
+
+    // Hasonló növekedés, de O2 termelés valamivel nagyobb: 2.1x szorzó
+    const o2 = (elteltEv * (elteltEv + 1)) / 2 * (faktor * 2.1);
+    return Math.round(o2 * 10) / 10;
+  }
+
+  getTranslatedFajta(fajta: string): string {
+    const fajtaKey = fajta.toUpperCase().replace('É', 'E').replace('Ő', 'O').replace('Ű', 'U').replace('Ö','O'); // biztos ami biztos
+    const kulcs = `FAULTETES.FAJTA.${fajtaKey}`;
+    return this.translate.instant(kulcs);
+  }
+
 
 }

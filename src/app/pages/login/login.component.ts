@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   hide = true;
   loading = true;
-  errorMessage: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -54,12 +53,13 @@ export class LoginComponent implements OnInit {
       this.loading = false;
     }).catch(error =>{
       // console.error(error);
-      this.errorMessage = 'Hibás e-mail vagy jelszó!';
 
-      this.snackBar.open('Hibás e-mail vagy jelszó!', 'Bezárás', {
-        duration: 3000,
-        panelClass: ['bg-red-500', 'text-white', 'text-center'],
-        verticalPosition: "top"
+      this.translate.get(['LOGIN.ERROR_INVALID', 'LOGIN.CLOSE']).subscribe(translations  => {
+        this.snackBar.open(translations['LOGIN.ERROR_INVALID'], translations['LOGIN.CLOSE'], {
+          duration: 3000,
+          panelClass: ['bg-red-500', 'text-white', 'text-center'],
+          verticalPosition: 'top'
+        });
       });
 
       this.loading = false;

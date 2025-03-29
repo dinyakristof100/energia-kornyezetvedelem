@@ -56,7 +56,6 @@ export class LakasModalComponent implements OnInit, OnChanges{
   }
 
   ngOnInit() {
-    console.log("ngOnInit called");
     this.loading = true;
 
     if(this.lakas){
@@ -272,12 +271,12 @@ export class LakasModalComponent implements OnInit, OnChanges{
 
       if (lakasData.id) {
         this.firestoreService.updateDocument('Lakasok', lakasData.id, lakasData)
-          .then(() => this.showSnackBar('Lakás adatai frissítve!'))
+          .then(() => this.showTranslatedSnackBar('LAKAS.FRISSITES_SIKERES'))
           .catch(error => console.error('Hiba a lakás frissítésekor:', error));
       } else {
         lakasData.id = this.firestoreService.createId();
         this.firestoreService.createDocument('Lakasok', lakasData)
-          .then(() => this.showSnackBar('Új lakás sikeresen létrehozva!'))
+          .then(() => this.showTranslatedSnackBar('LAKAS.MENTES_SIKERES'))
           .catch(error => console.error('Hiba lakás mentésekor:', error));
       }
 
@@ -290,14 +289,14 @@ export class LakasModalComponent implements OnInit, OnChanges{
     this.activeModal.close(null);
   }
 
-  private showSnackBar(message: string): void {
-    this.snackBar.open(message, 'Bezárás', {
-      duration: 3000,
-      panelClass: ['custom-snackbar'],
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
+  private showTranslatedSnackBar(messageKey: string): void {
+    this.translate.get([messageKey, 'LAKAS.BEZARAS']).subscribe(t => {
+      this.snackBar.open(t[messageKey], t['LAKAS.BEZARAS'], {
+        duration: 3000,
+        panelClass: ['custom-snackbar'],
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
     });
   }
-
-  protected readonly HTMLInputElement = HTMLInputElement;
 }

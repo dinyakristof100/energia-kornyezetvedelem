@@ -59,6 +59,12 @@
     "hőszivattyús": "Heat Pump Boiler",
     "napkollektoros": "Solar Boiler"
   },
+  "FOGYASZTAS": {
+    "SAVE_SUCCESS": "Consumption data saved successfully!",
+    "SAVE_ERROR": "An error occurred while saving!",
+    "INVALID_FORM": "Please fill in all fields correctly!",
+    "CLOSE": "Close"
+  },
   "CIM_SAJAT_LAKAS": "I choose my own apartment",
   "VALASSZ_LAKAST": "Select an apartment",
   "VALASSZ_FOGYASZTASI_TIPUST": "Select Consumption Type",
@@ -69,7 +75,9 @@
     "PASSWORD": "Password",
     "SHOW_PASSWORD": "Show Password",
     "HIDE_PASSWORD": "Hide Password",
-    "SUBMIT": "Login"
+    "SUBMIT": "Login",
+    "ERROR_INVALID": "Invalid email or password!",
+    "CLOSE": "Close"
   },
   "REGISTER": {
     "TITLE": "Registration",
@@ -88,6 +96,8 @@
     "TITLE": "User Profile",
     "VEZETEK_NEV": "Last Name",
     "KERESZT_NEV": "First Name",
+    "EMAIL": "Email Address",
+    "USERNAME": "Username",
     "HAZ_ALAPTERULET": "House Area (m²)",
     "SZIGETELES": "Insulation Present",
     "FUTES_TIPUSA": "Heating Type",
@@ -110,7 +120,17 @@
     "DUPLICATE_LAKAS": "A home with this name or address already exists!",
     "LAKASOK_LISTA": "Your Homes",
     "LAKAS_LISTA": "Show Home List",
-    "NINCS_LAKAS": "No homes added yet."
+    "NINCS_LAKAS": "No homes added yet.",
+    "LAKAS_MAR_LETEZIK": "An apartment with this name already exists!",
+    "LAKAS_MAR_LETEZIK_EGYEB": "A flat with this name already exists!",
+    "HIBAS_EMAIL_VAGY_JELSZO": "Invalid email or password!",
+    "BEZARAS": "Close",
+    "ADATOK_SIKERES_MENTESE": "Data saved successfully!"
+  },
+  "LAKAS": {
+    "MENTES_SIKERES": "New flat successfully created!",
+    "FRISSITES_SIKERES": "Flat data updated!",
+    "BEZARAS": "Close"
   },
   "CIM": {
     "EGYEB": "Other",
@@ -152,11 +172,39 @@
     "PLACEHOLDER_DATUM": "yyyy. mm. dd.",
     "FA_ADATOK": "Tree datas",
     "HELY_ADATOK": "Planting place datas",
-    "FA_KEPE": "Picutre of the plant"
+    "FA_KEPE": "Picutre of the plant",
+    "INFO_TOOLTIP": "After you successfully plant a tree and upload it, you won’t see it immediately. You have to wait until the admins approve it.",
+    "VALASSZ_FAJTA": "Select tree species",
+    "FAJTA": {
+      "TOLGY": "Oak",
+      "BUKK": "Beech",
+      "GYERTYAN": "Hornbeam",
+      "AKAC": "Black locust",
+      "FEHER_NYAR": "White poplar",
+      "KOCSANYOS_TOLGY": "Pedunculate oak",
+      "HARS": "Linden",
+      "JUHAR": "Maple",
+      "NYIR": "Birch",
+      "SZIL": "Elm",
+      "KORIS": "Ash",
+      "FUZ": "Willow",
+      "CSONTOS_FENYO": "Bone pine",
+      "ERDEI_FENYO": "Scots pine",
+      "LUCFENYO": "Norway spruce",
+      "EZUSTFENYO": "Blue spruce",
+      "TUJAFELE": "Thuja",
+      "CSONTOS_HARS": "Hard linden",
+      "KIS_LEVELU_HARS": "Small-leaved linden",
+      "CSERESZNYEFA": "Cherry tree"
+    },
+    "O2_TERMELT": "Oxygen produced",
+    "CO2_MEGKOTOTT": "CO₂ absorbed"
   },
   "MEGSE": "Cancel",
   "TOLTES": "Loading...",
   "SNACKBAR": {
     "SUCCESS": "Successfully saved. Please wait for admin approval."
-  }
+  },
+  "JOVAHAGY": "Confirm",
+  "TORLES": "Delete"
 }

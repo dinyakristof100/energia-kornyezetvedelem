@@ -30,6 +30,13 @@ export class FaModalComponent implements OnInit{
     jovahagyott: false
   };
 
+  fajtak: string[] = [
+    'TOLGY', 'BUKK', 'GYERTYAN', 'AKAC', 'FEHER_NYAR',
+    'KOCSANYOS_TOLGY', 'HARS', 'JUHAR', 'NYIR', 'SZIL',
+    'KORIS', 'FUZ', 'CSONTOS_FENYO', 'ERDEI_FENYO', 'LUCFENYO',
+    'EZUSTFENYO', 'TUJAFELE', 'CSONTOS_HARS', 'KIS_LEVELU_HARS', 'CSERESZNYEFA'
+  ];
+
   maxDate: Date = new Date();
   iranyitoszamok: Record<string, string> = {};
 
@@ -157,4 +164,5 @@ export class FaModalComponent implements OnInit{
       }
     });
   }
+
 }

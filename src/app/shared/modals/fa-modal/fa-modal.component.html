@@ -11,8 +11,15 @@
       <input [(ngModel)]="faAdat.nev" name="nev" placeholder="{{ 'FAULTETES.FA_NEV' | translate }}"
              class="w-full border border-gray-300 rounded-md px-3 py-2" />
 
-      <input [(ngModel)]="faAdat.fajta" name="fajta" placeholder="{{ 'FAULTETES.FA_FAJTA' | translate }}"
-             class="w-full border border-gray-300 rounded-md px-3 py-2" />
+      <select [(ngModel)]="faAdat.fajta" name="fajta"
+              class="w-full border border-gray-300 rounded-md px-3 py-2">
+        <option value="" disabled selected hidden>
+          {{ 'FAULTETES.VALASSZ_FAJTA' | translate }}
+        </option>
+        <option *ngFor="let fajta of fajtak" [value]="fajta">
+          {{ ('FAULTETES.FAJTA.' + fajta) | translate }}
+        </option>
+      </select>
 
       <mat-form-field appearance="fill" class="custom-datepicker w-full">
         <mat-label>{{ 'FAULTETES.ULTETES_IDEJE' | translate }}</mat-label>

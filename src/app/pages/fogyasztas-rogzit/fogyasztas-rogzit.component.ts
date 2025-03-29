@@ -27,7 +27,8 @@ export class FogyasztasRogzitComponent implements OnInit {
     private firestoreService: FirestoreService,
     private auth: AngularFireAuth,
     private snackBar: MatSnackBar,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -81,8 +82,6 @@ export class FogyasztasRogzitComponent implements OnInit {
       this.firestoreService.saveFogyasztasiAdat(fogyasztasiAdat)
         .then(success => {
           if (success) {
-            console.log("Sikeres mentés Firestore-ba!");
-
             this.fogyasztasForm.patchValue({
               datum: '',
               feltoltes_datum: '',
@@ -95,10 +94,12 @@ export class FogyasztasRogzitComponent implements OnInit {
               megjegyzes: ''
             });
 
-            this.snackBar.open('Fogyasztási adatok sikeresen mentve!', 'Bezárás', {
-              duration: 3000,
-              panelClass: ['bg-red-500', 'text-white', 'text-center'],
-              verticalPosition: 'top'
+            this.translate.get(['FOGYASZTAS.SAVE_SUCCESS', 'FOGYASZTAS.CLOSE']).subscribe(t => {
+              this.snackBar.open(t['FOGYASZTAS.SAVE_SUCCESS'], t['FOGYASZTAS.CLOSE'], {
+                duration: 3000,
+                panelClass: ['bg-green-600', 'text-white', 'text-center'],
+                verticalPosition: 'top'
+              });
             });
 
           }
@@ -106,10 +107,13 @@ export class FogyasztasRogzitComponent implements OnInit {
         .catch(error => {
           console.error('Hiba mentéskor:', error);
 
-          this.snackBar.open('Hiba történt mentés közben!', 'Bezárás', {
-            duration: 3000,
-            panelClass: ['bg-red-500', 'text-white', 'text-center']
-          })
+          this.translate.get(['FOGYASZTAS.SAVE_ERROR', 'FOGYASZTAS.CLOSE']).subscribe(t => {
+            this.snackBar.open(t['FOGYASZTAS.SAVE_ERROR'], t['FOGYASZTAS.CLOSE'], {
+              duration: 3000,
+              panelClass: ['bg-red-500', 'text-white', 'text-center'],
+              verticalPosition: 'top'
+            });
+          });
         }).finally(() =>{
             this.loading = false;
         });
@@ -123,15 +127,18 @@ export class FogyasztasRogzitComponent implements OnInit {
 
       console.warn('A form érvénytelen! Hibás mezők:', invalidControls);
 
-        this.snackBar.open('Kérlek minden adatot tölts ki, és helyes adatokkal dolgozz!', 'Bezárás', {
+      this.translate.get(['FOGYASZTAS.INVALID_FORM', 'FOGYASZTAS.CLOSE']).subscribe(t => {
+        this.snackBar.open(t['FOGYASZTAS.INVALID_FORM'], t['FOGYASZTAS.CLOSE'], {
           duration: 3000,
-          panelClass: ['bg-red-500', 'text-white', 'text-center']
+          panelClass: ['bg-red-500', 'text-white', 'text-center'],
+          verticalPosition: 'top'
         });
+      });
     }
   }
 
   /**
-   * Amikor a dátum kiválasztásra kerül, a megfelelő formátumba alakítjuk
+   * Amikor a dátum kiválasztásra kerül, a megfelelő formátumba alakítja
    */
   onDateSelected(): void {
     const selectedDate: Date = this.fogyasztasForm.value.datum;

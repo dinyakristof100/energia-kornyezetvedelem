@@ -7,14 +7,27 @@
       </h2>
 
       <form [formGroup]="profilForm" (ngSubmit)="onSubmit()" class="space-y-4">
-        <mat-form-field appearance="fill" class="w-full">
-          <mat-label>{{ 'PROFIL.VEZETEK_NEV' | translate }}</mat-label>
-          <input matInput formControlName="vezetekNev" type="text">
+
+        <div formGroupName="nev">
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>{{ 'PROFIL.VEZETEK_NEV' | translate }}</mat-label>
+            <input matInput formControlName="vezeteknev" type="text">
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="w-full">
+            <mat-label>{{ 'PROFIL.KERESZT_NEV' | translate }}</mat-label>
+            <input matInput formControlName="keresztnev" type="text">
+          </mat-form-field>
+        </div>
+
+        <mat-form-field appearance="fill" class="w-full readonly-field">
+          <mat-label>{{ 'PROFIL.EMAIL' | translate }}</mat-label>
+          <input matInput class="cursor-not-allowed" formControlName="email" readonly>
         </mat-form-field>
 
         <mat-form-field appearance="fill" class="w-full">
-          <mat-label>{{ 'PROFIL.KERESZT_NEV' | translate }}</mat-label>
-          <input matInput formControlName="keresztNev" type="text">
+          <mat-label>{{ 'PROFIL.USERNAME' | translate }}</mat-label>
+          <input matInput formControlName="username" type="text">
         </mat-form-field>
 
         <button type="button"

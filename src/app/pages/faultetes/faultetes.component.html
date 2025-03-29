@@ -2,8 +2,22 @@
   <div class="w-full max-w-6xl bg-white rounded-2xl shadow-xl p-6 space-y-6">
 
     <div class="relative flex items-center justify-center">
-      <h2 class="text-3xl font-bold text-green-800 text-center w-full h-full">
+      <h2 class="text-3xl font-bold text-green-800 text-center w-full h-full flex items-center justify-center gap-2 relative">
         {{ 'FAULTETES.TITLE' | translate }}
+        <div class="relative"
+             (mouseenter)="showTooltip = true"
+             (mouseleave)="showTooltip = false">
+
+          <div class="w-5 h-5 text-xs font-bold text-green-800 border border-green-800 rounded-full flex items-center justify-center bg-white cursor-default">
+            i
+          </div>
+
+          <!-- Tooltip doboz -->
+          <div *ngIf="showTooltip"
+               class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 bg-white text-sm text-gray-800 border border-gray-300 rounded-md shadow-md px-4 py-2 z-50">
+            {{ 'FAULTETES.INFO_TOOLTIP' | translate }}
+          </div>
+        </div>
       </h2>
 
       <button (click)="megnyitUjFaModal()"
@@ -26,7 +40,7 @@
           <div *ngFor="let fa of trees" class="bg-gray-50 p-5 rounded-xl shadow-md border border-green-200 space-y-2">
             <img *ngIf="fa.kep?.photo_url" [src]="fa.kep?.photo_url" alt="Fa képe" class="w-full h-48 object-cover rounded-md">
             <h3 class="text-xl font-bold text-green-900">{{ fa.nev }}</h3>
-            <p class="text-sm text-gray-600 italic">{{ fa.fajta }}</p>
+            <p class="text-sm text-gray-600 italic">{{ getTranslatedFajta(fa.fajta) }}</p>
             <p class="text-sm text-gray-600">
               {{ 'FAULTETES.ULTETES_IDEJE' | translate }}: {{ fa.ultetes_ideje | date:'yyyy. MM. dd.' }}
             </p>
@@ -35,12 +49,19 @@
               {{ fa.ultetes_helye.iranyitoszam }}, {{ fa.ultetes_helye.telepules }}, {{ fa.ultetes_helye.utca }} {{ fa.ultetes_helye.hazszam }}
             </p>
 
+            <p class="text-sm text-gray-700 font-medium">
+              🌿 {{ 'FAULTETES.O2_TERMELT' | translate }}: <span class="font-semibold text-green-800">{{ szamolO2Termeles(fa.ultetes_ideje,fa.fajta) }} kg</span>
+            </p>
+            <p class="text-sm text-gray-700 font-medium">
+              🏭 {{ 'FAULTETES.CO2_MEGKOTOTT' | translate }}: <span class="font-semibold text-green-800">{{ szamolCO2Megkotes(fa.ultetes_ideje, fa.fajta) }} kg</span>
+            </p>
+
             <div class="flex justify-end space-x-2" [class.hidden]="!adminElerheto()">
-              <button (click)="jovahagyFa(fa.id)" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
-                Jóváhagyás
+              <button *ngIf="!fa.jovahagyott" (click)="jovahagyFa(fa.id)" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                {{ 'JOVAHAGY' | translate }}
               </button>
-              <button (click)="torolFa(fa.id, fa.user_id)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
-                Törlés
+              <button (click)="torolFa(fa.id)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                {{ 'TORLES' | translate }}
               </button>
             </div>
 
