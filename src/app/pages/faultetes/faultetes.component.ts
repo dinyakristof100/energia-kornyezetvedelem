@@ -113,9 +113,7 @@ export class FaultetesComponent implements OnInit {
   betoltFak(): void {
     const refBuilder = this.firestore.collection<Fa>('Trees', ref => {
       let query: firebase.default.firestore.Query = ref;
-      if (this.isAdmin) {
-        query = query.where('jovahagyott', '==', false);
-      } else {
+      if (!this.isAdmin) {
         query = query.where('user_id', '==', this.userId);
         query = query.where('jovahagyott', '==', true);
       }
@@ -160,16 +158,26 @@ export class FaultetesComponent implements OnInit {
     this.firestore.collection('Trees').doc(faId).update({
       jovahagyott: true
     }).then(() => {
-      // this.emailService.kuldesJovahagyasEmail(faId);
+      this.emailService.kuldesFaJovahagyasEmail(faId);
       this.betoltFak();
     }).catch(err => console.error('Hiba a jóváhagyáskor:', err));
   }
 
   torolFa(faId: string) {
-    this.firestore.collection('Trees').doc(faId).delete().then(() => {
-      // this.emailService.kuldesTorlesEmail(userId);
-      this.betoltFak();
-    }).catch(err => console.error('Hiba a törléskor:', err));
+    this.firestore.collection('Trees').doc(faId).get().toPromise().then(async doc => {
+      const fa = doc?.data() as Fa;
+      if (!fa) {
+        console.error('Fa nem található törlés előtt.');
+        return;
+      }
+
+      await this.emailService.kuldesFaTorlesEmail(faId);
+
+      this.firestore.collection('Trees').doc(faId).delete().then(() => {
+        this.betoltFak();
+      }).catch(err => console.error('Hiba a fa törlésekor:', err));
+
+    }).catch(err => console.error('Nem sikerült lekérni a fát törlés előtt:', err));
   }
 
   adminElerheto(): boolean {

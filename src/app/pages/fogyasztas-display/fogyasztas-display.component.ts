@@ -5,6 +5,7 @@ import { Lakas, FogyasztasiAdat } from '../../shared/model/models';
 import {
   ChartComponent, ChartType,
 } from 'ng-apexcharts';
+import {AngularFireAuth} from "@angular/fire/compat/auth";
 
 @Component({
   selector: 'app-fogyasztas-display',
@@ -54,7 +55,11 @@ export class FogyasztasDisplayComponent implements OnInit {
     colors: ['#1E88E5'],
   };
 
-  constructor(private firestore: AngularFirestore, private translate: TranslateService) {}
+  constructor(
+    private firestore: AngularFirestore,
+    private translate: TranslateService,
+    private auth: AngularFireAuth
+  ) {}
 
   ngOnInit(): void {
     this.loadLakasok();
@@ -68,8 +73,14 @@ export class FogyasztasDisplayComponent implements OnInit {
    * Lekérdezi a felhasználóhoz tartozó lakásokat
    */
   private loadLakasok(): void {
-    this.firestore.collection<Lakas>('Lakasok').valueChanges().subscribe(lakasok => {
-      this.lakasok = lakasok;
+    this.auth.authState.subscribe( user => {
+      if(user && user.uid){
+        this.firestore.collection<Lakas>('Lakasok', ref =>
+          ref.where('userId', '==', user.uid)
+        ).valueChanges().subscribe( lakasok => {
+          this.lakasok = lakasok;
+        });
+      }
     });
   }
 

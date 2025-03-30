@@ -12,6 +12,8 @@
   "FA_ULTETES": "Tree Planting",
   "FOGYASZTAS_ADD": "Record Consumption",
   "FOGYASZTAS_DISPLAY": "Consumption Data",
+  "SZAKERTOI_VELEMENY": "Request Expert Opinion",
+  "AI_ERTEKELES": "Request AI Evaluation",
   "CIM_ADATOK": "Address Details",
   "ORSZAG": "Country",
   "IRANYITOSZAM": "Postal Code",
@@ -206,5 +208,9 @@
     "SUCCESS": "Successfully saved. Please wait for admin approval."
   },
   "JOVAHAGY": "Confirm",
-  "TORLES": "Delete"
+  "TORLES": "Delete",
+  "NINCS_FOGYASZTASI_ADAT": "No consumption data has been recorded for the selected apartment.",
+  "JOVAHAGYOTT": "Confirmed",
+  "IGEN": "Yes",
+  "NEM": "No"
 }

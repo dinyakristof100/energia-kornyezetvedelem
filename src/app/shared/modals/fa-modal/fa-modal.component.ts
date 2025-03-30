@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FirestoreService } from "../../services/firestore.service";
 import { AuthService } from "../../services/auth.service";
@@ -37,6 +37,8 @@ export class FaModalComponent implements OnInit{
     'EZUSTFENYO', 'TUJAFELE', 'CSONTOS_HARS', 'KIS_LEVELU_HARS', 'CSERESZNYEFA'
   ];
 
+  formValid: boolean = false;
+
   maxDate: Date = new Date();
   iranyitoszamok: Record<string, string> = {};
 
@@ -54,7 +56,8 @@ export class FaModalComponent implements OnInit{
     private firestoreService: FirestoreService,
     private auth: AngularFireAuth,
     private http: HttpClient,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -67,6 +70,7 @@ export class FaModalComponent implements OnInit{
 
     this.loadIranyitoszamok();
     this.setupFormListeners();
+    this.ellenorizMezok();
   }
 
   async mentes() {
@@ -137,6 +141,7 @@ export class FaModalComponent implements OnInit{
       };
       reader.readAsDataURL(this.selectedFile);
     }
+    this.ellenorizMezok();
   }
 
   private loadIranyitoszamok(): void {
@@ -163,6 +168,22 @@ export class FaModalComponent implements OnInit{
         this.faAdat.ultetes_helye.iranyitoszam = foundEntry[0];
       }
     });
+  }
+
+  ellenorizMezok() {
+    const a = this.faAdat;
+    this.formValid = !!(
+      a.nev?.trim().length &&
+      a.fajta?.trim().length &&
+      a.ultetes_ideje &&
+      a.ultetes_helye?.iranyitoszam?.trim().length &&
+      a.ultetes_helye?.telepules?.trim().length &&
+      a.ultetes_helye?.utca?.trim().length &&
+      a.ultetes_helye?.hazszam?.trim().length &&
+      this.selectedFile
+    );
+    console.log(this.formValid);
+    this.cd.detectChanges();
   }
 
 }

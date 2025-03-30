@@ -48,6 +48,9 @@
               {{ 'FAULTETES.HELY' | translate }}:
               {{ fa.ultetes_helye.iranyitoszam }}, {{ fa.ultetes_helye.telepules }}, {{ fa.ultetes_helye.utca }} {{ fa.ultetes_helye.hazszam }}
             </p>
+            <p class="text-sm text-gray-600" [class.hidden]="!adminElerheto()">
+              {{ 'JOVAHAGYOTT' |  translate }}: {{ fa.jovahagyott ? 'IGEN' : 'NEM' | translate }}
+            </p>
 
             <p class="text-sm text-gray-700 font-medium">
               🌿 {{ 'FAULTETES.O2_TERMELT' | translate }}: <span class="font-semibold text-green-800">{{ szamolO2Termeles(fa.ultetes_ideje,fa.fajta) }} kg</span>

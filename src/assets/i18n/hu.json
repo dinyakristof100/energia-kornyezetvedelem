@@ -12,6 +12,8 @@
   "FA_ULTETES": "Fa ültetés",
   "FOGYASZTAS_ADD": "Fogyasztás rögzítése",
   "FOGYASZTAS_DISPLAY": "Fogyasztási adatok",
+  "SZAKERTOI_VELEMENY": "Szakértői vélemény igénylése",
+  "AI_ERTEKELES": "AI értékelés igénylése",
   "CIM_ADATOK": "Cím adatok",
   "ORSZAG": "Ország",
   "IRANYITOSZAM": "Irányítószám",
@@ -121,7 +123,8 @@
     "LAKAS_MAR_LETEZIK_EGYEB": "Már létezik ilyen nevű lakás!",
     "HIBAS_EMAIL_VAGY_JELSZO": "Hibás e-mail vagy jelszó!",
     "BEZARAS": "Bezárás",
-    "ADATOK_SIKERES_MENTESE": "Adatok sikeresen mentve!"
+    "ADATOK_SIKERES_MENTESE": "Adatok sikeresen mentve!",
+    "NINCS_LAKAS": "Még nincs lakásod"
   },
   "LAKAS": {
     "MENTES_SIKERES": "Új lakás sikeresen létrehozva!",
@@ -202,5 +205,9 @@
     "SUCCESS": "Sikeresen mentetted. Kérlek várj az adminok jóváhagyására."
   },
   "JOVAHAGY": "Jóváhagy",
-  "TORLES": "Törlés"
+  "TORLES": "Törlés",
+  "NINCS_FOGYASZTASI_ADAT": "A kiválasztott lakáshoz még nem rögzítettek fogyasztási adatokat.",
+  "JOVAHAGYOTT": "Jóváhagyott",
+  "IGEN": "Igen",
+  "NEM": "Nem"
 }
