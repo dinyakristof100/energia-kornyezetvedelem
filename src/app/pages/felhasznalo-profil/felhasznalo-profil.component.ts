@@ -73,7 +73,7 @@ export class FelhasznaloProfilComponent implements OnInit {
         emelet: [''],
         ajto: ['']
       }),
-      lakasmeret: [null, [Validators.min(1)]],
+      alapterulet: [null, [Validators.min(1)]],
       epitesMod: ['', Validators.required],
       futesTipus: ['', Validators.required],
       szigeteles: [false],
@@ -182,7 +182,7 @@ export class FelhasznaloProfilComponent implements OnInit {
             emelet: this.lakasForm.value.cim.emelet,
             ajto: this.lakasForm.value.cim.ajto
           },
-          lakasmeret: this.lakasForm.value.lakasmeret,
+          alapterulet: this.lakasForm.value.alapterulet,
           epitesMod: this.lakasForm.value.epitesMod,
           futesTipus: this.lakasForm.value.futesTipus,
           szigeteles: this.lakasForm.value.szigeteles,

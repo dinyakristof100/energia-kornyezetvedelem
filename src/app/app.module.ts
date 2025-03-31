@@ -62,6 +62,7 @@ import { LakasModalComponent } from './shared/modals/lakas-modal/lakas-modal.com
 import {NgbModalModule, NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {MatDatepicker, MatDatepickerInput, MatDatepickerToggle} from "@angular/material/datepicker";
 import {FaModalComponent} from "./shared/modals/fa-modal/fa-modal.component";
+import { AiErtekelesModalComponent } from './shared/modals/ai-ertekeles-modal/ai-ertekeles-modal.component';
 
 // Elemek regisztrálása
 Chart.register(
@@ -89,6 +90,7 @@ Chart.register(
     FelhasznaloProfilComponent,
     LakasModalComponent,
     FaModalComponent,
+    AiErtekelesModalComponent,
   ],
   imports: [
     BrowserModule,

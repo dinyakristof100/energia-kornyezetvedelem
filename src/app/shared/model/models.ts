@@ -51,7 +51,7 @@ export interface Lakas{
   id: string;
   lakasNev: string;
   cim: Cim;
-  lakasmeret?: number; //m^2
+  alapterulet?: number; //m^2
   szigeteles?: boolean;
   epitesMod: string;
   futesTipus: string;

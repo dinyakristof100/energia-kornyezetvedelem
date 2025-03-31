@@ -120,7 +120,7 @@ export class LakasModalComponent implements OnInit, OnChanges{
         this.lakasForm.patchValue({
           id: this.lakas?.id,
           lakasNev: this.lakas?.lakasNev,
-          lakasmeret: this.lakas?.lakasmeret,
+          alapterulet: this.lakas?.alapterulet,
           epitesMod: this.lakas?.epitesMod,
           futesTipus: this.lakas?.futesTipus,
           szigeteles: this.lakas?.szigeteles,
@@ -241,7 +241,7 @@ export class LakasModalComponent implements OnInit, OnChanges{
         this.lakasForm.patchValue({
           id: this.lakas?.id,
           lakasNev: this.lakas?.lakasNev,
-          lakasmeret: this.lakas?.lakasmeret,
+          alapterulet: this.lakas?.alapterulet,
           epitesMod: this.lakas?.epitesMod,
           futesTipus: this.lakas?.futesTipus,
           szigeteles: this.lakas?.szigeteles,

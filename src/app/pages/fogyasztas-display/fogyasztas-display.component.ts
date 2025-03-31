@@ -6,6 +6,9 @@ import {
   ChartComponent, ChartType,
 } from 'ng-apexcharts';
 import {AngularFireAuth} from "@angular/fire/compat/auth";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {OpenaiService} from "../../shared/services/openai.service";
+import {AiErtekelesModalComponent} from "../../shared/modals/ai-ertekeles-modal/ai-ertekeles-modal.component";
 
 @Component({
   selector: 'app-fogyasztas-display',
@@ -14,6 +17,8 @@ import {AngularFireAuth} from "@angular/fire/compat/auth";
 })
 export class FogyasztasDisplayComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
+
+  aiLoading: boolean = false;
 
   lakasok: Lakas[] = [];
   fogyasztasiAdatok: FogyasztasiAdat[] = [];
@@ -58,7 +63,9 @@ export class FogyasztasDisplayComponent implements OnInit {
   constructor(
     private firestore: AngularFirestore,
     private translate: TranslateService,
-    private auth: AngularFireAuth
+    private auth: AngularFireAuth,
+    private openaiService: OpenaiService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -123,4 +130,87 @@ export class FogyasztasDisplayComponent implements OnInit {
       this.chartOptions = { ...this.chartOptions, xaxis: { categories: labels }, title: { text: label } };
     });
   }
+
+  igenylesAiErtekeles(): void {
+    this.aiLoading = true;
+
+    const lakas = this.lakasok.find(l => l.id === this.selectedLakasId);
+    const tipus = this.fogyasztasiTipusok.find(t => t.key === this.selectedType);
+    const nyelv = this.translate.currentLang as 'hu' | 'en';
+
+    if (!lakas || !tipus) return;
+
+    const adatokSzoveg = this.fogyasztasiAdatok.map(adat => {
+      const datum = (adat.datum as any)?.toDate?.().toISOString().split('T')[0] ?? new Date(adat.datum).toISOString().split('T')[0];
+      const ertek = adat[this.selectedType];
+      return `- ${datum}: ${ertek}`;
+    }).join('\n');
+
+    const egysegek: { [key: string]: { hu: string, en: string } } = {
+      viz: { hu: 'm³', en: 'm³' },
+      gaz: { hu: 'm³', en: 'm³' },
+      villany: { hu: 'kWh', en: 'kWh' },
+      meleg_viz: { hu: 'm³', en: 'm³' }
+    };
+
+    const egyseg = egysegek[this.selectedType]?.[nyelv] ?? '';
+
+    const lakasInfo = nyelv === 'hu' ? `
+      Név: ${lakas.lakasNev}
+      Cím:
+        - Irányítószám: ${lakas.cim.iranyitoszam}
+        - Település: ${lakas.cim.telepules}
+        - Utca: ${lakas.cim.utca}
+        - Házszám: ${lakas.cim.hazszam}
+      Alapterület: ${lakas.alapterulet ?? 'nincs megadva'} m²
+      Szigetelés: ${lakas.szigeteles === true ? 'van' : lakas.szigeteles === false ? 'nincs' : 'nincs megadva'}
+      Építés módja: ${lakas.epitesMod}
+      Fűtés típusa: ${lakas.futesTipus}
+        `.trim() : `
+      Name: ${lakas.lakasNev}
+      Address:
+        - ZIP: ${lakas.cim.iranyitoszam}
+        - City: ${lakas.cim.telepules}
+        - Street: ${lakas.cim.utca}
+        - House number: ${lakas.cim.hazszam}
+      Floor area: ${lakas.alapterulet ?? 'not provided'} m²
+      Insulation: ${lakas.szigeteles === true ? 'yes' : lakas.szigeteles === false ? 'no' : 'not provided'}
+      Building type: ${lakas.epitesMod}
+      Heating type: ${lakas.futesTipus}
+        `.trim();
+
+    const prompt = nyelv === 'hu' ? `
+      Te egy mesterséges intelligencia vagy, amelynek feladata kiértékelni egy magyarországi háztartás **${tipus.label.toLowerCase()}** fogyasztását. Röviden értékeld a felhasználó fogyasztási szokásait, írd le a megfigyelhető tendenciákat, és adj maximum három javaslatot a hatékonyabb energiafelhasználás érdekében.
+
+      **Lakás adatai**:
+      ${lakasInfo}
+
+      **Fogyasztási típus**: ${tipus.label} (${egyseg})
+      **Mért adatok időrendben**:
+      ${adatokSzoveg}
+      `.trim() : `
+      You are an AI assistant tasked with evaluating the **${tipus.label.toLowerCase()}** consumption of a Hungarian household. Briefly assess the user's consumption habits, describe any observable trends, and provide a maximum of three suggestions to improve energy efficiency.
+
+      **Household information**:
+      ${lakasInfo}
+
+      **Consumption type**: ${tipus.label} (${egyseg})
+      **Measured data (in chronological order)**:
+      ${adatokSzoveg}
+      `.trim();
+
+    this.openaiService.generateText(prompt).subscribe(res => {
+      const valasz = res.choices?.[0]?.message?.content ?? 'Nem sikerült értékelést kapni.';
+      const modalRef = this.modalService.open(AiErtekelesModalComponent,         {
+          size: 'lg' ,
+
+        });
+      modalRef.componentInstance.ertekelesSzoveg = valasz;
+      this.aiLoading = false;
+    }, err => {
+      console.error('Hiba az AI értékelés kérés közben:', err);
+    });
+  }
+
+
 }
