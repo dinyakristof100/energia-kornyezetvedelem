@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import {AuthService} from "../services/auth.service";
 })
 export class MenuComponent implements OnInit  {
   @Output() selectedPage: EventEmitter<string> = new EventEmitter<string>();
+  @Input() pageClass: string = '';
   currentTitle: string = '';
   loggedInUser?: firebase.default.User | null;
 
@@ -81,4 +82,18 @@ export class MenuComponent implements OnInit  {
       console.error(error);
     });
   }
+
+  getLangBgClass(): string {
+    switch (this.pageClass) {
+      case 'main': return 'bg-[#ebfbee] text-green-900';
+      case 'faultetes': return 'bg-[#e0f7fa] text-cyan-900';
+      case 'fogyasztas-rogzit': return 'bg-[#fff3e0] text-orange-900';
+      case 'fogyasztas-display': return 'bg-[#e3f2fd] text-blue-900';
+      case 'login': return 'bg-[#f5f5f5] text-gray-900';
+      case 'register': return 'bg-[#ede7f6] text-purple-900';
+      case 'profil': return 'bg-[#e8f5e9] text-green-800';
+      default: return 'bg-white text-gray-800';
+    }
+  }
+
 }

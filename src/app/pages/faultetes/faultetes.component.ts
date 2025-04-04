@@ -61,7 +61,7 @@ export class FaultetesComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private snackBar: MatSnackBar,
     private emailService: EmailService,
-    private translate: TranslateService
+    protected translate: TranslateService
   ) {}
 
   ngOnInit(): void {

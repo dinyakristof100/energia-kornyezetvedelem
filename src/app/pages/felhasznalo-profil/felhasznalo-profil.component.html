@@ -1,14 +1,13 @@
-<div class="min-h-screen bg-gradient-to-br from-green-500 to-green-300 flex items-center justify-center px-4 py-10">
-  <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="min-h-screen px-4 py-10 flex justify-center items-start">
+  <div class="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
 
-    <div class="bg-white p-6 rounded-2xl shadow-xl space-y-4">
-      <h2 class="text-center text-2xl font-bold text-gray-800">
+    <div class="bg-white p-8 rounded-2xl shadow-xl space-y-6 border border-gray-200">
+      <h2 class="text-3xl font-bold text-green-800 text-center">
         {{ 'PROFIL.TITLE' | translate }}
       </h2>
 
-      <form [formGroup]="profilForm" (ngSubmit)="onSubmit()" class="space-y-4">
-
-        <div formGroupName="nev">
+      <form [formGroup]="profilForm" (ngSubmit)="onSubmit()" class="space-y-5">
+        <div formGroupName="nev" class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <mat-form-field appearance="fill" class="w-full">
             <mat-label>{{ 'PROFIL.VEZETEK_NEV' | translate }}</mat-label>
             <input matInput formControlName="vezeteknev" type="text">
@@ -20,7 +19,7 @@
           </mat-form-field>
         </div>
 
-        <mat-form-field appearance="fill" class="w-full readonly-field">
+        <mat-form-field appearance="fill" class="w-full">
           <mat-label>{{ 'PROFIL.EMAIL' | translate }}</mat-label>
           <input matInput class="cursor-not-allowed" formControlName="email" readonly>
         </mat-form-field>
@@ -30,42 +29,44 @@
           <input matInput formControlName="username" type="text">
         </mat-form-field>
 
-        <button type="button"
-                mat-raised-button
-                color="accent"
-                (click)="openLakasModal()"
-                class="bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-4 py-2 rounded-md shadow">
-          {{ 'PROFIL.LAKAS_HOZZAADAS' | translate }}
-        </button>
+        <div class="flex flex-col sm:flex-row gap-4 justify-between items-center">
+          <button type="button"
+                  mat-raised-button
+                  color="accent"
+                  (click)="openLakasModal()"
+                  class="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-white font-medium px-6 py-2 rounded-md shadow transition">
+            {{ 'PROFIL.LAKAS_HOZZAADAS' | translate }}
+          </button>
 
-        <button mat-raised-button
-                color="primary"
-                [disabled]="!profilForm.valid || profilForm.pristine"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold text-lg py-3 rounded-md shadow-md transition">
-          {{ 'PROFIL.SUBMIT' | translate }}
-        </button>
+          <button mat-raised-button
+                  color="primary"
+                  [disabled]="!profilForm.valid || profilForm.pristine"
+                  class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold px-8 py-2 rounded-md shadow-md transition">
+            {{ 'PROFIL.SUBMIT' | translate }}
+          </button>
+        </div>
       </form>
     </div>
 
-    <div class="bg-white p-6 rounded-2xl shadow-xl">
-      <h3 class="text-xl font-semibold text-blue-800 mb-4 text-center">
+    <div class="bg-white p-8 rounded-2xl shadow-xl border border-gray-200 space-y-4">
+      <h3 class="text-2xl font-bold text-blue-800 text-center">
         {{ 'PROFIL.LAKASOK_LISTA' | translate }}
       </h3>
 
-      <table class="w-full text-left border-collapse">
+      <table class="w-full text-sm border-collapse">
         <thead>
-        <tr class="bg-gray-200 text-gray-700">
-          <th class="py-2 px-4">{{ 'CIM.LAKAS_NEV' | translate }}</th>
+        <tr class="bg-gray-100 text-gray-700 uppercase tracking-wide text-xs">
+          <th class="py-3 px-4 text-left">{{ 'CIM.LAKAS_NEV' | translate }}</th>
         </tr>
         </thead>
         <tbody>
         <tr *ngFor="let lakas of lakasok"
-            class="border-b cursor-pointer hover:bg-gray-100 transition"
+            class="border-b hover:bg-gray-50 transition cursor-pointer"
             (click)="openLakasModal(lakas)">
-          <td class="py-2 px-4">{{ lakas.lakasNev }}</td>
+          <td class="py-3 px-4 text-gray-800">{{ lakas.lakasNev }}</td>
         </tr>
         <tr *ngIf="lakasok.length === 0">
-          <td class="py-4 text-center text-gray-500">
+          <td class="py-6 text-center text-gray-500">
             {{ 'PROFIL.NINCS_LAKAS' | translate }}
           </td>
         </tr>

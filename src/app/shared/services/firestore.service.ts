@@ -74,7 +74,6 @@ export class FirestoreService {
           }
 
           const newId = this.firestore.createId();
-          data.userId = user.uid;
           data.feltoltesDatum = new Date();
 
           const convertToFloat = (value: any) =>
@@ -87,7 +86,7 @@ export class FirestoreService {
 
           return from(this.firestore.collection(this.fogyasztasiCollection).doc(newId).set(data))
             .pipe(
-              map(() => true),  // Ha sikerül a mentés → true
+              map(() => true),
               catchError(error => {
                 console.error("Firestore mentési hiba:", error);
                 reject(error);

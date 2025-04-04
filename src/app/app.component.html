@@ -1,3 +1,10 @@
-<app-menu (selectedPage)="changePage($event)"></app-menu>
-<router-outlet></router-outlet>
+<div [ngClass]="['page-wrapper', pageClass]">
+  <div class="leaf-background">
+    <div *ngFor="let leaf of leaves" class="leaf" [ngStyle]="leaf.style"></div>
+  </div>
 
+  <!-- ELŐTÉR -->
+<div class="relative z-10">
+  <app-menu [pageClass]="pageClass" (selectedPage)="changePage($event)"></app-menu>
+  <router-outlet></router-outlet>
+</div>

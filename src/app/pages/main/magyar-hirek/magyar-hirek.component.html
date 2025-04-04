@@ -1,0 +1,43 @@
+<div *ngIf="!loading" class="px-4 pt-4 text-sm text-gray-600 italic">
+  A hírek forrása: <a href="https://greenfo.hu" target="_blank" class="text-green-700 hover:underline">greenfo.hu</a>
+</div>
+
+<div *ngIf="loading" class="text-center mt-8 text-gray-500 text-lg">
+  Hírek betöltése...
+</div>
+
+<div *ngIf="!loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-4">
+  <div *ngFor="let hir of hirek" class="bg-white rounded-2xl shadow hover:shadow-lg transition-shadow overflow-hidden flex flex-col">
+
+    <img
+      *ngIf="hir.content?.includes('img')"
+      [src]="extractImageUrl(hir.content)"
+      alt="Hír képe"
+      class="w-full h-56 object-cover"
+    />
+
+    <div class="flex flex-col justify-between flex-1 p-5">
+      <div>
+        <h2 class="text-xl font-semibold mb-2 text-green-700">{{ hir.title }}</h2>
+        <p class="text-gray-600 text-sm mb-3" *ngIf="hir.pubDate || hir.author">
+           {{ hir.pubDate | date:'medium' }} | ✍ {{ hir.author }}
+        </p>
+
+        <div class="flex flex-wrap gap-2 mb-3">
+          <span *ngFor="let cat of hir.categories" class="bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded">
+            {{ cat }}
+          </span>
+        </div>
+
+        <p class="text-gray-700 text-sm" [innerHTML]="hir.description"></p>
+      </div>
+
+      <div class="mt-4">
+        <a [href]="hir.link" target="_blank"
+           class="inline-block text-white bg-green-600 hover:bg-green-700 transition px-4 py-2 rounded-lg text-sm">
+          Tovább a cikkhez →
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

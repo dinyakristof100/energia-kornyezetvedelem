@@ -129,7 +129,6 @@ export class FelhasznaloProfilComponent implements OnInit {
   /**
    * Megnyitja a lakás hozzáadása modalt.
    */
-// felhasznalo-profil.component.ts
   openLakasModal(lakas?: Lakas): void {
 
       const modalRef = this.modalService.open(LakasModalComponent, {
@@ -144,7 +143,6 @@ export class FelhasznaloProfilComponent implements OnInit {
 
     modalRef.result.then(
         (result) => {
-          console.log("Modal result:", result);
           this.loadLakasok();
         },
         (error) => {

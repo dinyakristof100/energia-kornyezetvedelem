@@ -1,0 +1,67 @@
+.page-wrapper {
+  min-height: 100vh;
+  position: relative;
+
+  &.main {
+    background-color: #ebfbee;
+  }
+
+  &.faultetes {
+    background-color: #e0f7fa;
+  }
+
+  &.fogyasztas-rogzit {
+    background-color: #fff3e0;
+  }
+
+  &.fogyasztas-display {
+    background-color: #e3f2fd;
+  }
+
+  &.login {
+    background-color: #f5f5f5;
+  }
+
+  &.register {
+    background-color: #ede7f6;
+  }
+
+  &.profil {
+    background-color: #e8f5e9;
+  }
+}
+
+
+.leaf-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.leaf {
+  position: absolute;
+  top: -60px;
+  background-image: url('/assets/images/leaf.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  animation-name: fallDown;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+@keyframes fallDown {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: translateY(120vh) rotate(360deg);
+    opacity: 0;
+  }
+}

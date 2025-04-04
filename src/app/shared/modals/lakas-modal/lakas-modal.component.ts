@@ -37,7 +37,7 @@ export class LakasModalComponent implements OnInit, OnChanges{
     this.lakasForm = this.fb.group({
       id: [null],
       lakasNev: ['', Validators.required],
-      lakasmeret: [null, [Validators.min(1)]],
+      alapterulet: [null, [Validators.min(1)]],
       epitesMod: ['', Validators.required],
       futesTipus: ['', Validators.required],
       szigeteles: [false],

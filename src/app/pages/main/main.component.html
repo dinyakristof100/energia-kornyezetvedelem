@@ -1,7 +1,2 @@
-<div class="main-content">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>{{ 'WELCOME_MESSAGE' | translate }}</mat-card-title>
-    </mat-card-header>
-  </mat-card>
-</div>
+<app-magyar-hirek *ngIf="nyelv === 'hu'"></app-magyar-hirek>
+<app-kulfoldi-hirek *ngIf="nyelv === 'en'"></app-kulfoldi-hirek>

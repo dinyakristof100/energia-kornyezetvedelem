@@ -1,50 +1,80 @@
-<mat-toolbar color="primary">
-  <span>{{ currentTitle | translate}}</span>
-  <span class="spacer"></span>
-  <div class="language-switcher">
-    <button mat-button (click)="changeLanguage('hu')"><h3><span class="fi fi-hu"></span></h3></button>
-    <button mat-button (click)="changeLanguage('en')"><h3><span class="fi fi-gb"></span></h3></button>
+<mat-toolbar class="sticky top-0 z-50 shadow-md px-6 py-2 flex items-center justify-between bg-cover bg-center"
+             style="background-image: url('assets/images/wood-texture.jpg');">
+  <span
+    class="bg-amber-100 !text-brown-800 rounded-lg px-4 py-1 shadow-md text-lg font-semibold drop-shadow-md"
+    [ngClass]="{
+          'bg-[#ebfbee] text-green-900': pageClass === 'main',
+          'bg-[#e0f7fa] text-cyan-900': pageClass === 'faultetes',
+          'bg-[#fff3e0] text-orange-900': pageClass === 'fogyasztas-rogzit',
+          'bg-[#e3f2fd] text-blue-900': pageClass === 'fogyasztas-display',
+          'bg-[#f5f5f5] text-gray-900': pageClass === 'login',
+          'bg-[#ede7f6] text-purple-900': pageClass === 'register',
+          'bg-[#e8f5e9] text-green-800': pageClass === 'profil'
+        }">
+    {{ currentTitle | translate }}
+  </span>
+
+  <div class="flex items-center gap-4">
+
+    <div class="flex items-center gap-2">
+      <button (click)="changeLanguage('hu')"
+              class="bg-amber-100 hover:bg-amber-200 text-brown-800 rounded-full p-2 shadow transition-transform hover:scale-105"
+              [ngClass]="getLangBgClass()">
+        <span class="fi fi-hu text-2xl drop-shadow-md"></span>
+      </button>
+      <button (click)="changeLanguage('en')"
+              class="bg-amber-100 hover:bg-amber-200 text-brown-800 rounded-full p-2 shadow transition-transform hover:scale-105"
+              [ngClass]="getLangBgClass()">
+        <span class="fi fi-gb text-2xl drop-shadow-md"></span>
+      </button>
+    </div>
+
+    <button mat-icon-button [matMenuTriggerFor]="menu" class="text-green-800 hover:text-green-900 transition drop-shadow-md">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu" class="mt-2 overflow-x-hidden" >
+      <ng-container>
+        <button mat-menu-item [routerLink]="'/main'" routerLinkActive="active">
+          <mat-icon>home</mat-icon>
+          <span>{{ 'MAIN_PAGE' | translate }}</span>
+        </button>
+
+        <button mat-menu-item [routerLink]="'/faultetes'" *ngIf="loggedInUser" routerLinkActive="active">
+          <mat-icon>park</mat-icon>
+          <span>{{ 'FA_ULTETES' | translate }}</span>
+        </button>
+
+        <button mat-menu-item [routerLink]="'/fogyasztas-rogzit'" *ngIf="loggedInUser" routerLinkActive="active">
+          <mat-icon>computer</mat-icon>
+          <span>{{ 'FOGYASZTAS_ADD' | translate }}</span>
+        </button>
+
+        <button mat-menu-item [routerLink]="'/fogyasztas-display'" *ngIf="loggedInUser" routerLinkActive="active">
+          <mat-icon>bar_chart</mat-icon>
+          <span>{{ 'FOGYASZTAS_DISPLAY' | translate }}</span>
+        </button>
+
+        <button mat-menu-item [routerLink]="'/profil'" *ngIf="loggedInUser" routerLinkActive="active">
+          <mat-icon>person</mat-icon>
+          <span>{{ 'PROFIL.TITLE' | translate }}</span>
+        </button>
+
+        <button mat-menu-item *ngIf="!loggedInUser" [routerLink]="'/login'" routerLinkActive="active">
+          <mat-icon>login</mat-icon>
+          <span>{{ 'LOGIN.TITLE' | translate }}</span>
+        </button>
+
+        <button mat-menu-item *ngIf="!loggedInUser" [routerLink]="'/register'" routerLinkActive="active">
+          <mat-icon>person_add</mat-icon>
+          <span>{{ 'REGISTER.TITLE' | translate }}</span>
+        </button>
+
+        <button mat-menu-item (click)="logout()" *ngIf="loggedInUser">
+          <mat-icon>logout</mat-icon>
+          <span>{{ 'LOGOUT' | translate }}</span>
+        </button>
+      </ng-container>
+    </mat-menu>
   </div>
-  <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon>menu</mat-icon>
-  </button>
-
-  <mat-menu #menu="matMenu">
-    <button mat-menu-item [routerLink]="'/main'" routerLinkActive="active">
-      <mat-icon>home</mat-icon>
-      <span>{{ 'MAIN_PAGE' | translate }}</span>
-    </button>
-    <button mat-menu-item [routerLink]="'/faultetes'" routerLinkActive="active" *ngIf="loggedInUser != null">
-      <mat-icon>park</mat-icon>
-      <span>{{ 'FA_ULTETES' | translate }}</span>
-    </button>
-    <button mat-menu-item [routerLink]="'/fogyasztas-rogzit'" routerLinkActive="active" *ngIf="loggedInUser != null">
-      <mat-icon>computer</mat-icon>
-      <span>{{ 'FOGYASZTAS_ADD' | translate }}</span>
-    </button>
-    <button mat-menu-item [routerLink]="'/fogyasztas-display'" routerLinkActive="active" *ngIf="loggedInUser != null">
-      <mat-icon>bar_chart</mat-icon>
-      <span>{{ 'FOGYASZTAS_DISPLAY' | translate }}</span>
-    </button>
-
-    <button mat-menu-item [routerLink]="'/login'" routerLinkActive="active" *ngIf="loggedInUser == null">
-      <mat-icon>login</mat-icon>
-      <span>{{ 'LOGIN.TITLE' | translate }}</span>
-    </button>
-
-    <button mat-menu-item [routerLink]="'/register'" routerLinkActive="active" *ngIf="loggedInUser == null">
-      <mat-icon>person_add</mat-icon>
-      <span>{{ 'REGISTER.TITLE' | translate }}</span>
-    </button>
-
-    <button mat-menu-item [routerLink]="'/profil'" routerLinkActive="active" *ngIf="loggedInUser != null">
-      <mat-icon>person</mat-icon>
-      <span>{{ 'PROFIL.TITLE' | translate }}</span>
-    </button>
-
-    <button mat-menu-item (click)="logout()" *ngIf="loggedInUser != null">
-      <mat-icon>login</mat-icon>
-      <span>{{ 'LOGOUT' | translate }}</span>
-    </button>
-  </mat-menu>
 </mat-toolbar>
