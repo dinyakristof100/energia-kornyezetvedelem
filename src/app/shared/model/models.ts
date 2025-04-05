@@ -64,3 +64,5 @@ export interface Kep{
   username: string;
   user_id: string;
 }
+
+export type KozlekedesiMod = 'auto' | 'busz' | 'vonat' | 'bicikli' | 'gyalog';

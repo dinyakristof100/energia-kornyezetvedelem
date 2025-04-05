@@ -65,6 +65,7 @@ import {FaModalComponent} from "./shared/modals/fa-modal/fa-modal.component";
 import { AiErtekelesModalComponent } from './shared/modals/ai-ertekeles-modal/ai-ertekeles-modal.component';
 import { MagyarHirekComponent } from './pages/main/magyar-hirek/magyar-hirek.component';
 import { KulfoldiHirekComponent } from './pages/main/kulfoldi-hirek/kulfoldi-hirek.component';
+import { Co2kalkulatorComponent } from './pages/co2kalkulator/co2kalkulator.component';
 
 // Elemek regisztrálása
 Chart.register(
@@ -95,6 +96,7 @@ Chart.register(
     AiErtekelesModalComponent,
     MagyarHirekComponent,
     KulfoldiHirekComponent,
+    Co2kalkulatorComponent,
   ],
   imports: [
     BrowserModule,

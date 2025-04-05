@@ -209,5 +209,24 @@
   "NINCS_FOGYASZTASI_ADAT": "A kiválasztott lakáshoz még nem rögzítettek fogyasztási adatokat.",
   "JOVAHAGYOTT": "Jóváhagyott",
   "IGEN": "Igen",
-  "NEM": "Nem"
+  "NEM": "Nem",
+  "CO2": {
+    "TITLE": "CO₂ Kalkulátor",
+    "FROM": "Indulási hely",
+    "TO": "Célállomás",
+    "TRANSPORT_LABEL": "Közlekedési mód",
+    "TRANSPORT": {
+      "AUTO": "Autó",
+      "BUSZ": "Busz",
+      "VONAT": "Vonat",
+      "BICIKLI": "Bicikli",
+      "GYALOG": "Gyalog"
+    },
+    "CALCULATE": "Számítás indítása",
+    "RESULTS": "Eredmények",
+    "DISTANCE": "Távolság",
+    "MODE": "Közlekedési mód",
+    "CO2": "CO₂ kibocsátás",
+    "ERROR_INVALID_LOCATION": "Hibás városnév, kérlek ellenőrizd az adatokat!"
+  }
 }

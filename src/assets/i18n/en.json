@@ -212,5 +212,24 @@
   "NINCS_FOGYASZTASI_ADAT": "No consumption data has been recorded for the selected apartment.",
   "JOVAHAGYOTT": "Confirmed",
   "IGEN": "Yes",
-  "NEM": "No"
+  "NEM": "No",
+  "CO2": {
+    "TITLE": "CO₂ Calculator",
+    "FROM": "Starting location",
+    "TO": "Destination",
+    "TRANSPORT_LABEL": "Mode of transport",
+    "TRANSPORT": {
+      "AUTO": "Car",
+      "BUSZ": "Bus",
+      "VONAT": "Train",
+      "BICIKLI": "Bicycle",
+      "GYALOG": "On foot"
+    },
+    "CALCULATE": "Start Calculation",
+    "RESULTS": "Results",
+    "DISTANCE": "Distance",
+    "MODE": "Transport mode",
+    "CO2": "CO₂ Emission",
+    "ERROR_INVALID_LOCATION": "Invalid location, please check your input!"
+  }
 }

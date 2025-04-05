@@ -1,0 +1,90 @@
+<div class="max-w-3xl mx-auto p-6">
+  <div class="bg-white shadow-xl rounded-2xl p-6 space-y-6">
+    <h2 class="text-2xl font-bold text-gray-800">{{ 'CO2.TITLE' | translate }}</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input
+        type="text"
+        [(ngModel)]="from"
+        [placeholder]="'CO2.FROM' | translate"
+        class="px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+      />
+      <input
+        type="text"
+        [(ngModel)]="to"
+        [placeholder]="'CO2.TO' | translate"
+        class="px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 w-full"
+      />
+    </div>
+
+    <div>
+      <label class="block text-gray-700 font-semibold mb-2">{{ 'CO2.TRANSPORT_LABEL' | translate }}</label>
+      <div class="flex gap-4 flex-wrap">
+        <button [ngClass]="{ 'bg-green-600 text-white border-green-600': selected === 'auto' }"
+                (click)="selectTransport('auto')"
+                class="px-4 py-2 rounded-xl border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm font-medium transition">
+          🚗 {{ 'CO2.TRANSPORT.AUTO' | translate }}
+        </button>
+        <button [ngClass]="{ 'bg-green-600 text-white border-green-600': selected === 'busz' }"
+                (click)="selectTransport('busz')"
+                class="px-4 py-2 rounded-xl border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm font-medium transition">
+          🚌 {{ 'CO2.TRANSPORT.BUSZ' | translate }}
+        </button>
+        <button [ngClass]="{ 'bg-green-600 text-white border-green-600': selected === 'vonat' }"
+                (click)="selectTransport('vonat')"
+                class="px-4 py-2 rounded-xl border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm font-medium transition">
+          🚆 {{ 'CO2.TRANSPORT.VONAT' | translate }}
+        </button>
+        <button [ngClass]="{ 'bg-green-600 text-white border-green-600': selected === 'bicikli' }"
+                (click)="selectTransport('bicikli')"
+                class="px-4 py-2 rounded-xl border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm font-medium transition">
+          🚲 {{ 'CO2.TRANSPORT.BICIKLI' | translate }}
+        </button>
+        <button [ngClass]="{ 'bg-green-600 text-white border-green-600': selected === 'gyalog' }"
+                (click)="selectTransport('gyalog')"
+                class="px-4 py-2 rounded-xl border border-gray-300 bg-gray-100 hover:bg-gray-200 text-sm font-medium transition">
+          🚶‍♂️ {{ 'CO2.TRANSPORT.GYALOG' | translate }}
+        </button>
+      </div>
+    </div>
+
+    <button
+      (click)="szamol()"
+      [disabled]="animacioFut || !from.trim() || !to.trim() || !selected"
+      class="w-full py-2 rounded-xl text-lg font-semibold transition duration-200
+         text-white
+         bg-green-600 hover:bg-green-700
+         disabled:bg-gray-400 disabled:text-white disabled:cursor-not-allowed"
+    >
+      {{ 'CO2.CALCULATE' | translate }}
+    </button>
+
+    <div *ngIf="animacioFut" class="relative bg-green-50 p-6 rounded-xl mt-4 shadow-md overflow-hidden h-36">
+
+      <div class="absolute top-2 right-4 text-sm font-semibold text-gray-700 text-right">
+        {{ from }}
+      </div>
+
+      <div class="absolute bottom-2 left-4 text-sm font-semibold text-gray-700">
+        {{ to }}
+      </div>
+
+      <div class="absolute top-1/2 left-0 w-full h-2 bg-green-200 rounded-full transform -translate-y-1/2"></div>
+
+      <div class="absolute top-1/2 transform -translate-y-[90%] animate-travel-left text-3xl">
+      <span [innerHTML]="getTransportIconFlipped(selected)"></span>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="text-red-600 font-medium mt-4">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="eredmeny && !animacioFut" class="bg-green-100 p-5 rounded-xl mt-4 shadow-md text-gray-800">
+      <p class="text-lg font-bold">{{ 'CO2.RESULTS' | translate }}:</p>
+      <p>{{ 'CO2.DISTANCE' | translate }}: {{ eredmeny.tav }} km</p>
+      <p>{{ 'CO2.MODE' | translate }}: {{ 'CO2.TRANSPORT.' + eredmeny.mod.toUpperCase() | translate }}</p>
+      <p class="text-xl font-bold mt-2">{{ 'CO2.CO2' | translate }}: {{ eredmeny.co2 }} kg</p>
+    </div>
+  </div>
+</div>

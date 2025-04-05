@@ -14,6 +14,7 @@ export class MenuComponent implements OnInit  {
   @Input() pageClass: string = '';
   currentTitle: string = '';
   loggedInUser?: firebase.default.User | null;
+  currentLang: string = 'hu';
 
   constructor(
     private translate: TranslateService,
@@ -25,6 +26,7 @@ export class MenuComponent implements OnInit  {
   }
 
   ngOnInit() {
+    this.currentLang = this.translate.currentLang || 'hu';
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -52,6 +54,7 @@ export class MenuComponent implements OnInit  {
   }
 
   changeLanguage(lang: string) {
+    this.currentLang = lang;
     this.translate.use(lang);
     const route = this.getActivatedRoute();
     const titleKey = route.snapshot.data['title'];
@@ -92,6 +95,7 @@ export class MenuComponent implements OnInit  {
       case 'login': return 'bg-[#f5f5f5] text-gray-900';
       case 'register': return 'bg-[#ede7f6] text-purple-900';
       case 'profil': return 'bg-[#e8f5e9] text-green-800';
+      case 'co2kalkulator': return 'bg-[#f1f8e9] text-lime-900';
       default: return 'bg-white text-gray-800';
     }
   }

@@ -71,3 +71,18 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 button {
   @apply transition duration-300 hover:scale-105 hover:bg-green-600;
 }
+
+@layer utilities {
+  @keyframes travel-left {
+    0% {
+      left: 90%;
+    }
+    100% {
+      left: 0;
+    }
+  }
+
+  .animate-travel-left {
+    animation: travel-left 3s ease-in-out forwards;
+  }
+}
