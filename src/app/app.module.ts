@@ -66,6 +66,8 @@ import { AiErtekelesModalComponent } from './shared/modals/ai-ertekeles-modal/ai
 import { MagyarHirekComponent } from './pages/main/magyar-hirek/magyar-hirek.component';
 import { KulfoldiHirekComponent } from './pages/main/kulfoldi-hirek/kulfoldi-hirek.component';
 import { Co2kalkulatorComponent } from './pages/co2kalkulator/co2kalkulator.component';
+import { ConfirmModalComponent } from './shared/modals/confirm-modal/confirm-modal.component';
+import {CommonModule} from "@angular/common";
 
 // Elemek regisztrálása
 Chart.register(
@@ -97,11 +99,13 @@ Chart.register(
     MagyarHirekComponent,
     KulfoldiHirekComponent,
     Co2kalkulatorComponent,
+    ConfirmModalComponent,
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
+    BrowserModule,
     BrowserAnimationsModule,
+    CommonModule,
     HttpClientModule,
     MatToolbarModule,
     MatButtonModule,

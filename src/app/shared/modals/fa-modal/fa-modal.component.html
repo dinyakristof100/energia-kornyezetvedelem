@@ -22,6 +22,7 @@
         </option>
       </select>
 
+
       <mat-form-field appearance="fill" class="custom-datepicker w-full">
         <mat-label>{{ 'FAULTETES.ULTETES_IDEJE' | translate }}</mat-label>
         <input
@@ -64,10 +65,10 @@
                accept="image/*"
                class="border border-gray-300 rounded-md px-3 py-2 bg-white cursor-pointer" />
 
-        <div *ngIf="imagePreview" class="shrink-0">
+        <div *ngIf="imagePreview" class="w-full max-w-full overflow-hidden">
           <img [src]="imagePreview"
                alt="Kép előnézet"
-               class="w-100 h-100 object-cover rounded-md border border-green-300 shadow-sm" />
+               class="max-w-full max-h-[400px] w-auto h-auto object-contain rounded-md border border-green-300 shadow-sm mx-auto"/>
         </div>
       </div>
     </div>

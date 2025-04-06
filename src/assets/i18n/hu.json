@@ -228,5 +228,9 @@
     "MODE": "Közlekedési mód",
     "CO2": "CO₂ kibocsátás",
     "ERROR_INVALID_LOCATION": "Hibás városnév, kérlek ellenőrizd az adatokat!"
+  },
+  "MODAL": {
+    "CONFIRM_TITLE": "Biztosan törlöd?",
+    "CONFIRM_MESSAGE": "A fa elfog veszni."
   }
 }

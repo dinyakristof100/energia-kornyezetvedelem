@@ -231,5 +231,9 @@
     "MODE": "Transport mode",
     "CO2": "CO₂ Emission",
     "ERROR_INVALID_LOCATION": "Invalid location, please check your input!"
+  },
+  "MODAL": {
+    "CONFIRM_TITLE": "Are you sure wanna delete?",
+    "CONFIRM_MESSAGE": "The tree will be lost."
   }
 }

@@ -10,6 +10,7 @@ import { DocumentData } from '@angular/fire/firestore';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {EmailService} from "../../shared/services/email.service";
 import {TranslateService} from "@ngx-translate/core";
+import {ConfirmModalComponent} from "../../shared/modals/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-faultetes',
@@ -164,20 +165,31 @@ export class FaultetesComponent implements OnInit {
   }
 
   torolFa(faId: string) {
-    this.firestore.collection('Trees').doc(faId).get().toPromise().then(async doc => {
-      const fa = doc?.data() as Fa;
-      if (!fa) {
-        console.error('Fa nem található törlés előtt.');
-        return;
-      }
+    const modalRef = this.modalService.open(ConfirmModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      animation: false
+    });
 
-      await this.emailService.kuldesFaTorlesEmail(faId);
+    modalRef.result.then(result => {
+          if (result === 'confirm') {
+            this.firestore.collection('Trees').doc(faId).get().toPromise().then(async doc => {
+              const fa = doc?.data() as Fa;
+              if (!fa) {
+                console.error('Fa nem található törlés előtt.');
+                return;
+              }
 
-      this.firestore.collection('Trees').doc(faId).delete().then(() => {
-        this.betoltFak();
-      }).catch(err => console.error('Hiba a fa törlésekor:', err));
+              await this.emailService.kuldesFaTorlesEmail(faId);
 
-    }).catch(err => console.error('Nem sikerült lekérni a fát törlés előtt:', err));
+              this.firestore.collection('Trees').doc(faId).delete().then(() => {
+                this.betoltFak();
+              }).catch(err => console.error('Hiba a fa törlésekor:', err));
+            }).catch(err => console.error('Nem sikerült lekérni a fát törlés előtt:', err));
+          }
+    }).catch(() => {
+      //Mégsem
+    });
   }
 
   adminElerheto(): boolean {
