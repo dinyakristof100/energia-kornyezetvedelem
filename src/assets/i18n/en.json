@@ -235,5 +235,14 @@
   "MODAL": {
     "CONFIRM_TITLE": "Are you sure wanna delete?",
     "CONFIRM_MESSAGE": "The tree will be lost."
-  }
+  },
+  "SZAKERTOI_IGENY_SIKER": "Expert opinion request submitted successfully.",
+  "SZAKERTOI_IGENY_HIBA": "An error occurred while submitting the request.",
+  "SZAKERTOI_IGENYEK": "Expert opinion requests",
+  "BEKULDO": "Submitted by",
+  "IDOPONT": "Date",
+  "NINCS_SZAKERTOI_IGENY": "There are no expert opinion requests.",
+  "ELOZO": "Previous",
+  "KOVETKEZO": "Next",
+  "OLDAL": "Page"
 }

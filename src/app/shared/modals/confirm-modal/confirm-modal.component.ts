@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectorRef, Component} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -6,22 +6,18 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.scss']
 })
-export class ConfirmModalComponent implements AfterViewInit {
-  constructor(
-    public activeModal: NgbActiveModal,
-    private cd: ChangeDetectorRef
-  ) {}
+export class ConfirmModalComponent {
+  @Input() title: string = '';
+  @Input() message: string = '';
+  @Input() megse: string = '';
+  @Input() elfogad: string = '';
 
-  ngAfterViewInit(): void {
-    console.log("ngAfterViewInit called")
-    this.cd.detectChanges();
-  }
-
+  constructor(public activeModal: NgbActiveModal) {}
   onCancel(): void {
     this.activeModal.close('cancel');
   }
 
-  onConfirm() {
+  onConfirm(): void {
     this.activeModal.close('confirm');
   }
 }

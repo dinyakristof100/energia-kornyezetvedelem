@@ -168,28 +168,26 @@ export class FaultetesComponent implements OnInit {
     const modalRef = this.modalService.open(ConfirmModalComponent, {
       centered: true,
       backdrop: 'static',
-      animation: false
+      size: 'md'
     });
 
-    modalRef.result.then(result => {
-          if (result === 'confirm') {
-            this.firestore.collection('Trees').doc(faId).get().toPromise().then(async doc => {
-              const fa = doc?.data() as Fa;
-              if (!fa) {
-                console.error('Fa nem található törlés előtt.');
-                return;
-              }
+    modalRef.componentInstance.title = this.translate.instant('MODAL.CONFIRM_TITLE');
+    modalRef.componentInstance.message = this.translate.instant('MODAL.CONFIRM_MESSAGE');
+    modalRef.componentInstance.megse = this.translate.instant('MEGSE');
+    modalRef.componentInstance.elfogad = this.translate.instant('JOVAHAGY');
 
-              await this.emailService.kuldesFaTorlesEmail(faId);
 
-              this.firestore.collection('Trees').doc(faId).delete().then(() => {
-                this.betoltFak();
-              }).catch(err => console.error('Hiba a fa törlésekor:', err));
-            }).catch(err => console.error('Nem sikerült lekérni a fát törlés előtt:', err));
-          }
-    }).catch(() => {
-      //Mégsem
-    });
+    modalRef.result.then(async (result) => {
+      if (result === 'confirm') {
+        const doc = await this.firestore.collection('Trees').doc(faId).get().toPromise();
+        const fa = doc?.data() as Fa;
+        if (!fa) return console.error('Fa nem található törlés előtt.');
+
+        await this.emailService.kuldesFaTorlesEmail(faId);
+        await this.firestore.collection('Trees').doc(faId).delete();
+        this.betoltFak();
+      }
+    }).catch(() => {});
   }
 
   adminElerheto(): boolean {

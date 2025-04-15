@@ -10,13 +10,13 @@
 
     <div class="flex items-center gap-2">
       <button (click)="changeLanguage('hu')"
-              class="rounded-full p-2 shadow transition-transform hover:scale-105 border-2"
+              class="rounded-full p-2 shadow transition-transform hover:scale-105 border-4"
               [ngClass]="[ getLangBgClass(), currentLang === 'hu' ? 'border-green-600' : 'border-transparent' ]">
         <span class="fi fi-hu text-2xl drop-shadow-md"></span>
       </button>
 
       <button (click)="changeLanguage('en')"
-              class="rounded-full p-2 shadow transition-transform hover:scale-105 border-2"
+              class="rounded-full p-2 shadow transition-transform hover:scale-105 border-4"
               [ngClass]="[ getLangBgClass(), currentLang === 'en' ? 'border-green-600' : 'border-transparent' ]">
         <span class="fi fi-gb text-2xl drop-shadow-md"></span>
       </button>

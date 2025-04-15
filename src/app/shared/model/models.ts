@@ -65,4 +65,13 @@ export interface Kep{
   user_id: string;
 }
 
+export interface Velemeny {
+  idopont: any;
+  elbiralva: boolean;
+  uzenet: string;
+  userid: string;
+  username: string;
+}
+
+
 export type KozlekedesiMod = 'auto' | 'busz' | 'vonat' | 'bicikli' | 'gyalog';

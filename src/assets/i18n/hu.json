@@ -232,5 +232,14 @@
   "MODAL": {
     "CONFIRM_TITLE": "Biztosan törlöd?",
     "CONFIRM_MESSAGE": "A fa elfog veszni."
-  }
+  },
+  "SZAKERTOI_IGENY_SIKER": "A szakértői vélemény igény sikeresen elküldve.",
+  "SZAKERTOI_IGENY_HIBA": "Hiba történt az igény elküldésekor.",
+  "SZAKERTOI_IGENYEK": "Szakértői vélemény igénylések",
+  "BEKULDO": "Beküldő",
+  "IDOPONT": "Időpont",
+  "NINCS_SZAKERTOI_IGENY": "Nincs szakértői vélemény igénylés.",
+  "ELOZO": "Előző",
+  "KOVETKEZO": "Következő",
+  "OLDAL": "Oldal"
 }

@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     for (let i = 0; i < 30; i++) {
-      const delay = Math.random() * 5;
+      const delay = Math.random() * 3;
       const left = Math.random() * 100;
       const duration = 10 + Math.random() * 20;
       const size = 20 + Math.random() * 30;
