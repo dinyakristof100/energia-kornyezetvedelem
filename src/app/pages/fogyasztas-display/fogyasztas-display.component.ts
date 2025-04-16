@@ -86,12 +86,6 @@ export class FogyasztasDisplayComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loadLakasok();
-
-    this.translate.onLangChange.subscribe(() => {
-      this.updateChart();
-    });
-
     this.auth.user.subscribe(user => {
       if (user) {
         const uid = user.uid;
@@ -112,6 +106,12 @@ export class FogyasztasDisplayComponent implements OnInit {
           this.isAdmin = false;
         });
       }
+    });
+
+    this.loadLakasok();
+
+    this.translate.onLangChange.subscribe(() => {
+      this.updateChart();
     });
   }
 

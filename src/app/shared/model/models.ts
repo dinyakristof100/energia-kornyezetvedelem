@@ -73,5 +73,10 @@ export interface Velemeny {
   username: string;
 }
 
+export interface Cenzura{
+  text: string;
+  idopont: Date;
+}
+
 
 export type KozlekedesiMod = 'auto' | 'busz' | 'vonat' | 'bicikli' | 'gyalog';

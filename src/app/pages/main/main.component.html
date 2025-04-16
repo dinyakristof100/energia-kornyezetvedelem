@@ -1,2 +1,3 @@
+<app-cenzura-admin *ngIf="isAdmin" (cenzuraValtozott)="frissitsHireket()"></app-cenzura-admin>
 <app-magyar-hirek *ngIf="nyelv === 'hu'"></app-magyar-hirek>
 <app-kulfoldi-hirek *ngIf="nyelv === 'en'"></app-kulfoldi-hirek>

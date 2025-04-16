@@ -68,6 +68,7 @@ import { KulfoldiHirekComponent } from './pages/main/kulfoldi-hirek/kulfoldi-hir
 import { Co2kalkulatorComponent } from './pages/co2kalkulator/co2kalkulator.component';
 import { ConfirmModalComponent } from './shared/modals/confirm-modal/confirm-modal.component';
 import {CommonModule} from "@angular/common";
+import { CenzuraAdminComponent } from './pages/main/cenzura-admin/cenzura-admin.component';
 
 // Elemek regisztrálása
 Chart.register(
@@ -100,6 +101,7 @@ Chart.register(
     KulfoldiHirekComponent,
     Co2kalkulatorComponent,
     ConfirmModalComponent,
+    CenzuraAdminComponent,
   ],
   imports: [
     AppRoutingModule,
