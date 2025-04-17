@@ -205,7 +205,8 @@
   "MEGSE": "Cancel",
   "TOLTES": "Loading...",
   "SNACKBAR": {
-    "SUCCESS": "Successfully saved. Please wait for admin approval."
+    "SUCCESS": "Successfully saved. Please wait for admin approval.",
+    "FA_TOROLVE": "Deleted successfully"
   },
   "JOVAHAGY": "Confirm",
   "TORLES": "Delete",
@@ -244,5 +245,25 @@
   "NINCS_SZAKERTOI_IGENY": "There are no expert opinion requests.",
   "ELOZO": "Previous",
   "KOVETKEZO": "Next",
-  "OLDAL": "Page"
+  "OLDAL": "Page",
+  "CENZURA": {
+    "TITLE": "Censorship Management",
+    "NEW_PLACEHOLDER": "New censored word...",
+    "ADD": "Add",
+    "DELETE": "Delete",
+    "PREVIOUS": "Previous",
+    "NEXT": "Next",
+    "PAGE": "Page"
+  },
+  "VELEMENY_ADASA": "Response",
+  "SZAKERTOI_MODAL": {
+    "CIM": "Write Expert Opinion",
+    "VALASZ_PLACEHOLDER": "Type your response...",
+    "KULDES": "Send",
+    "MEGSE": "Cancel"
+  },
+  "SZAKERTOI_VELEMENYEK": {
+    "KULDES_SIKER": "Expert feedback successfully sent!",
+    "KULDES_HIBA": "An error occurred while sending the expert feedback."
+  }
 }

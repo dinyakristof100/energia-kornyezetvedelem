@@ -202,7 +202,8 @@
   "MEGSE": "Mégse",
   "TOLTES": "Adatok betöltése...",
   "SNACKBAR": {
-    "SUCCESS": "Sikeresen mentetted. Kérlek várj az adminok jóváhagyására."
+    "SUCCESS": "Sikeresen mentetted. Kérlek várj az adminok jóváhagyására.",
+    "FA_TOROLVE": "Sikeres törlés"
   },
   "JOVAHAGY": "Jóváhagy",
   "TORLES": "Törlés",
@@ -241,5 +242,25 @@
   "NINCS_SZAKERTOI_IGENY": "Nincs szakértői vélemény igénylés.",
   "ELOZO": "Előző",
   "KOVETKEZO": "Következő",
-  "OLDAL": "Oldal"
+  "OLDAL": "Oldal",
+  "CENZURA": {
+    "TITLE": "Cenzúra kezelés",
+    "NEW_PLACEHOLDER": "Új cenzúra szó...",
+    "ADD": "Hozzáadás",
+    "DELETE": "Törlés",
+    "PREVIOUS": "Előző",
+    "NEXT": "Következő",
+    "PAGE": "Oldal"
+  },
+  "VELEMENY_ADASA": "Véleményezés",
+  "SZAKERTOI_MODAL": {
+    "CIM": "Szakértői vélemény írása",
+    "VALASZ_PLACEHOLDER": "Írd be a választ...",
+    "KULDES": "Küldés",
+    "MEGSE": "Mégse"
+  },
+  "SZAKERTOI_VELEMENYEK": {
+    "KULDES_SIKER": "Szakértői vélemény sikeresen elküldve!",
+    "KULDES_HIBA": "Hiba történt a szakértői vélemény küldésekor."
+  }
 }

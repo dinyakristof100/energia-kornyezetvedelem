@@ -126,6 +126,12 @@
         <p class="text-sm text-gray-600 mt-2 whitespace-pre-line">
           {{ velemenyek[0].uzenet }}
         </p>
+
+        <button
+          class="mt-2 px-4 py-2 bg-green-400 hover:bg-green-500 text-white rounded-lg text-sm shadow"
+          (click)="openVelemenyModal(velemenyek[0])">
+          {{ 'VELEMENY_ADASA' | translate }}
+        </button>
       </div>
 
       <div class="text-center mt-4 flex justify-center gap-4" *ngIf="velemenyek.length">
@@ -147,6 +153,7 @@
           {{ 'KOVETKEZO' | translate }}
         </button>
       </div>
+
 
     </ng-container>
 

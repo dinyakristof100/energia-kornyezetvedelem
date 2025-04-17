@@ -12,6 +12,9 @@ import {AiErtekelesModalComponent} from "../../shared/modals/ai-ertekeles-modal/
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {DocumentData} from "@angular/fire/firestore";
 import { firstValueFrom } from 'rxjs';
+import {
+  SzakertoiVelemenyModalComponent
+} from "../../shared/modals/szakertoi-velemeny-modal/szakertoi-velemeny-modal.component";
 
 @Component({
   selector: 'app-fogyasztas-display',
@@ -49,6 +52,9 @@ export class FogyasztasDisplayComponent implements OnInit {
       toolbar: {
         show: false,
       },
+    },
+    zoom: {
+      enabled: false
     },
     xaxis: {
       categories: [] as string[]
@@ -306,7 +312,10 @@ export class FogyasztasDisplayComponent implements OnInit {
 
     this.auth.currentUser.then(user => {
       if (user) {
+        const id = this.firestore.createId();
+
         const velemeny = {
+          id,
           idopont: new Date(),
           elbiralva: false,
           uzenet: prompt,
@@ -314,11 +323,20 @@ export class FogyasztasDisplayComponent implements OnInit {
           username: user.displayName ?? 'ismeretlen'
         };
 
-        this.firestore.collection('Velemenyek').add(velemeny).then(() => {
+        this.firestore.collection('Velemenyek').doc(id).set(velemeny).then(() => {
           this.aiLoading = false;
+
+          if (this.isAdmin) {
+            this.aktualisOldalIndex = 0;
+            this.pageReferences = [];
+            this.tobbOldalVan = true;
+            this.loadVelemenyek();
+          }
+
           this.translate.get('SZAKERTOI_IGENY_SIKER').subscribe(msg =>
             this.snackBar.open(msg, undefined, { duration: 4000 })
           );
+
         }).catch(err => {
           this.aiLoading = false;
           console.error('Hiba a Firestore mentés közben:', err);
@@ -338,6 +356,19 @@ export class FogyasztasDisplayComponent implements OnInit {
 
   adminElerheto(): boolean {
     return this.isAdmin;
+  }
+
+  openVelemenyModal(velemeny: Velemeny) {
+    const modalRef = this.modalService.open(SzakertoiVelemenyModalComponent, { size: 'lg' });
+    modalRef.componentInstance.velemeny = velemeny;
+
+    modalRef.closed.subscribe(() => {
+      this.loadVelemenyek();
+    });
+
+    modalRef.dismissed.subscribe(() => {
+      this.loadVelemenyek();
+    });
   }
 
   protected async loadVelemenyek(direction: 'next' | 'prev' = 'next'): Promise<void> {
@@ -382,7 +413,6 @@ export class FogyasztasDisplayComponent implements OnInit {
 
       this.velemenyek = [...ujVelemenyek];
 
-      // Mentjük az oldalt (csak ha előrelépés történt és van mit menteni)
       const lastDoc = snapshot.docs[snapshot.docs.length - 1];
 
       if (direction === 'next') {

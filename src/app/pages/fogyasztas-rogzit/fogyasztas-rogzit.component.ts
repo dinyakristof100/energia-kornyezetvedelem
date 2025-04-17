@@ -82,10 +82,10 @@ export class FogyasztasRogzitComponent implements OnInit {
       this.firestoreService.saveFogyasztasiAdat(fogyasztasiAdat)
         .then(success => {
           if (success) {
-            this.fogyasztasForm.patchValue({
-              datum: '',
-              feltoltes_datum: '',
-              user_id: '',
+            this.fogyasztasForm.reset({
+              datum: null,
+              feltoltes_datum: new Date().toISOString(),
+              user_id: this.userId,
               lakas_id: '',
               viz: 0,
               gaz: 0,
@@ -94,6 +94,18 @@ export class FogyasztasRogzitComponent implements OnInit {
               megjegyzes: ''
             });
 
+
+            this.firestoreService.getDocOnce<any>('AdatokDarabszam', this.userId!)
+              .then(existing => {
+                const current = existing?.darab || 0;
+                const updatedCount = current + 1;
+
+                return this.firestoreService.setDoc('AdatokDarabszam', this.userId!, {
+                  userid: this.userId,
+                  darab: updatedCount
+                });
+              });
+
             this.translate.get(['FOGYASZTAS.SAVE_SUCCESS', 'FOGYASZTAS.CLOSE']).subscribe(t => {
               this.snackBar.open(t['FOGYASZTAS.SAVE_SUCCESS'], t['FOGYASZTAS.CLOSE'], {
                 duration: 3000,
@@ -101,6 +113,8 @@ export class FogyasztasRogzitComponent implements OnInit {
                 verticalPosition: 'top'
               });
             });
+
+
 
           }
         })
@@ -116,7 +130,8 @@ export class FogyasztasRogzitComponent implements OnInit {
           });
         }).finally(() =>{
             this.loading = false;
-        });
+            this.cd.detectChanges();
+      });
     } else {
       const invalidControls = Object.keys(this.fogyasztasForm.controls)
         .filter(key => this.fogyasztasForm.get(key)?.invalid)
@@ -133,8 +148,12 @@ export class FogyasztasRogzitComponent implements OnInit {
           panelClass: ['bg-red-500', 'text-white', 'text-center'],
           verticalPosition: 'top'
         });
+
+      this.cd.detectChanges();
+
       });
     }
+
   }
 
   /**

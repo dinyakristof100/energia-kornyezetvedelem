@@ -37,9 +37,35 @@ export class FirestoreService {
    * @param data A mentendő adatok
    */
   createDocument<T>(collectionName: string, data: T): Promise<void> {
-    const id = this.firestore.createId(); // Egyedi azonosító generálása
+    const id = this.firestore.createId();
     return this.firestore.collection<T>(collectionName).doc(id).set(data);
   }
+
+  /**
+   * Létrehoz egy új dokumentumot egy adott kollekcióban.
+   * @param collection A kollekció neve
+   * @param docId A kollekció azonosítója
+   * @param data A menteni kívánt adatok
+   */
+  setDoc<T>(collection: string, docId: string, data: T): Promise<void> {
+    return this.firestore.collection<T>(collection).doc(docId).set(data);
+  }
+
+  /**
+   * Lekérdezi egy adott dokumentumot a kollekcióból egyszer.
+   * @param collection A kollekció neve
+   * @param docId A dokumentum azonosítója
+   */
+  getDocOnce<T>(collection: string, docId: string): Promise<T | undefined> {
+    const docRef = this.firestore.collection<T>(collection).doc(docId);
+    return docRef.get().toPromise().then(snap => {
+      if (snap && snap.exists) {
+        return snap.data() as T;
+      }
+      return undefined;
+    });
+  }
+
 
   /**
    * Frissíti egy adott dokumentum adatait.

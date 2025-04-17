@@ -69,6 +69,8 @@ import { Co2kalkulatorComponent } from './pages/co2kalkulator/co2kalkulator.comp
 import { ConfirmModalComponent } from './shared/modals/confirm-modal/confirm-modal.component';
 import {CommonModule} from "@angular/common";
 import { CenzuraAdminComponent } from './pages/main/cenzura-admin/cenzura-admin.component';
+import { SzakertoiVelemenyModalComponent } from './shared/modals/szakertoi-velemeny-modal/szakertoi-velemeny-modal.component';
+import { TestModalComponent } from './shared/modals/test-modal/test-modal.component';
 
 // Elemek regisztrálása
 Chart.register(
@@ -102,6 +104,8 @@ Chart.register(
     Co2kalkulatorComponent,
     ConfirmModalComponent,
     CenzuraAdminComponent,
+    SzakertoiVelemenyModalComponent,
+    TestModalComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -164,7 +168,7 @@ Chart.register(
     { provide: MAT_DATE_LOCALE, useValue: 'hu-HU' }
   ],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {
   constructor(private translate: TranslateService) {

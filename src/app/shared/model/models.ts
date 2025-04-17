@@ -66,6 +66,7 @@ export interface Kep{
 }
 
 export interface Velemeny {
+  id?: any;
   idopont: any;
   elbiralva: boolean;
   uzenet: string;

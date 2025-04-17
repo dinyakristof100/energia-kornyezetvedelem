@@ -11,6 +11,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
 import {EmailService} from "../../shared/services/email.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ConfirmModalComponent} from "../../shared/modals/confirm-modal/confirm-modal.component";
+import { TestModalComponent } from '../../shared/modals/test-modal/test-modal.component';
 
 @Component({
   selector: 'app-faultetes',
@@ -159,35 +160,53 @@ export class FaultetesComponent implements OnInit {
     this.firestore.collection('Trees').doc(faId).update({
       jovahagyott: true
     }).then(() => {
-      this.emailService.kuldesFaJovahagyasEmail(faId);
+      // this.emailService.kuldesFaJovahagyasEmail(faId);
       this.betoltFak();
     }).catch(err => console.error('Hiba a jóváhagyáskor:', err));
   }
 
-  torolFa(faId: string) {
-    const modalRef = this.modalService.open(ConfirmModalComponent, {
+  openTestModal() {
+    const modalRef = this.modalService.open(TestModalComponent, {
       centered: true,
-      backdrop: 'static',
-      size: 'md'
+      backdrop: 'static'
     });
 
-    modalRef.componentInstance.title = this.translate.instant('MODAL.CONFIRM_TITLE');
-    modalRef.componentInstance.message = this.translate.instant('MODAL.CONFIRM_MESSAGE');
-    modalRef.componentInstance.megse = this.translate.instant('MEGSE');
-    modalRef.componentInstance.elfogad = this.translate.instant('JOVAHAGY');
+    modalRef.result.then(result => {
+      console.log('Modal zárva ezzel:', result);
+    }).catch(reason => {
+      console.log('Modal megszakítva:', reason);
+    });
+  }
 
+  async torolFa(faId: string) {
+    try {
+      const doc = await this.firestore.collection('Trees').doc(faId).get().toPromise();
+      const fa = doc?.data() as Fa;
 
-    modalRef.result.then(async (result) => {
-      if (result === 'confirm') {
-        const doc = await this.firestore.collection('Trees').doc(faId).get().toPromise();
-        const fa = doc?.data() as Fa;
-        if (!fa) return console.error('Fa nem található törlés előtt.');
-
-        await this.emailService.kuldesFaTorlesEmail(faId);
-        await this.firestore.collection('Trees').doc(faId).delete();
-        this.betoltFak();
+      if (!fa) {
+        console.error('A fa nem található!');
+        return;
       }
-    }).catch(() => {});
+
+      await this.emailService.kuldesFaTorlesEmail(faId);
+      await this.firestore.collection('Trees').doc(faId).delete();
+
+      this.snackBar.open(
+        this.translate.instant('SNACKBAR.FA_TOROLVE'),
+        'OK',
+        { duration: 3000 }
+      );
+
+      this.betoltFak();
+
+    } catch (error) {
+      console.error('Hiba a törlés során:', error);
+      this.snackBar.open(
+        this.translate.instant('SNACKBAR.HIBA_TORLES'),
+        'OK',
+        { duration: 5000, panelClass: ['error-snackbar'] }
+      );
+    }
   }
 
   adminElerheto(): boolean {
@@ -223,6 +242,10 @@ export class FaultetesComponent implements OnInit {
     const fajtaKey = fajta.toUpperCase().replace('É', 'E').replace('Ő', 'O').replace('Ű', 'U').replace('Ö','O'); // biztos ami biztos
     const kulcs = `FAULTETES.FAJTA.${fajtaKey}`;
     return this.translate.instant(kulcs);
+  }
+
+  trackByFaId(index: number, fa: Fa): string {
+    return fa.id;
   }
 
 

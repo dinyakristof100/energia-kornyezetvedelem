@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h5 class="modal-title text-lg font-semibold text-blue-800">
+    {{ 'SZAKERTOI_MODAL.CIM' | translate }}
+  </h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="megse()"></button>
+</div>
+
+<div class="modal-body space-y-4">
+  <div class="text-sm text-gray-800 whitespace-pre-line border p-3 rounded bg-gray-50 shadow-inner">
+    {{ velemeny.uzenet }}
+  </div>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>{{ 'SZAKERTOI_MODAL.VALASZ_PLACEHOLDER' | translate }}</mat-label>
+    <textarea matInput [(ngModel)]="valaszSzoveg" rows="6"></textarea>
+  </mat-form-field>
+</div>
+
+<div class="modal-footer flex justify-end gap-3">
+  <button class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-sm rounded" (click)="megse()">
+    {{ 'SZAKERTOI_MODAL.MEGSE' | translate }}
+  </button>
+  <button class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded" (click)="kuldes()">
+    {{ 'SZAKERTOI_MODAL.KULDES' | translate }}
+  </button>
+</div>

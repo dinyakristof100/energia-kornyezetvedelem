@@ -2,7 +2,6 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AngularFirestore, QueryDocumentSnapshot} from '@angular/fire/compat/firestore';
 import {DocumentData} from "@angular/fire/firestore";
 
-
 @Component({
   selector: 'app-cenzura-admin',
   templateUrl: './cenzura-admin.component.html',
@@ -18,15 +17,11 @@ export class CenzuraAdminComponent implements OnInit {
   aktualisOldalIndex = 1;
   pageReferences: QueryDocumentSnapshot<DocumentData>[] = [];
   private oldalMeret = 5;
-  private utolsoDokumentum: any = null;
 
   constructor(private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.aktualisOldalIndex = 1;
-    this.pageReferences = [];
-
-    this.loadCenzurak();
+    this.resetLista();
   }
 
   async addCenzura(): Promise<void> {
@@ -48,10 +43,9 @@ export class CenzuraAdminComponent implements OnInit {
 
   private resetLista(): void {
     this.cenzurak = [];
-    this.utolsoDokumentum = null;
+    this.pageReferences = [];
     this.tobbBetoltheto = true;
     this.aktualisOldalIndex = 1;
-    this.pageReferences = [];
     this.loadCenzurak();
   }
 
@@ -59,6 +53,11 @@ export class CenzuraAdminComponent implements OnInit {
     if (this.betoltes || (direction === 'next' && !this.tobbBetoltheto)) return;
 
     this.betoltes = true;
+
+    // Index kezelése "Előző" műveletnél
+    if (direction === 'prev' && this.aktualisOldalIndex > 1) {
+      this.aktualisOldalIndex--;
+    }
 
     try {
       const collectionRef = this.firestore.collection('Cenzurak', ref => {
@@ -71,7 +70,7 @@ export class CenzuraAdminComponent implements OnInit {
 
         if (direction === 'prev' && this.aktualisOldalIndex > 1) {
           const ref = this.pageReferences[this.aktualisOldalIndex - 2];
-          if (ref) query = query.startAt(ref);
+          if (ref) query = query.startAfter(ref);
         }
 
         return query;
@@ -80,34 +79,23 @@ export class CenzuraAdminComponent implements OnInit {
       const snapshot = await collectionRef.get().toPromise();
 
       if (!snapshot || snapshot.empty) {
-        if (direction === 'next') this.tobbBetoltheto = false;
+        this.tobbBetoltheto = false;
         return;
       }
 
-      const ujCenzurak = snapshot.docs.map(doc => {
-        const data = doc.data() as { text: string; idopont: any };
-        return {
-          id: doc.id,
-          text: data.text,
-          idopont: data.idopont.toDate()
-        };
-      });
-
-      this.cenzurak = [...ujCenzurak];
+      this.cenzurak = snapshot.docs.map(doc => ({
+        id: doc.id,
+        text: (doc.data() as { text: string }).text,
+        idopont: (doc.data() as { idopont: any }).idopont.toDate()
+      }));
 
       const lastDoc = snapshot.docs[snapshot.docs.length - 1] as QueryDocumentSnapshot<DocumentData>;
 
       if (direction === 'next') {
-        if (this.pageReferences.length < this.aktualisOldalIndex + 1) {
-          this.pageReferences.push(lastDoc);
-        }
-        this.aktualisOldalIndex++;
-      } else if (direction === 'prev' && this.aktualisOldalIndex > 1) {
-        this.aktualisOldalIndex--;
-        this.tobbBetoltheto = true;
-      } else if (!direction && this.pageReferences.length === 0) {
-        // első betöltéskor elmentjük az első oldal utolsó elemét
         this.pageReferences.push(lastDoc);
+        this.aktualisOldalIndex++;
+      } else if (direction === null) {
+        this.pageReferences = [lastDoc];
       }
 
       this.tobbBetoltheto = snapshot.docs.length === this.oldalMeret;
@@ -118,6 +106,4 @@ export class CenzuraAdminComponent implements OnInit {
       this.betoltes = false;
     }
   }
-
-
 }

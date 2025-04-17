@@ -22,6 +22,18 @@ export class Co2kalkulatorComponent {
     private translate: TranslateService
   ) {}
 
+  // CO₂ kibocsátási faktorok közlekedési módonként (kg/km/fő)
+  // Források:
+  // - UK DEFRA (Department for Environment, Food and Rural Affairs): [Greenhouse gas reporting: conversion factors 2023]
+  // - European Environment Agency (EEA): [Average CO₂ emissions by mode of transport]
+  // - OurWorldInData.org & IPCC AR5
+
+  // Értelmezés:
+  // - Az értékek azt mutatják, hogy mennyi kilogramm CO₂-t bocsát ki egy fő egy megtett kilométerre vetítve.
+  // - Az autó értéke (0.192 kg/km/fő) feltételez egyetlen utast (magasabb érték, ha egyedül utazik).
+  // - A busz (~0.105 kg/km/fő) tömegközlekedés átlagos kihasználtsággal számolva (pl. városi/regionális járatok).
+  // - A vonat (0.041 kg/km/fő) átlagos európai adat, főleg elektromos vontatásra vonatkozik.
+  // - A bicikli és gyaloglás 0, mivel nincs közvetlen CO₂ kibocsátás (kivéve élettani vagy táplálékhoz kötött kibocsátás, amit itt nem számolunk).
   szamol() {
     this.errorMessage = '';
     this.animacioFut = true;
@@ -45,9 +57,9 @@ export class Co2kalkulatorComponent {
       if (this.selected && element.status === 'OK') {
         const tavKm = element.distance.value / 1000;
         const faktorok: Record<KozlekedesiMod, number> = {
-          auto: 0.21,
-          busz: 0.10,
-          vonat: 0.04,
+          auto: 0.192,
+          busz: 0.105,
+          vonat: 0.041,
           bicikli: 0,
           gyalog: 0
         };

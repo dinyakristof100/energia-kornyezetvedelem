@@ -1,10 +1,12 @@
 <div class="p-6 bg-white rounded-lg shadow space-y-4 max-w-2xl mx-auto mt-3">
-  <h2 class="text-2xl font-bold text-center text-green-700">Cenzúra kezelés</h2>
+  <h2 class="text-2xl font-bold text-center text-green-700">{{ 'CENZURA.TITLE' | translate }}</h2>
 
   <div class="flex gap-2">
-    <input [(ngModel)]="ujCenzura" placeholder="Új cenzúra szó..." class="flex-1 px-4 py-2 border rounded" />
+    <input [(ngModel)]="ujCenzura"
+           [placeholder]="'CENZURA.NEW_PLACEHOLDER' | translate"
+           class="flex-1 px-4 py-2 border rounded" />
     <button (click)="addCenzura()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
-      Hozzáadás
+      {{ 'CENZURA.ADD' | translate }}
     </button>
   </div>
 
@@ -19,6 +21,7 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6M1 7h22M10 3h4a1 1 0 011 1v1H9V4a1 1 0 011-1z" />
         </svg>
+        {{ 'CENZURA.DELETE' | translate }}
       </button>
     </li>
   </ul>
@@ -27,16 +30,15 @@
     <button (click)="loadCenzurak('prev')"
             [disabled]="aktualisOldalIndex <= 1"
             class="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded text-sm">
-      Előző
+      {{ 'CENZURA.PREVIOUS' | translate }}
     </button>
 
-    <div class="text-sm text-gray-700">Oldal: {{ aktualisOldalIndex }}</div>
+    <div class="text-sm text-gray-700">{{ 'CENZURA.PAGE' | translate }}: {{ aktualisOldalIndex }}</div>
 
     <button (click)="loadCenzurak('next')"
             [disabled]="!tobbBetoltheto"
             class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded text-sm">
-      Következő
+      {{ 'CENZURA.NEXT' | translate }}
     </button>
   </div>
-
 </div>

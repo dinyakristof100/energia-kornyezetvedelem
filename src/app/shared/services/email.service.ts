@@ -69,4 +69,32 @@ export class EmailService {
       console.error('Hiba a törlés e-mail küldés közben:', error);
     }
   }
+
+  async kuldesSzakertoiValaszEmail(userId: string, valaszSzoveg: string): Promise<void> {
+    try {
+      const userDoc = await this.firestore.collection('Users').doc(userId).get().toPromise();
+      const user = userDoc?.data() as User;
+      if (!user || !user.email) throw new Error('Nincs email a felhasználónál.');
+
+      const teljesNev = `${user.nev?.vezeteknev ?? ''} ${user.nev?.keresztnev ?? ''}`.trim();
+
+      const templateParams = {
+        name: teljesNev,
+        to_email: user.email,
+        valasz: valaszSzoveg
+      };
+
+      await emailjs.send(
+        'service_7jgg6go',
+        'template_vaomwgr',
+        templateParams,
+        'gWEmghC_h7wI4Yw9s'
+      );
+
+      console.log('Szakértői válasz e-mail elküldve:', user.email);
+    } catch (error) {
+      console.error('Hiba a szakértői válasz e-mail küldés közben:', error);
+    }
+  }
+
 }
