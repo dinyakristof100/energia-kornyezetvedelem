@@ -59,21 +59,22 @@
       <button
         class="w-[200px] px-4 py-2 rounded-lg shadow-md text-white font-medium text-sm transition duration-200"
         [ngClass]="{
-      'bg-blue-700 hover:bg-blue-800': selectedLakasId && fogyasztasiAdatok.length,
-      'bg-blue-300 cursor-not-allowed': !selectedLakasId || !fogyasztasiAdatok.length
-      }"
-        [disabled]="aiLoading || !selectedLakasId || !fogyasztasiAdatok.length"
-        (click)="igenylesSzakertoiVelemeny()">
+    'bg-blue-700 hover:bg-blue-800': selectedLakasId && fogyasztasiAdatok.length && !szakertoiVelemenyDisabled,
+    'bg-blue-300 cursor-not-allowed': !selectedLakasId || !fogyasztasiAdatok.length || szakertoiVelemenyDisabled
+  }"
+        [disabled]="aiLoading || !selectedLakasId || !fogyasztasiAdatok.length || szakertoiVelemenyDisabled"
+        (click)="igenylesSzakertoiVelemeny()"
+      >
         {{ 'SZAKERTOI_VELEMENY' | translate }}
       </button>
 
       <button
         class="w-[200px] px-4 py-2 rounded-lg shadow-md text-white font-medium text-sm transition duration-200"
         [ngClass]="{
-      'bg-green-600 hover:bg-green-700': selectedLakasId && fogyasztasiAdatok.length,
-      'bg-green-300 cursor-not-allowed': !selectedLakasId || !fogyasztasiAdatok.length
+      'bg-green-600 hover:bg-green-700': selectedLakasId && fogyasztasiAdatok.length && !aiErtekelesDisabled,
+      'bg-green-300 cursor-not-allowed': !selectedLakasId || !fogyasztasiAdatok.length || aiErtekelesDisabled
     }"
-        [disabled]="aiLoading || !selectedLakasId || !fogyasztasiAdatok.length"
+        [disabled]="aiLoading || !selectedLakasId || !fogyasztasiAdatok.length || aiErtekelesDisabled"
         (click)="igenylesAiErtekeles()"
       >
 

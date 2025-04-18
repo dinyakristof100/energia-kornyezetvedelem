@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { filter, map } from 'rxjs/operators';
 import {AuthService} from "../services/auth.service";
+import {JutalomService} from "../services/jutalom.service";
+import {FirestoreService} from "../services/firestore.service";
 
 @Component({
   selector: 'app-menu',
@@ -15,12 +17,17 @@ export class MenuComponent implements OnInit  {
   currentTitle: string = '';
   loggedInUser?: firebase.default.User | null;
   currentLang: string = 'hu';
+  badgeIcon: string | null = null;
+
 
   constructor(
     private translate: TranslateService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    protected authService: AuthService
+    protected authService: AuthService,
+    private firestoreService: FirestoreService,
+    private jutalomService: JutalomService,
+    private cd: ChangeDetectorRef
   ) {
     this.translate.setDefaultLang('hu');
   }
@@ -45,8 +52,26 @@ export class MenuComponent implements OnInit  {
 
     this.authService.isUserLoggedIn().subscribe(user => {
       this.loggedInUser = user;
-      // console.log('loggedInUser:', this.loggedInUser);
       localStorage.setItem('user', JSON.stringify(this.loggedInUser));
+
+      if (user) {
+        this.firestoreService.getDocument('AdatokDarabszam', user.uid).subscribe(adatok => {
+          const data = adatok as any;
+          const selectedKey = data?.selectedBadgeKey;
+          const pontok = data?.darab ?? 0;
+
+          const badge = selectedKey
+            ? this.jutalomService.getBadgeInfoByKey(selectedKey)
+            : this.jutalomService.getBadgeInfo(pontok);
+
+          this.badgeIcon = badge?.icon || this.jutalomService.getBadgeInfo(0)?.icon || null;
+          this.cd.detectChanges();
+        }, error => {
+          const fallbackBadge = this.jutalomService.getBadgeInfo(0);
+          this.badgeIcon = fallbackBadge?.icon || null;
+          this.cd.detectChanges();
+        });
+      }
     }, error =>{
       console.error(error);
       localStorage.setItem('user', JSON.stringify('null'));
@@ -78,10 +103,12 @@ export class MenuComponent implements OnInit  {
   }
 
   logout(){
-    this.authService.logout().then(() =>{
-      console.log("Logged out succesfully");
-      this.router.navigateByUrl('/main');
-    }).catch(error =>{
+    this.authService.logout().then(() => {
+      console.log("Logged out successfully");
+      this.router.navigateByUrl('/main').then(() => {
+        window.location.reload();
+      });
+    }).catch(error => {
       console.error(error);
     });
   }

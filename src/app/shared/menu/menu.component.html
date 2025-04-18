@@ -1,12 +1,21 @@
 <mat-toolbar class="sticky top-0 z-50 shadow-md px-6 py-2 flex items-center justify-between bg-cover bg-center"
              style="background-image: url('assets/images/wood-texture.jpg');">
-  <span
-    class="text-black rounded-lg px-4 py-1 text-lg font-semibold"
-    [ngClass]="getLangBgClass()">
-    {{ currentTitle | translate }}
-  </span>
 
-  <div class="flex items-center gap-4">
+  <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-center sm:text-left">
+    <span
+      class="text-black rounded-lg px-4 py-1 text-lg font-semibold"
+      [ngClass]="getLangBgClass()">
+      {{ currentTitle | translate }}
+    </span>
+
+    <span *ngIf="loggedInUser"
+      class="text-black rounded-lg px-4 py-1 text-lg font-semibold"
+      [ngClass]="getLangBgClass()">
+      {{ badgeIcon }}
+    </span>
+  </div>
+
+  <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3 text-center sm:text-left">
 
     <div class="flex items-center gap-2">
       <button (click)="changeLanguage('hu')"

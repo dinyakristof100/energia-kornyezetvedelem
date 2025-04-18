@@ -72,10 +72,12 @@ export class FogyasztasDisplayComponent implements OnInit {
   };
 
   private isAdmin = false;
+  aiErtekelesDisabled: boolean = false;
+  szakertoiVelemenyDisabled: boolean = false;
+
+  userId: any = null;
 
   oldalMeret = 1;
-  utolsoDokumentum: any = null;
-  elsoDokumentum: any = null;
   tobbOldalVan = true;
   betoltesFolyamatban = false;
   aktualisOldalIndex: number = 0;
@@ -94,9 +96,48 @@ export class FogyasztasDisplayComponent implements OnInit {
   ngOnInit(): void {
     this.auth.user.subscribe(user => {
       if (user) {
-        const uid = user.uid;
+        this.userId = user.uid;
 
-        this.firestore.collection('Users').doc(uid).get().toPromise().then(snapshot => {
+        const now = new Date();
+        const snackDuration = 4000;
+        const snackQueue: (() => void)[] = [];
+
+        //AI értékelés limit ellenőrzése
+        const aiKey = `ai-request-${this.userId}`;
+        const aiLastRequestISO = localStorage.getItem(aiKey);
+        if (aiLastRequestISO) {
+          const last = new Date(aiLastRequestISO);
+          const diffHours = (now.getTime() - last.getTime()) / (1000 * 60 * 60);
+          if (diffHours < 24) {
+            this.aiErtekelesDisabled = true;
+            snackQueue.push(() => {
+              const msg = this.translate.instant('AI_ERTEKELES_LIMIT_MSG');
+              this.snackBar.open(msg, '', { duration: snackDuration });
+            });
+          }
+        }
+
+        //Szakértői vélemény limit ellenőrzése
+        const szakKey = `szakertoi-request-${this.userId}`;
+        const szakLastRequestISO = localStorage.getItem(szakKey);
+        if (szakLastRequestISO) {
+          const last = new Date(szakLastRequestISO);
+          const diffHours = (now.getTime() - last.getTime()) / (1000 * 60 * 60);
+          if (diffHours < 24) {
+            this.szakertoiVelemenyDisabled = true;
+            snackQueue.push(() => {
+              const msg = this.translate.instant('SZAKERTOI_LIMIT_MSG');
+              this.snackBar.open(msg, '', { duration: snackDuration });
+            });
+          }
+        }
+
+        //SnackBar megjelenítés egymás után
+        snackQueue.forEach((fn, index) => {
+          setTimeout(fn, index * (snackDuration + 200));
+        });
+
+        this.firestore.collection('Users').doc(this.userId).get().toPromise().then(snapshot => {
           if (snapshot?.exists) {
             const data = snapshot.data() as DocumentData;
             this.isAdmin = !!data?.['admin'];
@@ -178,6 +219,8 @@ export class FogyasztasDisplayComponent implements OnInit {
 
   igenylesAiErtekeles(): void {
     this.aiLoading = true;
+    if (!this.userId)
+      return;
 
     const lakas = this.lakasok.find(l => l.id === this.selectedLakasId);
     const tipus = this.fogyasztasiTipusok.find(t => t.key === this.selectedType);
@@ -249,7 +292,11 @@ export class FogyasztasDisplayComponent implements OnInit {
       const modalRef = this.modalService.open(AiErtekelesModalComponent,         {
           size: 'lg' ,
 
-        });
+      });
+
+      localStorage.setItem(`ai-request-${this.userId}`, new Date().toISOString());
+      this.aiErtekelesDisabled = true;
+
       modalRef.componentInstance.ertekelesSzoveg = valasz;
       this.aiLoading = false;
     }, err => {
@@ -336,6 +383,9 @@ export class FogyasztasDisplayComponent implements OnInit {
           this.translate.get('SZAKERTOI_IGENY_SIKER').subscribe(msg =>
             this.snackBar.open(msg, undefined, { duration: 4000 })
           );
+
+          localStorage.setItem(`szakertoi-request-${this.userId}`, new Date().toISOString());
+          this.szakertoiVelemenyDisabled = true;
 
         }).catch(err => {
           this.aiLoading = false;

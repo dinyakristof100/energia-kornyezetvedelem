@@ -12,6 +12,7 @@ import {EmailService} from "../../shared/services/email.service";
 import {TranslateService} from "@ngx-translate/core";
 import {ConfirmModalComponent} from "../../shared/modals/confirm-modal/confirm-modal.component";
 import { TestModalComponent } from '../../shared/modals/test-modal/test-modal.component';
+import {FirestoreService} from "../../shared/services/firestore.service";
 
 @Component({
   selector: 'app-faultetes',
@@ -57,6 +58,7 @@ export class FaultetesComponent implements OnInit {
 
   constructor(
     private firestore: AngularFirestore,
+    private firestoreService: FirestoreService,
     private storage: AngularFireStorage,
     private auth: AngularFireAuth,
     private modalService: NgbModal,
@@ -160,6 +162,16 @@ export class FaultetesComponent implements OnInit {
     this.firestore.collection('Trees').doc(faId).update({
       jovahagyott: true
     }).then(() => {
+      this.firestoreService.getDocOnce<any>('AdatokDarabszam', this.userId!)
+        .then(existing => {
+          const current = existing?.darab || 0;
+          const updatedCount = current + 1;
+
+          return this.firestoreService.setDoc('AdatokDarabszam', this.userId!, {
+            userid: this.userId,
+            darab: updatedCount
+          });
+        });
       // this.emailService.kuldesFaJovahagyasEmail(faId);
       this.betoltFak();
     }).catch(err => console.error('Hiba a jóváhagyáskor:', err));

@@ -79,5 +79,18 @@ export interface Cenzura{
   idopont: Date;
 }
 
+export interface AdatokDarabszam{
+  darab: number;
+  userid: any;
+  selectedBadgeKey: string;
+}
+
+export interface BadgeInfo {
+  key: string;
+  icon: string;
+  label: string;
+  minDarab: number;
+}
+
 
 export type KozlekedesiMod = 'auto' | 'busz' | 'vonat' | 'bicikli' | 'gyalog';

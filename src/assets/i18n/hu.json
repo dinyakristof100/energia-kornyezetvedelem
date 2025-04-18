@@ -124,7 +124,16 @@
     "HIBAS_EMAIL_VAGY_JELSZO": "Hibás e-mail vagy jelszó!",
     "BEZARAS": "Bezárás",
     "ADATOK_SIKERES_MENTESE": "Adatok sikeresen mentve!",
-    "NINCS_LAKAS": "Még nincs lakásod"
+    "NINCS_LAKAS": "Még nincs lakásod",
+    "KITUZO": "Kitűző",
+    "KITUZO_TOOLTIP": "Pontokat szerezhetsz fogyasztási adatok feltöltésével, vagy ha faültetéseidet az adminisztrátorok jóváhagyják. Minél magasabb szintet értél el, annál több kitűzőt kaphatsz meg, amelyek a profilodon megjeleníthető elismeréseket jelentenek.",
+    "KITUZO_LABEL": {
+      "ENERGIABAJNOK": "Energiabajnok",
+      "ENERGIAMESTER": "Energiamester",
+      "ENERGIAGYUJTO": "Energiagyűjtő",
+      "ZOLDFULU": "Zöldfülű"
+    },
+    "KITUZO_VALASZTAS": "Válassz egy kitűzőt!"
   },
   "LAKAS": {
     "MENTES_SIKERES": "Új lakás sikeresen létrehozva!",
@@ -262,5 +271,7 @@
   "SZAKERTOI_VELEMENYEK": {
     "KULDES_SIKER": "Szakértői vélemény sikeresen elküldve!",
     "KULDES_HIBA": "Hiba történt a szakértői vélemény küldésekor."
-  }
+  },
+  "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
+  "SZAKERTOI_LIMIT_MSG": "24 órán belül már történt szakértői véleménykérés, ezért a gombot letiltottuk."
 }

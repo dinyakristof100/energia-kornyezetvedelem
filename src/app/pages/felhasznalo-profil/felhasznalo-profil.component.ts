@@ -4,12 +4,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { FirestoreService } from '../../shared/services/firestore.service';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Lakas} from "../../shared/model/models";
+import {AdatokDarabszam, BadgeInfo, Lakas} from "../../shared/model/models";
 import {HttpClient} from "@angular/common/http";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {LakasModalComponent} from "../../shared/modals/lakas-modal/lakas-modal.component";
 import {LakasService} from "../../shared/services/lakas.service";
 import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {JutalomService} from "../../shared/services/jutalom.service";
 
 @Component({
   selector: 'app-felhasznalo-profil',
@@ -25,6 +26,11 @@ export class FelhasznaloProfilComponent implements OnInit {
   userId: string | null = null;
   collectionName = 'Users';
   dialogRef!: MatDialogRef<any>;
+  showBadgeTooltip: boolean = false;
+  pontok: number = 0;
+  badgeInfo: BadgeInfo | null = null;
+  availableBadges: BadgeInfo[] = [];
+  selectedBadgeKey: string = '';
 
   iranyitoszamok: { [key: string]: string} = {};
 
@@ -43,12 +49,11 @@ export class FelhasznaloProfilComponent implements OnInit {
     private translate: TranslateService,
     private firestoreService: FirestoreService,
     private auth: AngularFireAuth,
-    private dialog: MatDialog,
     private cd: ChangeDetectorRef,
     private http: HttpClient,
     private snackBar: MatSnackBar,
-    private lakasService: LakasService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private jutalomService: JutalomService
   ) {
     this.profilForm = this.fb.group({
       id: [null],
@@ -97,9 +102,44 @@ export class FelhasznaloProfilComponent implements OnInit {
         this.loadUserData();
         this.loadLakasok();
 
+        this.firestoreService.getDocument('AdatokDarabszam', this.userId).subscribe(data => {
+          const adat = data as AdatokDarabszam | null;
+
+          this.pontok = adat?.darab ?? 0;
+          this.selectedBadgeKey = adat?.selectedBadgeKey ?? '';
+
+          this.availableBadges = this.jutalomService.getAvailableBadges(this.pontok);
+          this.badgeInfo = this.jutalomService.getBadgeInfoByKey(this.selectedBadgeKey)
+            ?? this.jutalomService.getBadgeInfo(this.pontok);
+
+          this.cd.detectChanges();
+        });
       }
     });
+
+    this.translate.onLangChange.subscribe(() => {
+      this.setBadgeLabel();
+    });
   }
+
+  private setBadgeLabel(): void {
+    this.badgeInfo = this.jutalomService.getBadgeInfo(this.pontok);
+  }
+
+  updateSelectedBadge(key: string) {
+    if (this.userId) {
+      this.firestoreService.updateDocument('AdatokDarabszam', this.userId, {
+        selectedBadgeKey: key
+      });
+    }
+  }
+
+  selectBadge(key: string) {
+    this.selectedBadgeKey = key;
+    this.badgeInfo = this.jutalomService.getBadgeInfoByKey(key);
+    this.updateSelectedBadge(key);
+  }
+
 
   /**
    * Betölti a felhasználóhoz tartozó lakásokat Firestore-ból.
@@ -130,7 +170,6 @@ export class FelhasznaloProfilComponent implements OnInit {
    * Megnyitja a lakás hozzáadása modalt.
    */
   openLakasModal(lakas?: Lakas): void {
-
       const modalRef = this.modalService.open(LakasModalComponent, {
         size: 'lg',
         centered: true,

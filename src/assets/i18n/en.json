@@ -127,7 +127,16 @@
     "LAKAS_MAR_LETEZIK_EGYEB": "A flat with this name already exists!",
     "HIBAS_EMAIL_VAGY_JELSZO": "Invalid email or password!",
     "BEZARAS": "Close",
-    "ADATOK_SIKERES_MENTESE": "Data saved successfully!"
+    "ADATOK_SIKERES_MENTESE": "Data saved successfully!",
+    "KITUZO": "Badge",
+    "KITUZO_TOOLTIP": "You can earn points by submitting consumption data or having your tree plantings approved by administrators. The higher level you achieve, the more badges you can unlock, which represent visible recognitions on your profile.",
+    "KITUZO_LABEL": {
+      "ENERGIABAJNOK": "Energy Champion",
+      "ENERGIAMESTER": "Energy Master",
+      "ENERGIAGYUJTO": "Energy Collector",
+      "ZOLDFULU": "Green Newbie"
+    },
+    "KITUZO_VALASZTAS": "Choose a badge!"
   },
   "LAKAS": {
     "MENTES_SIKERES": "New flat successfully created!",
@@ -265,5 +274,7 @@
   "SZAKERTOI_VELEMENYEK": {
     "KULDES_SIKER": "Expert feedback successfully sent!",
     "KULDES_HIBA": "An error occurred while sending the expert feedback."
-  }
+  },
+  "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
+  "SZAKERTOI_LIMIT_MSG": "An expert review has already been requested within the last 24 hours, so the button has been disabled."
 }
