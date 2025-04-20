@@ -54,8 +54,8 @@
               class="bg-white border border-gray-300 text-gray-700 hover:bg-gray-100 px-6 py-2 rounded-lg transition">
         {{ 'MEGSE' | translate }}
       </button>
-      <button type="button" (click)="onSave()" [disabled]="lakasForm.invalid"
-              class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition">
+      <button type="button" (click)="onSave()" [disabled]="lakasForm.invalid || loading"
+              class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg transition disabled:bg-gray-400 disabled:text-white disabled:cursor-not-allowed">
         {{ 'MENTES' | translate }}
       </button>
     </div>

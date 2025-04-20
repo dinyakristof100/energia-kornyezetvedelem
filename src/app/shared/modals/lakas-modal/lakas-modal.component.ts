@@ -265,6 +265,7 @@ export class LakasModalComponent implements OnInit, OnChanges{
 
   onSave(): void {
     if (this.lakasForm.valid) {
+      this.loading = true;
 
       this.lakasForm.patchValue({userId: this.userId});
       const lakasData: Lakas = this.lakasForm.value;
@@ -272,7 +273,10 @@ export class LakasModalComponent implements OnInit, OnChanges{
       if (lakasData.id) {
         this.firestoreService.updateDocument('Lakasok', lakasData.id, lakasData)
           .then(() => this.showTranslatedSnackBar('LAKAS.FRISSITES_SIKERES'))
-          .catch(error => console.error('Hiba a lakás frissítésekor:', error));
+          .catch(error => {
+            console.error('Hiba a lakás frissítésekor:', error);
+            this.loading = false;
+          });
       } else {
         lakasData.id = this.firestoreService.createId();
         this.firestoreService.createDocument('Lakasok', lakasData)

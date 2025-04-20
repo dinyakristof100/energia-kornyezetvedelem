@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": ["es2020"],
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "lib",
+    "rootDir": "src",
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true
+  },
+  "include": ["src"]
+}

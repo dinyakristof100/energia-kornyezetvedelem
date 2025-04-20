@@ -77,7 +77,7 @@
       <button type="button" (click)="megse()" class="bg-white border border-gray-300 hover:bg-gray-100 px-6 py-2 rounded-lg">
         {{ 'MEGSE' | translate }}
       </button>
-      <button type="button" (click)="mentes()" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg"
+      <button type="button" (click)="mentes()" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg disabled:bg-gray-400 disabled:text-white disabled:cursor-not-allowed"
               [disabled]="!formValid || uploading">
         {{ 'MENTES' | translate }}
       </button>

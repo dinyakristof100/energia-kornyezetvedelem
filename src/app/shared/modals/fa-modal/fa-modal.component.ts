@@ -78,6 +78,7 @@ export class FaModalComponent implements OnInit{
       alert('Kérlek, tölts ki minden kötelező mezőt!');
       return;
     }
+    this.uploading = true;
 
     const id = this.firestoreService.createId();
     const fa: Fa = {
@@ -117,6 +118,7 @@ export class FaModalComponent implements OnInit{
         ).subscribe();
       } else {
         await this.firestoreService.createDocument<Fa>('Trees', fa);
+        this.uploading = false;
         this.activeModal.close('saved');
       }
     } catch (error) {
@@ -182,7 +184,6 @@ export class FaModalComponent implements OnInit{
       a.ultetes_helye?.hazszam?.trim().length &&
       this.selectedFile
     );
-    console.log(this.formValid);
     this.cd.detectChanges();
   }
 

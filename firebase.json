@@ -7,7 +7,17 @@
       "**/node_modules/**"
     ],
     "rewrites": [
-      { "source": "**", "destination": "/index.html" }
+      {
+        "source": "/maps/api/**",
+        "function": "proxyMaps"
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
     ]
+  },
+  "functions": {
+    "source": "functions"
   }
 }

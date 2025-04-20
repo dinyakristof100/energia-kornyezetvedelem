@@ -16,8 +16,7 @@ export class GoogleDistanceApiService {
     const params = new HttpParams()
       .set('origins', from)
       .set('destinations', to)
-      .set('mode', mode)
-      .set('key', environment.googleApiKey);
+      .set('mode', mode);
 
     return this.http.get(this.baseUrl, { params });
   }

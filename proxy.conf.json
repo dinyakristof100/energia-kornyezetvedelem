@@ -1,6 +1,6 @@
 {
   "/maps/api": {
-    "target": "https://maps.googleapis.com",
+    "target": "https://us-central1-energia-kornyezetvedelem.cloudfunctions.net/proxyMaps",
     "secure": true,
     "changeOrigin": true,
     "logLevel": "debug"
