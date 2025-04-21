@@ -1,4 +1,22 @@
 {
+  "USER_GUIDE": {
+    "CIM": "Infó",
+    "TITLE": "Felhasználói útmutató",
+    "INTRO": "Ez az alkalmazás segít tudatosabbá válni a környezetvédelem terén. Lehetőséget ad a személyes fogyasztási szokások rögzítésére, CO₂ kibocsátás becslésére, valamint fák ültetésére is, mindezt vizuális és szakértői visszajelzésekkel támogatva.",
+    "MAIN_FEATURES": {
+      "TITLE": "Fő funkciók",
+      "NEWS": "Hírek: környezetvédelmi hírek megjelenítése a főoldalon.",
+      "CO2": "CO₂ kalkulátor: csak közlekedési módok szerinti CO₂-kibocsátást tudsz itt számolni.",
+      "ADD_CONSUMPTION": "Fogyasztás rögzítése: víz, melegvíz, áram és gáz fogyasztási adatokat tudsz rögzíteni.",
+      "VIEW_CONSUMPTION": "Fogyasztás megjelenítése: egyféle diagram segítségével követheted nyomon a rögzített adatokat.",
+      "AI_EVALUATION": "Szakértői vagy mesterséges intelligencia alapú visszajelzést kérhetsz az adataidra.",
+      "TREE_PLANTING": "Faültetés: lehetőség van fa ültetésére, ezzel is hozzájárulva a környezetvédelemhez.",
+      "PROFILE": "Profil: módosíthatod a felhasználónevedet, kitűzőket állíthatsz be, és lakásaidat kezelheted."
+    },
+    "GOAL_TITLE": "Az alkalmazás célja",
+    "GOAL": "Célom, hogy a felhasználók tudatosabb döntéseket hozzanak a környezeti lábnyomuk csökkentése érdekében. Az alkalmazás eszközöket biztosít az energiafogyasztás nyomon követéséhez, CO₂-kibocsátás becsléséhez, és a zöldebb életmód támogatásához, mint például a faültetés és a közlekedési szokások elemzése.",
+    "TIPS": "Tipp: Az adataid alapján kitűzőket is szerezhetsz, és saját környezetvédelmi profilod is kialakíthatod!"
+  },
   "MAIN_PAGE": "Főoldal",
   "ABOUT": "Rólunk",
   "CONTACT": "Kapcsolat",
@@ -275,23 +293,5 @@
     "KULDES_HIBA": "Hiba történt a szakértői vélemény küldésekor."
   },
   "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
-  "SZAKERTOI_LIMIT_MSG": "24 órán belül már történt szakértői véleménykérés, ezért a gombot letiltottuk.",
-  "USER_GUIDE": {
-    "CIM": "Infó",
-    "TITLE": "Felhasználói útmutató",
-    "INTRO": "Ez az alkalmazás segít tudatosabbá válni a környezetvédelem terén. Lehetőséget ad a személyes fogyasztási szokások rögzítésére, CO₂ kibocsátás becslésére, valamint fák ültetésére is, mindezt vizuális és szakértői visszajelzésekkel támogatva.",
-    "MAIN_FEATURES": {
-      "TITLE": "Fő funkciók",
-      "NEWS": "Hírek: környezetvédelmi hírek megjelenítése a főoldalon.",
-      "CO2": "CO₂ kalkulátor: csak közlekedési módok szerinti CO₂-kibocsátást tudsz itt számolni.",
-      "ADD_CONSUMPTION": "Fogyasztás rögzítése: víz, melegvíz, áram és gáz fogyasztási adatokat tudsz rögzíteni.",
-      "VIEW_CONSUMPTION": "Fogyasztás megjelenítése: egyféle diagram segítségével követheted nyomon a rögzített adatokat.",
-      "AI_EVALUATION": "Szakértői vagy mesterséges intelligencia alapú visszajelzést kérhetsz az adataidra.",
-      "TREE_PLANTING": "Faültetés: lehetőség van fa ültetésére, ezzel is hozzájárulva a környezetvédelemhez.",
-      "PROFILE": "Profil: módosíthatod a felhasználónevedet, kitűzőket állíthatsz be, és lakásaidat kezelheted."
-    },
-    "GOAL_TITLE": "Az alkalmazás célja",
-    "GOAL": "Célom, hogy a felhasználók tudatosabb döntéseket hozzanak a környezeti lábnyomuk csökkentése érdekében. Az alkalmazás eszközöket biztosít az energiafogyasztás nyomon követéséhez, CO₂-kibocsátás becsléséhez, és a zöldebb életmód támogatásához, mint például a faültetés és a közlekedési szokások elemzése.",
-    "TIPS": "Tipp: Az adataid alapján kitűzőket is szerezhetsz, és saját környezetvédelmi profilod is kialakíthatod!"
-  }
+  "SZAKERTOI_LIMIT_MSG": "24 órán belül már történt szakértői véleménykérés, ezért a gombot letiltottuk."
 }

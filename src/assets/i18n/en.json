@@ -1,4 +1,22 @@
 {
+  "USER_GUIDE": {
+    "CIM": "Info",
+    "TITLE": "User Guide",
+    "INTRO": "This application helps you become more environmentally conscious. It allows you to track your personal consumption habits, estimate your CO₂ emissions, and even plant trees — all supported by visual and expert feedback.",
+    "MAIN_FEATURES": {
+      "TITLE": "Main Features",
+      "NEWS": "News: Browse environmental news on the main page.",
+      "CO2": "CO₂ Calculator: You can estimate CO₂ emissions only based on transport methods.",
+      "ADD_CONSUMPTION": "Add Consumption: You can log consumption data for water, hot water, electricity, and gas only.",
+      "VIEW_CONSUMPTION": "View Consumption: Track your logged data using a single type of chart.",
+      "AI_EVALUATION": "Request AI or expert feedback on your consumption records.",
+      "TREE_PLANTING": "Tree Planting: Contribute to environmental protection by planting trees.",
+      "PROFILE": "Profile: Edit your username, set your badges, and manage your registered homes."
+    },
+    "GOAL_TITLE": "Purpose of the Application",
+    "GOAL": "My goal is to help users make more informed and environmentally conscious decisions. The app provides tools to monitor energy usage, estimate carbon footprint, and encourage greener living — such as tree planting and transport habit analysis.",
+    "TIPS": "Tip: You can earn badges based on your data and build your own eco-profile!"
+  },
   "MAIN_PAGE": "Main Page",
   "ABOUT": "About",
   "CONTACT": "Contact",
@@ -278,23 +296,5 @@
     "KULDES_HIBA": "An error occurred while sending the expert feedback."
   },
   "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
-  "SZAKERTOI_LIMIT_MSG": "An expert review has already been requested within the last 24 hours, so the button has been disabled.",
-  "USER_GUIDE": {
-    "CIM": "Info",
-    "TITLE": "User Guide",
-    "INTRO": "This application helps you become more environmentally conscious. It allows you to track your personal consumption habits, estimate your CO₂ emissions, and even plant trees — all supported by visual and expert feedback.",
-    "MAIN_FEATURES": {
-      "TITLE": "Main Features",
-      "NEWS": "News: Browse environmental news on the main page.",
-      "CO2": "CO₂ Calculator: You can estimate CO₂ emissions only based on transport methods.",
-      "ADD_CONSUMPTION": "Add Consumption: You can log consumption data for water, hot water, electricity, and gas only.",
-      "VIEW_CONSUMPTION": "View Consumption: Track your logged data using a single type of chart.",
-      "AI_EVALUATION": "Request AI or expert feedback on your consumption records.",
-      "TREE_PLANTING": "Tree Planting: Contribute to environmental protection by planting trees.",
-      "PROFILE": "Profile: Edit your username, set your badges, and manage your registered homes."
-    },
-    "GOAL_TITLE": "Purpose of the Application",
-    "GOAL": "My goal is to help users make more informed and environmentally conscious decisions. The app provides tools to monitor energy usage, estimate carbon footprint, and encourage greener living — such as tree planting and transport habit analysis.",
-    "TIPS": "Tip: You can earn badges based on your data and build your own eco-profile!"
-  }
+  "SZAKERTOI_LIMIT_MSG": "An expert review has already been requested within the last 24 hours, so the button has been disabled."
 }
