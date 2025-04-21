@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {NavigationEnd, Router} from "@angular/router";
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-root',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router
   ) {
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         const path = event.urlAfterRedirects.split('/')[1];

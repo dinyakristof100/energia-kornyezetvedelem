@@ -45,12 +45,14 @@ export class JutalomService {
   /**
    * Kitűzők listája fordítva (legmagasabbtól).
    */
-  getAllBadges(): BadgeInfo[] {
+  getAllBadgesWithStatus(darab: number): (BadgeInfo & { elert: boolean })[] {
     return this.badgeLevels.map(b => ({
       ...b,
-      label: `${b.icon} ${this.translate.instant(`PROFIL.KITUZO_LABEL.${b.key}`)}`
+      elert: darab >= b.minDarab,
+      label: `${this.translate.instant(`PROFIL.KITUZO_LABEL.${b.key}`)}`
     }));
   }
+
 
   getBadgeInfoByKey(key: string): BadgeInfo | null {
     const badge = this.badgeLevels.find(b => b.key === key);

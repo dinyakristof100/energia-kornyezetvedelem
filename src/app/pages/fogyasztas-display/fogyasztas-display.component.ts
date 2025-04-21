@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
 import {AngularFirestore, DocumentSnapshot} from '@angular/fire/compat/firestore';
 import { TranslateService } from '@ngx-translate/core';
-import {Lakas, FogyasztasiAdat, Velemeny} from '../../shared/model/models';
+import {Lakas, FogyasztasiAdat, Velemeny, User} from '../../shared/model/models';
 import {
   ChartComponent, ChartType,
 } from 'ng-apexcharts';
@@ -26,6 +26,7 @@ export class FogyasztasDisplayComponent implements OnInit {
 
   aiLoading: boolean = false;
   loadingVelemenyek: boolean = true;
+  szakertoiLoading: boolean = false;
 
   lakasok: Lakas[] = [];
   velemenyek: Velemeny[] = [];
@@ -102,7 +103,6 @@ export class FogyasztasDisplayComponent implements OnInit {
         const snackDuration = 4000;
         const snackQueue: (() => void)[] = [];
 
-        //AI értékelés limit ellenőrzése
         const aiKey = `ai-request-${this.userId}`;
         const aiLastRequestISO = localStorage.getItem(aiKey);
         if (aiLastRequestISO) {
@@ -117,7 +117,6 @@ export class FogyasztasDisplayComponent implements OnInit {
           }
         }
 
-        //Szakértői vélemény limit ellenőrzése
         const szakKey = `szakertoi-request-${this.userId}`;
         const szakLastRequestISO = localStorage.getItem(szakKey);
         if (szakLastRequestISO) {
@@ -305,7 +304,7 @@ export class FogyasztasDisplayComponent implements OnInit {
   }
 
   igenylesSzakertoiVelemeny(): void {
-    this.aiLoading = true;
+    this.szakertoiLoading = true;
 
     const lakas = this.lakasok.find(l => l.id === this.selectedLakasId);
     const tipus = this.fogyasztasiTipusok.find(t => t.key === this.selectedType);
@@ -357,21 +356,33 @@ export class FogyasztasDisplayComponent implements OnInit {
       Előre is köszönjük a segítségét és a véleményét!
       `.trim();
 
-    this.auth.currentUser.then(user => {
+    this.auth.currentUser.then(async (user) => {
       if (user) {
         const id = this.firestore.createId();
+        const uid = user.uid;
+        var username = 'ismeretlen';
+
+        await this.firestore.collection('Users').doc(uid).get().toPromise().then(snapshot => {
+          console.log("snapshot?.exists",snapshot?.exists)
+          if(snapshot?.exists){
+            const userData = snapshot?.data() as User;
+            console.log("userData?.username",userData?.username)
+            username = userData?.username ?? 'ismeretlen';
+          }
+        });
 
         const velemeny = {
           id,
           idopont: new Date(),
           elbiralva: false,
           uzenet: prompt,
-          userid: user.uid,
-          username: user.displayName ?? 'ismeretlen'
+          userid: uid,
+          username: username
         };
 
-        this.firestore.collection('Velemenyek').doc(id).set(velemeny).then(() => {
-          this.aiLoading = false;
+        await this.firestore.collection('Velemenyek').doc(id).set(velemeny).then(() => {
+          this.szakertoiLoading = false;
+
 
           if (this.isAdmin) {
             this.aktualisOldalIndex = 0;
@@ -388,14 +399,15 @@ export class FogyasztasDisplayComponent implements OnInit {
           this.szakertoiVelemenyDisabled = true;
 
         }).catch(err => {
-          this.aiLoading = false;
+          this.szakertoiLoading = false;
+
           console.error('Hiba a Firestore mentés közben:', err);
           this.translate.get('SZAKERTOI_IGENY_HIBA').subscribe(msg =>
             this.snackBar.open(msg, undefined, { duration: 4000 })
           );
         });
       } else {
-        this.aiLoading = false;
+        this.szakertoiLoading = false;
         console.warn('Nincs bejelentkezett felhasználó, nem menthető a vélemény.');
         this.translate.get('SZAKERTOI_IGENY_HIBA').subscribe(msg =>
           this.snackBar.open(msg, undefined, { duration: 4000 })

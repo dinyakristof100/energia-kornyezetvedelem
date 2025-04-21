@@ -29,7 +29,7 @@ export class FelhasznaloProfilComponent implements OnInit {
   showBadgeTooltip: boolean = false;
   pontok: number = 0;
   badgeInfo: BadgeInfo | null = null;
-  availableBadges: BadgeInfo[] = [];
+  availableBadges: (BadgeInfo & { elert: boolean })[] = [];
   selectedBadgeKey: string = '';
 
   iranyitoszamok: { [key: string]: string} = {};
@@ -108,7 +108,7 @@ export class FelhasznaloProfilComponent implements OnInit {
           this.pontok = adat?.darab ?? 0;
           this.selectedBadgeKey = adat?.selectedBadgeKey ?? '';
 
-          this.availableBadges = this.jutalomService.getAvailableBadges(this.pontok);
+          this.availableBadges = this.jutalomService.getAllBadgesWithStatus(this.pontok);
           this.badgeInfo = this.jutalomService.getBadgeInfoByKey(this.selectedBadgeKey)
             ?? this.jutalomService.getBadgeInfo(this.pontok);
 
@@ -305,7 +305,7 @@ export class FelhasznaloProfilComponent implements OnInit {
       this.firestoreService.updateDocument(this.collectionName, this.userId, this.profilForm.value)
         .then(() => {
           this.translate.get('PROFIL.ADATOK_SIKERES_MENTESE').subscribe((message: string) => {
-            alert(message);
+            this.snackBar.open(message,'', { duration: 3000 })
           });
         })
         .catch(error => console.error('Hiba mentéskor:', error));

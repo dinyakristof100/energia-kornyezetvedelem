@@ -26,9 +26,6 @@ export class LoginComponent implements OnInit {
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
-
-    this.translate.setDefaultLang('hu');
-    this.translate.use('hu');
   }
 
   ngOnInit(): void {

@@ -2,7 +2,10 @@
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
 @use '@angular/material' as mat;
+
+
 // Plus imports for other components in your app.
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -85,4 +88,40 @@ button {
   .animate-travel-left {
     animation: travel-left 3s ease-in-out forwards;
   }
+}
+
+.cdk-overlay-container {
+  z-index: 1300 !important;
+}
+
+.custom-modal-class {
+  z-index: 1300 !important;
+}
+
+.mat-calendar {
+  color: #166534; // sötétzöld szöveg, pl. #166534 Tailwind 'green-800'
+}
+
+.mat-calendar-body-selected {
+  background-color: #22c55e !important; // zöld háttér a kiválasztottnak
+  color: white !important;
+}
+
+.mat-calendar-body-cell:hover:not(.mat-calendar-body-disabled):not(.mat-calendar-body-selected) {
+  background-color: #bbf7d0 !important; // halványzöld hover
+}
+
+.mat-calendar-period-button,
+.mat-calendar-previous-button,
+.mat-calendar-next-button {
+  color: #166534 !important; // felső navigációs gombok
+}
+
+.mat-calendar-header {
+  background-color: #ebfbee !important; // világos zöld háttér
+  color: #166534 !important;
+}
+
+.mat-calendar-arrow {
+  color: #166534 !important;
 }

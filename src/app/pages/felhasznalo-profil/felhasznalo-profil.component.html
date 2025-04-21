@@ -34,12 +34,14 @@
                   <button
                     *ngFor="let badge of availableBadges"
                     class="px-3 py-1 rounded-full border text-sm transition transform duration-200 ease-in-out"
+                    [disabled]="!badge.elert"
                     [ngClass]="{
-                      'bg-green-500 text-white shadow-lg': badge.key === selectedBadgeKey,
-                      'bg-green-100 text-green-800': badge.key !== selectedBadgeKey,
-                      'hover:scale-110 hover:shadow-md': true
+                      'bg-green-500 text-white shadow-lg': badge.elert && badge.key === selectedBadgeKey,
+                      'bg-green-100 text-green-800': badge.elert && badge.key !== selectedBadgeKey,
+                      'bg-gray-300 text-gray-500 cursor-not-allowed': !badge.elert,
+                      'hover:scale-110 hover:shadow-md': badge.elert
                     }"
-                    (click)="selectBadge(badge.key)">
+                    (click)="badge.elert && selectBadge(badge.key)">
                     {{ badge.icon }}
                   </button>
                 </div>

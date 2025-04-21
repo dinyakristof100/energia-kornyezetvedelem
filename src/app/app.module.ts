@@ -33,6 +33,14 @@ export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
 
+export function appInitFactory(translate: TranslateService) {
+  return () => {
+    const savedLang = localStorage.getItem('selectedLang') || 'hu';
+    translate.setDefaultLang(savedLang);
+    return translate.use(savedLang).toPromise();
+  };
+}
+
 // Chart.js elemek importálása
 import {
   CategoryScale,
@@ -71,6 +79,7 @@ import {CommonModule} from "@angular/common";
 import { CenzuraAdminComponent } from './pages/main/cenzura-admin/cenzura-admin.component';
 import { SzakertoiVelemenyModalComponent } from './shared/modals/szakertoi-velemeny-modal/szakertoi-velemeny-modal.component';
 import { TestModalComponent } from './shared/modals/test-modal/test-modal.component';
+import { UserGuideComponent } from './pages/user-guide/user-guide.component';
 
 // Elemek regisztrálása
 Chart.register(
@@ -106,6 +115,7 @@ Chart.register(
     CenzuraAdminComponent,
     SzakertoiVelemenyModalComponent,
     TestModalComponent,
+    UserGuideComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -138,8 +148,7 @@ Chart.register(
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
-      },
-      defaultLanguage: 'hu'
+      }
     }),
     MatSelect,
     MatOption,

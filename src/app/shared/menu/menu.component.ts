@@ -16,7 +16,7 @@ export class MenuComponent implements OnInit  {
   @Input() pageClass: string = '';
   currentTitle: string = '';
   loggedInUser?: firebase.default.User | null;
-  currentLang: string = 'hu';
+  currentLang: string = '';
   badgeIcon: string | null = null;
 
 
@@ -29,11 +29,21 @@ export class MenuComponent implements OnInit  {
     private jutalomService: JutalomService,
     private cd: ChangeDetectorRef
   ) {
-    this.translate.setDefaultLang('hu');
   }
 
   ngOnInit() {
-    this.currentLang = this.translate.currentLang || 'hu';
+    const savedLang = localStorage.getItem('selectedLang') || 'hu';
+    this.currentLang = savedLang;
+    this.translate.use(this.currentLang);
+
+    this.translate.onLangChange.subscribe(() => {
+      const route = this.getActivatedRoute();
+      const titleKey = route.snapshot.data['title'];
+      this.updateTitle(titleKey);
+      this.cd.detectChanges();
+    });
+
+
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
@@ -81,9 +91,12 @@ export class MenuComponent implements OnInit  {
   changeLanguage(lang: string) {
     this.currentLang = lang;
     this.translate.use(lang);
+    localStorage.setItem('selectedLang', lang);
+
     const route = this.getActivatedRoute();
     const titleKey = route.snapshot.data['title'];
     this.currentTitle = this.translate.instant(titleKey || 'MAIN_PAGE');
+    this.cd.detectChanges();
   }
 
   private getActivatedRoute(): ActivatedRoute {

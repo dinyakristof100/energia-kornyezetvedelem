@@ -9,6 +9,7 @@ import {RegisterComponent} from "./pages/register/register.component";
 import {FelhasznaloProfilComponent} from "./pages/felhasznalo-profil/felhasznalo-profil.component";
 import { authGuard } from "./shared/services/auth.guard";
 import {Co2kalkulatorComponent} from "./pages/co2kalkulator/co2kalkulator.component";
+import {UserGuideComponent} from "./pages/user-guide/user-guide.component";
 
 
 const routes: Routes = [
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { title: 'LOGIN.TITLE' } },
   { path: 'register', component: RegisterComponent, data: { title: 'REGISTER.TITLE' } },
   { path: 'profil', component: FelhasznaloProfilComponent, data: { title: 'PROFIL.TITLE' }, canActivate: [authGuard]  },
+  { path: 'userguide', component: UserGuideComponent, data: { title: 'USER_GUIDE.TITLE' } },
 ];
 
 @NgModule({

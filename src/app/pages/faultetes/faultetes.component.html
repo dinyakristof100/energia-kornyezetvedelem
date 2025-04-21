@@ -1,17 +1,11 @@
 <div class="min-h-screen px-4 py-10 flex justify-center">
   <div class="w-full max-w-6xl bg-white rounded-2xl shadow-xl p-6 space-y-6">
 
-    <div class="relative flex items-center justify-center">
-      <h2 class="text-3xl font-bold text-green-800 text-center w-full h-full flex items-center justify-center gap-2 relative">
+    <div class="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <h2 class="text-3xl font-bold text-green-800 text-center w-full sm:w-auto sm:text-left flex items-center gap-2">
         {{ 'FAULTETES.TITLE' | translate }}
-        <div class="relative"
-             (mouseenter)="showTooltip = true"
-             (mouseleave)="showTooltip = false">
-
-          <div class="w-5 h-5 text-xs font-bold text-green-800 border border-green-800 rounded-full flex items-center justify-center bg-white cursor-help">
-            i
-          </div>
-
+        <div class="relative" (mouseenter)="showTooltip = true" (mouseleave)="showTooltip = false">
+          <div class="w-5 h-5 text-xs font-bold text-green-800 border border-green-800 rounded-full flex items-center justify-center bg-white cursor-help">i</div>
           <div *ngIf="showTooltip"
                class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 bg-white text-sm text-gray-800 border border-gray-300 rounded-md shadow-md px-4 py-2 z-50">
             {{ 'FAULTETES.INFO_TOOLTIP' | translate }}
@@ -19,11 +13,22 @@
         </div>
       </h2>
 
-      <button (click)="megnyitUjFaModal()"
-              class="absolute right-0 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition">
-        {{ 'FAULTETES.UJ_FA' | translate }}
-      </button>
+      <div class="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 mt-2 sm:mt-0">
+        <select *ngIf="adminElerheto()"
+                [(ngModel)]="szuresTipus"
+                (change)="betoltFak()"
+                class="border border-green-600 rounded-md px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-green-300">
+          <option value="osszes">{{ 'FAULTETES.SZURES_OSSZES' | translate }}</option>
+          <option value="jovahagyasra_var">{{ 'FAULTETES.SZURES_VAR' | translate }}</option>
+        </select>
+
+        <button (click)="megnyitUjFaModal()"
+                class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-md transition w-full sm:w-auto">
+          {{ 'FAULTETES.UJ_FA' | translate }}
+        </button>
+      </div>
     </div>
+
 
     <ng-container *ngIf="loading; else adatokBetoltve">
       <div class="text-center py-10">
@@ -36,37 +41,53 @@
     <ng-template #adatokBetoltve>
       <ng-container *ngIf="trees.length > 0; else noTrees">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div *ngFor="let fa of trees" class="bg-gray-50 p-5 rounded-xl shadow-md border border-green-200 space-y-2">
-            <img *ngIf="fa.kep?.photo_url" [src]="fa.kep?.photo_url" alt="Fa képe" class="w-full h-48 object-cover rounded-md">
-            <h3 class="text-xl font-bold text-green-900">{{ fa.nev }}</h3>
-            <p class="text-sm text-gray-600 italic">{{ getTranslatedFajta(fa.fajta) }}</p>
-            <p class="text-sm text-gray-600">
-              {{ 'FAULTETES.ULTETES_IDEJE' | translate }}: {{ fa.ultetes_ideje | date:'yyyy. MM. dd.' }}
-            </p>
-            <p class="text-sm text-gray-600">
-              {{ 'FAULTETES.HELY' | translate }}:
-              {{ fa.ultetes_helye.iranyitoszam }}, {{ fa.ultetes_helye.telepules }}, {{ fa.ultetes_helye.utca }} {{ fa.ultetes_helye.hazszam }}
-            </p>
-            <p class="text-sm text-gray-600" [class.hidden]="!adminElerheto()">
-              {{ 'JOVAHAGYOTT' |  translate }}: {{ fa.jovahagyott ? 'IGEN' : 'NEM' | translate }}
-            </p>
+          <div *ngFor="let fa of trees" class="bg-gray-50 rounded-xl shadow-md border border-green-200 overflow-hidden">
 
-            <p class="text-sm text-gray-700 font-medium">
-              🌿 {{ 'FAULTETES.O2_TERMELT' | translate }}: <span class="font-semibold text-green-800">{{ szamolO2Termeles(fa.ultetes_ideje,fa.fajta) }} kg</span>
-            </p>
-            <p class="text-sm text-gray-700 font-medium">
-              🏭 {{ 'FAULTETES.CO2_MEGKOTOTT' | translate }}: <span class="font-semibold text-green-800">{{ szamolCO2Megkotes(fa.ultetes_ideje, fa.fajta) }} kg</span>
-            </p>
+            <!-- Kép padding nélkül -->
+            <img *ngIf="fa.kep?.photo_url"
+                 [src]="fa.kep?.photo_url"
+                 alt="Fa képe"
+                 class="w-full h-48 object-cover rounded-t-xl">
 
-            <div class="flex justify-end space-x-2" [class.hidden]="!adminElerheto()">
-              <button *ngIf="!fa.jovahagyott" (click)="jovahagyFa(fa.id)" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
-                {{ 'JOVAHAGY' | translate }}
-              </button>
-              <button (click)="torolFa(fa.id)" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
-                {{ 'TORLES' | translate }}
-              </button>
+            <div class="p-3 space-y-2">
+              <h3 class="text-xl font-bold text-green-900">{{ fa.nev }}</h3>
+              <p class="text-sm text-gray-600 italic">{{ getTranslatedFajta(fa.fajta) }}</p>
+              <p class="text-sm text-gray-600">
+                {{ 'FAULTETES.ULTETES_IDEJE' | translate }}: {{ fa.ultetes_ideje | date:'yyyy. MM. dd.' }}
+              </p>
+              <p class="text-sm text-gray-600">
+                {{ 'FAULTETES.HELY' | translate }}:
+                {{ fa.ultetes_helye.iranyitoszam }}, {{ fa.ultetes_helye.telepules }}, {{ fa.ultetes_helye.utca }} {{ fa.ultetes_helye.hazszam }}
+              </p>
+              <p class="text-sm text-gray-600" [class.hidden]="!adminElerheto()">
+                {{ 'JOVAHAGYOTT' | translate }}: {{ fa.jovahagyott ? 'IGEN' : 'NEM' | translate }}
+              </p>
+
+              <p class="text-sm text-gray-700 font-medium">
+                🌿 {{ 'FAULTETES.O2_TERMELT' | translate }}:
+                <span class="font-semibold text-green-800">
+        {{ szamolO2Termeles(fa.ultetes_ideje, fa.fajta) }} kg
+      </span>
+              </p>
+              <p class="text-sm text-gray-700 font-medium">
+                🏭 {{ 'FAULTETES.CO2_MEGKOTOTT' | translate }}:
+                <span class="font-semibold text-green-800">
+        {{ szamolCO2Megkotes(fa.ultetes_ideje, fa.fajta) }} kg
+      </span>
+              </p>
+
+              <div class="flex justify-end space-x-2" [class.hidden]="!adminElerheto()">
+                <button *ngIf="!fa.jovahagyott"
+                        (click)="jovahagyFa(fa.id)"
+                        class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                  {{ 'JOVAHAGY' | translate }}
+                </button>
+                <button (click)="torolFa(fa.id)"
+                        class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                  {{ 'TORLES' | translate }}
+                </button>
+              </div>
             </div>
-
           </div>
         </div>
       </ng-container>
@@ -80,7 +101,7 @@
       </div>
     </ng-template>
 
-    <div class="mt-10 p-6 bg-green-50 border border-green-200 rounded-xl shadow-sm text-gray-700 text-sm leading-relaxed">
+    <div class="mt-8 p-3 bg-green-50 border border-green-200 rounded-xl shadow-sm text-gray-700 text-sm leading-relaxed">
       <p *ngIf="translate.currentLang === 'hu'">
         🌿 <strong>Hogyan számoljuk a fák által termelt oxigént és megkötött szén-dioxidot?</strong><br>
         A becslés a fa fajtája alapján meghatározott növekedési sebességen alapul. Minél gyorsabban nő a fa, annál több CO₂-t képes megkötni és O₂-t termelni. Az évek számával arányosan nő a termelés és megkötés, a számítást egy egyszerűsített növekedési modell alapján végezzük. Az O₂ termeléshez egy 2.1-es, míg a CO₂ megkötéshez egy 1.5-ös szorzót használunk a fajta-specifikus növekedési faktorral kombinálva.

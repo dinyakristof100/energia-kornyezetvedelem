@@ -35,9 +35,6 @@ export class RegisterComponent implements OnInit {
     }, {
       validators: this.passwordMatchValidator
     });
-
-    this.translate.setDefaultLang('hu');
-    this.translate.use('hu');
   }
 
   ngOnInit(): void {}

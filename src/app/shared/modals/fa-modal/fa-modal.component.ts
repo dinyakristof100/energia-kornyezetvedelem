@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FirestoreService } from "../../services/firestore.service";
 import { AuthService } from "../../services/auth.service";
@@ -11,7 +11,8 @@ import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-fa-modal',
-  templateUrl: './fa-modal.component.html'
+  templateUrl: './fa-modal.component.html',
+  encapsulation: ViewEncapsulation.None
 })
 export class FaModalComponent implements OnInit{
    faAdat: Fa = {

@@ -10,7 +10,6 @@ import { DocumentData } from '@angular/fire/firestore';
 import {MatSnackBar} from "@angular/material/snack-bar";
 import {EmailService} from "../../shared/services/email.service";
 import {TranslateService} from "@ngx-translate/core";
-import {ConfirmModalComponent} from "../../shared/modals/confirm-modal/confirm-modal.component";
 import { TestModalComponent } from '../../shared/modals/test-modal/test-modal.component';
 import {FirestoreService} from "../../shared/services/firestore.service";
 
@@ -25,6 +24,9 @@ export class FaultetesComponent implements OnInit {
   showTooltip: boolean = false;
 
   loading = true;
+
+  szuresTipus: 'osszes' | 'jovahagyasra_var' = 'osszes';
+
   private isAdmin = false;
 
   readonly fajtaNovesiSebesseg: { [key: string]: 'lassu' | 'kozepes' | 'gyors' } = {
@@ -98,7 +100,8 @@ export class FaultetesComponent implements OnInit {
     const modalRef = this.modalService.open(FaModalComponent, {
       size: 'lg',
       centered: true,
-      backdrop: "static"
+      backdrop: "static",
+      windowClass: 'custom-modal-class'
     });
 
     modalRef.result.then((result) => {
@@ -120,6 +123,11 @@ export class FaultetesComponent implements OnInit {
       if (!this.isAdmin) {
         query = query.where('user_id', '==', this.userId);
         query = query.where('jovahagyott', '==', true);
+      }else {
+        if (this.szuresTipus === 'jovahagyasra_var') {
+          query = query.where('jovahagyott', '==', false);
+        }
+        //szuresTipus == 'osszes' -> nincs szűrés
       }
 
       return query;

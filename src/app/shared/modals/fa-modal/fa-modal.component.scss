@@ -16,3 +16,16 @@
 ::ng-deep .mat-datepicker-content {
   z-index: 1200 !important;
 }
+
+.custom-datepicker.mat-form-field {
+  --mdc-outlined-text-field-outline-color: #22c55e; // green-500
+  --mdc-outlined-text-field-focus-outline-color: #16a34a; // green-600
+}
+
+ .custom-datepicker .mat-mdc-form-field-flex {
+  background-color: #f0fdf4; // green-50
+}
+
+.custom-datepicker .mat-mdc-form-field-infix input {
+  color: #166534; // green-800
+}

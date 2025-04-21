@@ -1,19 +1,27 @@
-<div class="p-6 space-y-6 bg-white rounded-xl shadow-xl">
-  <h2 class="text-2xl font-bold text-green-800 text-center">
+<div class="relative z-[1200] w-full max-w-[90vw] sm:max-w-[700px] mx-auto p-3 sm:px-0">
+  <h2 class="text-xl sm:text-2xl font-bold text-green-800 text-center">
     {{ 'FAULTETES.UJ_FA_CIM' | translate }}
   </h2>
 
   <form class="space-y-6">
 
-    <div class="bg-gray-50 p-3 rounded-lg shadow-md border border-gray-200 space-y-3">
-      <h3 class="text-lg font-semibold text-gray-700">{{ 'FAULTETES.FA_ADATOK' | translate }}</h3>
+    <div class="bg-gray-50 p-4 sm:p-5 rounded-lg shadow-md border border-gray-200 space-y-4">
+      <h3 class="text-base sm:text-lg font-semibold text-gray-700">
+        {{ 'FAULTETES.FA_ADATOK' | translate }}
+      </h3>
 
-      <input [(ngModel)]="faAdat.nev" name="nev" placeholder="{{ 'FAULTETES.FA_NEV' | translate }}"
-             class="w-full border border-gray-300 rounded-md px-3 py-2" (input)="ellenorizMezok()" />
+      <input
+        [(ngModel)]="faAdat.nev"
+        name="nev"
+        placeholder="{{ 'FAULTETES.FA_NEV' | translate }}"
+        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+        (input)="ellenorizMezok()" />
 
-      <select [(ngModel)]="faAdat.fajta" name="fajta"
-              class="w-full border border-gray-300 rounded-md px-3 py-2"
-              (change)="ellenorizMezok()">
+      <select
+        [(ngModel)]="faAdat.fajta"
+        name="fajta"
+        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+        (change)="ellenorizMezok()">
         <option value="" disabled selected hidden>
           {{ 'FAULTETES.VALASSZ_FAJTA' | translate }}
         </option>
@@ -22,8 +30,7 @@
         </option>
       </select>
 
-
-      <mat-form-field appearance="fill" class="custom-datepicker w-full">
+      <mat-form-field appearance="fill" class="w-full custom-datepicker">
         <mat-label>{{ 'FAULTETES.ULTETES_IDEJE' | translate }}</mat-label>
         <input
           matInput
@@ -33,52 +40,67 @@
           [placeholder]="'FAULTETES.PLACEHOLDER_DATUM' | translate"
           [max]="maxDate"
           (dateChange)="ellenorizMezok()"
-          required
-        />
+          required />
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
     </div>
 
-    <div class="bg-gray-50 p-3 rounded-lg shadow-md border border-gray-200 space-y-3">
-      <h3 class="text-lg font-semibold text-gray-700">{{ 'FAULTETES.HELY_ADATOK' | translate }}</h3>
+    <div class="bg-gray-50 p-4 sm:p-5 rounded-lg shadow-md border border-gray-200 space-y-4">
+      <h3 class="text-base sm:text-lg font-semibold text-gray-700">
+        {{ 'FAULTETES.HELY_ADATOK' | translate }}
+      </h3>
 
-      <input [(ngModel)]="faAdat.ultetes_helye.iranyitoszam" name="iranyitoszam" placeholder="{{ 'CIM.IRANYITOSZAM' | translate }}"
-             class="w-full border border-gray-300 rounded-md px-3 py-2" (input)="ellenorizMezok()"/>
+      <input [(ngModel)]="faAdat.ultetes_helye.iranyitoszam" name="iranyitoszam"
+             placeholder="{{ 'CIM.IRANYITOSZAM' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" (input)="ellenorizMezok()" />
 
-      <input [(ngModel)]="faAdat.ultetes_helye.telepules" name="telepules" placeholder="{{ 'CIM.TELEPULES' | translate }}"
-             class="w-full border border-gray-300 rounded-md px-3 py-2" (input)="ellenorizMezok()"/>
+      <input [(ngModel)]="faAdat.ultetes_helye.telepules" name="telepules"
+             placeholder="{{ 'CIM.TELEPULES' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" (input)="ellenorizMezok()" />
 
-      <input [(ngModel)]="faAdat.ultetes_helye.utca" name="utca" placeholder="{{ 'CIM.UTCA' | translate }}"
-             class="w-full border border-gray-300 rounded-md px-3 py-2" (input)="ellenorizMezok()"/>
+      <input [(ngModel)]="faAdat.ultetes_helye.utca" name="utca"
+             placeholder="{{ 'CIM.UTCA' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" (input)="ellenorizMezok()" />
 
-      <input [(ngModel)]="faAdat.ultetes_helye.hazszam" name="hazszam" placeholder="{{ 'CIM.HAZSZAM' | translate }}"
-             class="w-full border border-gray-300 rounded-md px-3 py-2" (input)="ellenorizMezok()"/>
+      <input [(ngModel)]="faAdat.ultetes_helye.hazszam" name="hazszam"
+             placeholder="{{ 'CIM.HAZSZAM' | translate }}"
+             class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm" (input)="ellenorizMezok()" />
     </div>
 
-    <div class="bg-gray-50 p-3 rounded-lg shadow-md border border-gray-200 space-y-2">
-      <h3 class="text-lg font-semibold text-gray-700">{{ 'FAULTETES.FA_KEPE' | translate }}</h3>
+    <div class="bg-gray-50 p-4 sm:p-5 rounded-lg shadow-md border border-gray-200 space-y-4">
+      <h3 class="text-base sm:text-lg font-semibold text-gray-700">
+        {{ 'FAULTETES.FA_KEPE' | translate }}
+      </h3>
 
-      <div class="flex items-center gap-6 flex-wrap">
-        <input type="file"
-               (change)="onFileSelected($event)"
-               accept="image/*"
-               class="border border-gray-300 rounded-md px-3 py-2 bg-white cursor-pointer" />
+      <div class="flex flex-col sm:flex-row sm:items-center sm:gap-6 gap-3">
+        <input
+          type="file"
+          (change)="onFileSelected($event)"
+          accept="image/*"
+          class="border border-gray-300 rounded-md px-3 py-2 bg-white cursor-pointer text-sm w-full sm:w-auto" />
 
-        <div *ngIf="imagePreview" class="w-full max-w-full overflow-hidden">
+        <div *ngIf="imagePreview" class="w-full overflow-hidden">
           <img [src]="imagePreview"
                alt="Kép előnézet"
-               class="max-w-full max-h-[400px] w-auto h-auto object-contain rounded-md border border-green-300 shadow-sm mx-auto"/>
+               class="max-w-full max-h-[300px] w-auto h-auto object-contain rounded-md border border-green-300 shadow-sm mx-auto" />
         </div>
       </div>
     </div>
 
-    <div class="flex justify-end gap-2">
-      <button type="button" (click)="megse()" class="bg-white border border-gray-300 hover:bg-gray-100 px-6 py-2 rounded-lg">
+    <div class="flex flex-wrap justify-end gap-2">
+      <button
+        type="button"
+        (click)="megse()"
+        class="bg-white border border-gray-300 hover:bg-gray-100 px-3 py-1.5 rounded-md text-sm">
         {{ 'MEGSE' | translate }}
       </button>
-      <button type="button" (click)="mentes()" class="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-2 rounded-lg disabled:bg-gray-400 disabled:text-white disabled:cursor-not-allowed"
-              [disabled]="!formValid || uploading">
+
+      <button
+        type="button"
+        (click)="mentes()"
+        [disabled]="!formValid || uploading"
+        class="bg-green-600 hover:bg-green-700 text-white font-semibold px-3 py-1.5 rounded-md text-sm disabled:bg-gray-400 disabled:cursor-not-allowed">
         {{ 'MENTES' | translate }}
       </button>
     </div>
