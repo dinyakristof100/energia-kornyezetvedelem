@@ -5,14 +5,14 @@
 
   <div class="flex items-center gap-2 sm:gap-4">
     <span
-      class="text-black text-base sm:text-2xl font-bold border-b-4 border-green-600 drop-shadow-sm px-1 sm:px-2 ml-1 sm:ml-4 rounded-1"
+      class="text-black text-base sm:text-2xl font-bold border-b-4 border-green-600 drop-shadow-sm px-1 sm:px-2 ml-1 sm:ml-4 rounded-1 mr-1"
       [ngClass]="getLangBgClass()"
     >
       {{ currentTitle | translate }}
     </span>
 
     <span *ngIf="loggedInUser"
-          class="text-black text-lg sm:text-xl font-semibold rounded-1"
+          class="text-black text-lg sm:text-xl font-semibold rounded-1 mr-1"
           [ngClass]="getLangBgClass()">
       {{ badgeIcon }}
     </span>

@@ -280,6 +280,7 @@
   "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
   "SZAKERTOI_LIMIT_MSG": "An expert review has already been requested within the last 24 hours, so the button has been disabled.",
   "USER_GUIDE": {
+    "CIM": "Info",
     "TITLE": "User Guide",
     "INTRO": "This application helps you become more environmentally conscious. It allows you to track your personal consumption habits, estimate your CO₂ emissions, and even plant trees — all supported by visual and expert feedback.",
     "MAIN_FEATURES": {

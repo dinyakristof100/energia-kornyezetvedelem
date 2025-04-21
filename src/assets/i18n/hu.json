@@ -277,6 +277,7 @@
   "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
   "SZAKERTOI_LIMIT_MSG": "24 órán belül már történt szakértői véleménykérés, ezért a gombot letiltottuk.",
   "USER_GUIDE": {
+    "CIM": "Infó",
     "TITLE": "Felhasználói útmutató",
     "INTRO": "Ez az alkalmazás segít tudatosabbá válni a környezetvédelem terén. Lehetőséget ad a személyes fogyasztási szokások rögzítésére, CO₂ kibocsátás becslésére, valamint fák ültetésére is, mindezt vizuális és szakértői visszajelzésekkel támogatva.",
     "MAIN_FEATURES": {

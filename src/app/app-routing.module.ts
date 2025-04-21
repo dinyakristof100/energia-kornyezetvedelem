@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent, data: { title: 'LOGIN.TITLE' } },
   { path: 'register', component: RegisterComponent, data: { title: 'REGISTER.TITLE' } },
   { path: 'profil', component: FelhasznaloProfilComponent, data: { title: 'PROFIL.TITLE' }, canActivate: [authGuard]  },
-  { path: 'userguide', component: UserGuideComponent, data: { title: 'USER_GUIDE.TITLE' } },
+  { path: 'userguide', component: UserGuideComponent, data: { title: 'USER_GUIDE.CIM' } },
 ];
 
 @NgModule({
