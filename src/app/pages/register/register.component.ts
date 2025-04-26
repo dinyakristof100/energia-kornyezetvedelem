@@ -5,6 +5,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import {User} from "../../shared/model/models";
 import {UserService} from "../../shared/services/user.service";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,8 @@ export class RegisterComponent implements OnInit {
     private translate: TranslateService,
     private authService: AuthService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private snackBar: MatSnackBar
   ) {
     this.registerForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -58,6 +60,17 @@ export class RegisterComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.registerForm.invalid) {
+      const message = this.translate.instant('REGISTER.INVALID_FORM'); // pl. 'Kérlek tölts ki minden mezőt helyesen!'
+      this.snackBar.open(message, '', {
+        duration: 3000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['snackbar-error']
+      });
+      return;
+    }
+
     const email = this.registerForm?.get('email')?.value.toString() || '';
     const password = this.registerForm?.get('password')?.value.toString()  || '';
     const firstName = this.registerForm?.get('firstName')?.value.toString() || '';

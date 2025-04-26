@@ -80,8 +80,9 @@
 
 
       <button type="submit"
-              [disabled]="!registerForm.valid"
+              [disabled]="registerForm.pristine || !registerForm.valid"
               (click)="onSubmit()"
+              [ngClass]="{'cursor-not-allowed opacity-50': registerForm.pristine || !registerForm.valid}"
               class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md shadow transition">
         {{ 'REGISTER.SUBMIT' | translate }}
       </button>
