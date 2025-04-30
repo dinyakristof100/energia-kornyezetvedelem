@@ -296,5 +296,8 @@
     "KULDES_HIBA": "An error occurred while sending the expert feedback."
   },
   "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
-  "SZAKERTOI_LIMIT_MSG": "An expert review has already been requested within the last 24 hours, so the button has been disabled."
+  "SZAKERTOI_LIMIT_MSG": "An expert review has already been requested within the last 24 hours, so the button has been disabled.",
+  "MEGJEGYZES_ELOZMENYEK": "Comments (in chronological order)",
+  "NINCS_MEGJEGYZES": "No comment",
+  "MENTES_FOLYAMATBAN": "Saving..."
 }

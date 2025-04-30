@@ -42,7 +42,7 @@
 
       <button type="submit"
               [disabled]="loginForm.pristine || !loginForm.valid"
-              [ngClass]="{'cursor-not-allowed opacity-50': loginForm.pristine || !loginForm.valid}"
+              [ngClass]="{'cursor-not-allowed opacity-50': loginForm.pristine || !loginForm.valid}"ng serve
               class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-md shadow transition">
         {{ 'LOGIN.SUBMIT' | translate }}
       </button>

@@ -497,4 +497,9 @@ export class FogyasztasDisplayComponent implements OnInit {
     }
   }
 
+  hasValidMegjegyzesek(): boolean {
+    return this.fogyasztasiAdatok.some(adat => !!adat.megjegyzes && adat.megjegyzes.trim() !== '');
+  }
+
+
 }

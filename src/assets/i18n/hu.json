@@ -293,5 +293,8 @@
     "KULDES_HIBA": "Hiba történt a szakértői vélemény küldésekor."
   },
   "AI_ERTEKELES_LIMIT_MSG": "24 órán belül már történt AI értékelés, ezért a gombot letiltottuk.",
-  "SZAKERTOI_LIMIT_MSG": "24 órán belül már történt szakértői véleménykérés, ezért a gombot letiltottuk."
+  "SZAKERTOI_LIMIT_MSG": "24 órán belül már történt szakértői véleménykérés, ezért a gombot letiltottuk.",
+  "MEGJEGYZES_ELOZMENYEK": "Megjegyzések (időrendben)",
+  "NINCS_MEGJEGYZES": "Nincs megjegyzés",
+  "MENTES_FOLYAMATBAN": "Mentés folymatban"
 }
