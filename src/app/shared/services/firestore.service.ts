@@ -100,7 +100,6 @@ export class FirestoreService {
           }
 
           const newId = this.firestore.createId();
-          data.feltoltesDatum = new Date();
 
           const convertToFloat = (value: any) =>
             typeof value === 'string' ? parseFloat(value.replace(',', '.')) : value;

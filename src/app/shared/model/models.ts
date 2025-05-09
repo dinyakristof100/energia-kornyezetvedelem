@@ -74,11 +74,6 @@ export interface Velemeny {
   username: string;
 }
 
-export interface Cenzura{
-  text: string;
-  idopont: Date;
-}
-
 export interface AdatokDarabszam{
   darab: number;
   userid: any;

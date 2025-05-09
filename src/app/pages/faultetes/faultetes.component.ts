@@ -208,6 +208,14 @@ export class FaultetesComponent implements OnInit {
         return;
       }
 
+      if (fa.kep?.photo_url) {
+        try {
+          await this.storage.ref(fa.kep.photo_url).delete().toPromise();
+        } catch (error) {
+          console.error('Nem sikerült törölni a képet a Storage-ből:', error);
+        }
+      }
+
       await this.emailService.kuldesFaTorlesEmail(faId);
       await this.firestore.collection('Trees').doc(faId).delete();
 

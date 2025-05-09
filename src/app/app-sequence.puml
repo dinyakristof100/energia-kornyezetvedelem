@@ -1,0 +1,35 @@
+@startuml fogyasztas-ai-szakertoi-sequence
+
+actor User
+
+== Fogyasztás rögzítése ==
+User -> FogyasztasRogzitComponent : űrlap kitöltése
+FogyasztasRogzitComponent -> FirestoreService : saveConsumption()
+FirestoreService -> Firestore : dokumentum mentése
+Firestore --> FirestoreService : siker
+FirestoreService --> FogyasztasRogzitComponent : mentés visszajelzés
+
+FogyasztasRogzitComponent -> AdatokDarabszamService : increment()
+AdatokDarabszamService -> Firestore : darabszám növelése
+
+== Fogyasztás kilistázása ==
+User -> FogyasztasDisplayComponent : oldal megnyitása
+FogyasztasDisplayComponent -> FirestoreService : getConsumptions()
+FirestoreService -> Firestore : lekérdezés (userId alapján)
+Firestore --> FirestoreService : fogyasztási adatok
+FirestoreService --> FogyasztasDisplayComponent : adatok megjelenítése
+
+== AI értékelés modal ==
+User -> AiErtekelesModalComponent : modal megnyitása
+AiErtekelesModalComponent -> OpenAiService : generateAssessment(data)
+participant "OpenAI API" as OpenAI
+OpenAiService -> OpenAI : prompt küldése
+OpenAI --> OpenAiService : válasz
+OpenAiService --> AiErtekelesModalComponent : szöveges értékelés
+
+== Szakértői vélemény igénylés ==
+User -> SzakertoiVelemenyModalComponent : szöveg beküldése
+SzakertoiVelemenyModalComponent -> EmailService : sendEmail()
+EmailService --> SzakertoiVelemenyModalComponent : visszajelzés
+
+@enduml

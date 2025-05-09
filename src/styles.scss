@@ -99,26 +99,26 @@ button {
 }
 
 .mat-calendar {
-  color: #166534; // sötétzöld szöveg, pl. #166534 Tailwind 'green-800'
+  color: #166534;
 }
 
 .mat-calendar-body-selected {
-  background-color: #22c55e !important; // zöld háttér a kiválasztottnak
+  background-color: #22c55e !important;
   color: white !important;
 }
 
 .mat-calendar-body-cell:hover:not(.mat-calendar-body-disabled):not(.mat-calendar-body-selected) {
-  background-color: #bbf7d0 !important; // halványzöld hover
+  background-color: #bbf7d0 !important;
 }
 
 .mat-calendar-period-button,
 .mat-calendar-previous-button,
 .mat-calendar-next-button {
-  color: #166534 !important; // felső navigációs gombok
+  color: #166534 !important;
 }
 
 .mat-calendar-header {
-  background-color: #ebfbee !important; // világos zöld háttér
+  background-color: #ebfbee !important;
   color: #166534 !important;
 }
 
